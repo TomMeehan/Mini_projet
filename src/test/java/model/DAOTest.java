@@ -21,7 +21,7 @@ import org.hsqldb.cmdline.SqlToolError;
  *
  * @author pedago
  */
-public class ConsulterTests {
+public class DAOTest {
     
     private static DataSource myDataSource;
     private static Connection myConnection ;
@@ -41,7 +41,7 @@ public class ConsulterTests {
     
     private void executeSQLScript(Connection connexion, String filename)  throws IOException, SqlToolError, SQLException {
         // On initialise la base avec le contenu d'un fichier de test
-        String sqlFilePath = ConsulterTests.class.getResource(filename).getFile();
+        String sqlFilePath = DAOTest.class.getResource(filename).getFile();
         SqlFile sqlFile = new SqlFile(new File(sqlFilePath));
 
         sqlFile.setConnection(connexion);
