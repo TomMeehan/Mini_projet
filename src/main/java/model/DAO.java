@@ -39,7 +39,40 @@ public class DAO {
         }
         return me;
     }
-    public void updateClientInfos(String societe,String contact,String fonction,String adresse,String ville,String region,String code_postal,String pays,String telephone,String fax){
+    public void updateClientInfos(String code,String societe,String contact,String fonction,String adresse,String ville,String region,String code_postal,String pays,String telephone,String fax) throws SQLException{
         
+        String sql = "UPDATE Client SET Societe,Contact,Fonction,Adresse,Ville,Region,Code_postal,Pays,Telephone,Fax = (?,?,?,?,?,?,?,?,?,?) WHERE Code = ?";
+        try (	Connection myConnection = myDataSource.getConnection();
+			PreparedStatement statement = myConnection.prepareStatement(sql)){
+            
+            myConnection.setAutoCommit(false);
+            try{
+                statement.setString(1, societe);
+                statement.setString(2, contact);
+                statement.setString(3, fonction);
+                statement.setString(4, adresse);
+                statement.setString(5, ville);
+                statement.setString(6, region);
+                statement.setString(7, code_postal);
+                statement.setString(8, pays);
+                statement.setString(9, telephone);
+                statement.setString(10, fax);
+                
+                statement.setString(11, code);
+                
+                int nbUpdated = statement.executeUpdate();
+                if (nbUpdated == 0) {
+                    throw new SQLException();
+                }
+                //Pas de problème, on valide les changements 
+                myConnection.commit();
+                
+            } catch (SQLException ex){
+                myConnection.rollback();
+                throw ex ;
+            } finally {
+                myConnection.setAutoCommit(true);
+            }
+        }
     }
 }
