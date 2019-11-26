@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import javax.sql.DataSource;
 
 /**
@@ -39,6 +41,25 @@ public class DAO {
         }
         return me;
     }
+    
+    public List<Categorie> getCategories() throws SQLException{
+        String sql = "SELECT * FROM Categorie";
+        List<Categorie> result = new ArrayList<>();
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                int code = rs.getInt("Code");
+                String libelle = rs.getString("Libelle");
+                String Description = rs.getString("Description");
+                result.add(new Categorie(code, libelle, Description));
+            }
+        }
+        return result;
+    }
+    
+    
     public void updateClientInfos(String code,String societe,String contact,String fonction,String adresse,String ville,String region,String code_postal,String pays,String telephone,String fax) throws SQLException{
         
         String sql = "UPDATE Client SET Societe,Contact,Fonction,Adresse,Ville,Region,Code_postal,Pays,Telephone,Fax = (?,?,?,?,?,?,?,?,?,?) WHERE Code = ?";
