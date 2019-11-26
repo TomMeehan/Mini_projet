@@ -41,7 +41,21 @@ public class DAO {
         }
         return me;
     }
-    
+/*    TODO 
+    public List<Commande> getCommandes() throws SQLException{
+        String sql = "SELECT * FROM Categorie";
+        List<Commande> result = new ArrayList<>();
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                
+            }
+        }
+        return result;
+    }
+*/    
     public List<Categorie> getCategories() throws SQLException{
         String sql = "SELECT * FROM Categorie";
         List<Categorie> result = new ArrayList<>();
@@ -59,7 +73,32 @@ public class DAO {
         return result;
     }
     
-    
+    public List<Produit> getProduits() throws SQLException{
+        String sql = "SELECT * FROM Produit";
+        List<Produit> result = new ArrayList<>();
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                int reference = rs.getInt("Reference");
+                String nom = rs.getString("Libelle");
+                int fournisseur = rs.getInt("Fournisseur");
+                int categorie = rs.getInt("Categorie");
+                String quantite_par_unite = rs.getString("Quantite_par_unite");
+                int prix_unitaire = rs.getInt("Prix_unitaire");
+                int unites_en_stock = rs.getInt("Unites_en_stock");
+                int unites_commandees = rs.getInt("Unites_commandees");
+                int niveau_de_reapprovi = rs.getInt("Niveau_de_reapprovi");
+                int indisponible = rs.getInt("Indisponible");
+                
+                result.add(new Produit(categorie,reference,nom,fournisseur,quantite_par_unite,prix_unitaire,unites_en_stock,unites_commandees,niveau_de_reapprovi,indisponible));
+                
+            }
+        }
+        return result;
+    }
+            
     public void updateClientInfos(String code,String societe,String contact,String fonction,String adresse,String ville,String region,String code_postal,String pays,String telephone,String fax) throws SQLException{
         
         String sql = "UPDATE Client SET Societe,Contact,Fonction,Adresse,Ville,Region,Code_postal,Pays,Telephone,Fax = (?,?,?,?,?,?,?,?,?,?) WHERE Code = ?";
