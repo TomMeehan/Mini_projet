@@ -32,9 +32,9 @@ public class DAOTest {
         myDataSource = getDataSource();
         myConnection = myDataSource.getConnection();
         // On crée le schema de la base de test
-        executeSQLScript(myConnection, "comptoirs_schema_derby.sql");
+        executeSQLScript(myConnection, "servlet/comptoirs_schema_derby.sql");
         // On y met des données
-        executeSQLScript(myConnection, "comptoirs_data.sql");		
+        executeSQLScript(myConnection, "servlet/comptoirs_data.sql");		
 
         dao = new DAO(myDataSource);
     }

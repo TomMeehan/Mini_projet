@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import model.Categorie;
 import model.DAO;
 import model.DataSourceFactory;
 import org.apache.derby.tools.ij;
@@ -28,7 +29,7 @@ public class DatabaseInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         if (!databaseExists()){
-            //initializeDatabase();
+            initializeDatabase();
         }
     }
 
@@ -66,6 +67,12 @@ public class DatabaseInitializer implements ServletContextListener {
                         Logger.getLogger("CommerceElectronique").log(Level.INFO, "Database succesfully created");
                 } else {
                         Logger.getLogger("CommerceElectronique").log(Level.SEVERE, "Errors creating database");
+                }
+                result = ij.runScript(connection, this.getClass().getResourceAsStream("comptoirs_data.sql"), "UTF-8", System.out /* nowhere */ , "UTF-8");
+                if (result == 0) {
+                        Logger.getLogger("CommerceElectronique").log(Level.INFO, "Database succesfully filled");
+                } else {
+                        Logger.getLogger("CommerceElectronique").log(Level.SEVERE, "Errors filling database");
                 }
 
         } catch (UnsupportedEncodingException | SQLException e) {
