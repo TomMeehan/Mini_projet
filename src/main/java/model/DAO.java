@@ -149,8 +149,13 @@ public class DAO {
         }
     }
     
-    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise
-                            ){
-        
+    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise,
+                            int[] produit, int[] quantite ) throws Exception{
+    if (produit.length != quantite.length){
+                    throw new Exception("Produits != Quantite");
+                }    
+    String sql1 = "INSERT INTO Commande (Client,SaisieLe,EnvoyeeLe,Port,Destinataire,Adresse_livraison,Ville_Livraison,Ville_livraison,Region_livraison,Code_postal_livraison,Pays_livraison,Remise) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";    
+    
+    String sql = "INSERT INTO Ligne VALUES () ";
     }
 }
