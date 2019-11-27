@@ -47,9 +47,9 @@ public class DAO {
         List<Commande> result = new ArrayList<>();
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql)){
-            ResultSet rs = stmt.executeQuery();
-            
+            ResultSet rs = stmt.executeQuery();            
             stmt.setString(1, client);
+            
             while (rs.next()){
                 int numero=rs.getInt("Numero");
                 String saisieLe = rs.getString("SaisieLe");
@@ -147,5 +147,9 @@ public class DAO {
                 myConnection.setAutoCommit(true);
             }
         }
+    }
+    
+    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float ){
+        
     }
 }
