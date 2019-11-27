@@ -35,7 +35,7 @@ public class DAO {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
                        rs.next();
-                       me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postale"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));
+                       me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postal"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));
                        
                }
         }
@@ -82,14 +82,14 @@ public class DAO {
             
             while (rs.next()){
                 int reference = rs.getInt("Reference");
-                String nom = rs.getString("Libelle");
+                String nom = rs.getString("Nom");
                 int fournisseur = rs.getInt("Fournisseur");
                 int categorie = rs.getInt("Categorie");
                 String quantite_par_unite = rs.getString("Quantite_par_unite");
                 int prix_unitaire = rs.getInt("Prix_unitaire");
                 int unites_en_stock = rs.getInt("Unites_en_stock");
                 int unites_commandees = rs.getInt("Unites_commandees");
-                int niveau_de_reapprovi = rs.getInt("Niveau_de_reapprovi");
+                int niveau_de_reapprovi = rs.getInt("Niveau_de_reappro");
                 int indisponible = rs.getInt("Indisponible");
                 
                 result.add(new Produit(categorie,reference,nom,fournisseur,quantite_par_unite,prix_unitaire,unites_en_stock,unites_commandees,niveau_de_reapprovi,indisponible));
