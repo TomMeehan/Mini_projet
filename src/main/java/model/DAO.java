@@ -114,9 +114,9 @@ public class DAO {
             
     public void updateClientInfos(String code,String societe,String contact,String fonction,String adresse,String ville,String region,String code_postal,String pays,String telephone,String fax) throws SQLException{
         
-        String sql = "UPDATE Client SET Societe,Contact,Fonction,Adresse,Ville,Region,Code_postal,Pays,Telephone,Fax = (?,?,?,?,?,?,?,?,?,?) WHERE Code = ?";
+        String sql = "UPDATE Client SET Societe = ?, Contact = ?, Fonction = ?, Adresse = ?, Ville = ?, Region = ?, Code_postal = ?, Pays = ?, Telephone = ?, Fax = ? WHERE Code = ?";
         try (	Connection myConnection = myDataSource.getConnection();
-			PreparedStatement statement = myConnection.prepareStatement(sql)){
+                PreparedStatement statement = myConnection.prepareStatement(sql)){
             
             myConnection.setAutoCommit(false);
             try{
