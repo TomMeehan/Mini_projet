@@ -34,9 +34,9 @@ public class DAO {
             PreparedStatement stmt = connection.prepareStatement(sql)) {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
-                       while (rs.next()) {
-                            me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postale"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));
-                       }
+                       rs.next();
+                       me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postale"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));
+                       
                }
         }
         return me;
