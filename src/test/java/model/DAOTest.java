@@ -126,6 +126,13 @@ public class DAOTest {
         
     }
     
+    @Test
+    public void addCommandeTestError() throws SQLException {
+        
+        //TODO
+        
+    }
+    
     
     
     @After
