@@ -149,7 +149,8 @@ public class DAO {
         }
     }
     
-    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float ){
+    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise
+                            ){
         
     }
 }
