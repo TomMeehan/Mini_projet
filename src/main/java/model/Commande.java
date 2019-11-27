@@ -11,7 +11,7 @@ package model;
  */
 public class Commande {
     
-    private Client client;
+    private String client;
     
     private int numero ;
     private String saisieLe;
@@ -25,7 +25,7 @@ public class Commande {
     private String pays_livraison;
     private float remise;
 
-    public Commande(int numero, Client client, String saisieLe, String envoyeeLe, float port, String Destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise) {
+    public Commande(int numero, String client, String saisieLe, String envoyeeLe, float port, String Destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise) {
         this.numero = numero;
         this.client = client;
         this.saisieLe = saisieLe;
@@ -48,11 +48,11 @@ public class Commande {
         this.numero = numero;
     }
 
-    public Client getClient() {
+    public String getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(String client) {
         this.client = client;
     }
 
