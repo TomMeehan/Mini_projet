@@ -41,21 +41,34 @@ public class DAO {
         }
         return me;
     }
-/*    TODO 
-    public List<Commande> getCommandes() throws SQLException{
-        String sql = "SELECT * FROM Categorie";
+
+    public List<Commande> getCommandes(String client) throws SQLException{
+        String sql = "SELECT * FROM Commande WHERE Client = ?";
         List<Commande> result = new ArrayList<>();
         try (Connection connection = myDataSource.getConnection();
-            Statement stmt = connection.createStatement()){
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+            ResultSet rs = stmt.executeQuery();            
+            stmt.setString(1, client);
             
             while (rs.next()){
+                int numero=rs.getInt("Numero");
+                String saisieLe = rs.getString("SaisieLe");
+                String envoyeeLe = rs.getString("EnvoyeeLe");
+                float port = rs.getFloat("Port");
+                String Destinataire = rs.getString("Destinataire");
+                String adresse_livraison = rs.getString("Adresse_livraison");
+                String ville_livraison = rs.getString("Ville_livraison");
+                String region_livraison = rs.getString("Region_livraison");
+                String code_postal_livraison = rs.getString("Code_postal_livraison");
+                String pays_livraison = rs.getString("Pays_livraison");
+                float remise = rs.getFloat("Remise");
                 
+                result.add(new Commande(numero, client, saisieLe, envoyeeLe, port, Destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livraison, pays_livraison, remise));
             }
         }
         return result;
     }
-*/    
+  
     public List<Categorie> getCategories() throws SQLException{
         String sql = "SELECT * FROM Categorie";
         List<Categorie> result = new ArrayList<>();
@@ -134,5 +147,9 @@ public class DAO {
                 myConnection.setAutoCommit(true);
             }
         }
+    }
+    
+    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float ){
+        
     }
 }
