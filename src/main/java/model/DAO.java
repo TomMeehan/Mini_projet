@@ -47,23 +47,24 @@ public class DAO {
         List<Commande> result = new ArrayList<>();
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql)){
-            ResultSet rs = stmt.executeQuery();            
+            
             stmt.setString(1, client);
+            ResultSet rs = stmt.executeQuery();            
             
             while (rs.next()){
                 int numero=rs.getInt("Numero");
-                String saisieLe = rs.getString("SaisieLe");
-                String envoyeeLe = rs.getString("EnvoyeeLe");
+                String saisie_le = rs.getString("saisie_le");
+                String envoyee_le = rs.getString("envoyee_le");
                 float port = rs.getFloat("Port");
                 String Destinataire = rs.getString("Destinataire");
                 String adresse_livraison = rs.getString("Adresse_livraison");
                 String ville_livraison = rs.getString("Ville_livraison");
                 String region_livraison = rs.getString("Region_livraison");
-                String code_postal_livraison = rs.getString("Code_postal_livraison");
+                String code_postal_livrais = rs.getString("Code_postal_livrais");
                 String pays_livraison = rs.getString("Pays_livraison");
                 float remise = rs.getFloat("Remise");
                 
-                result.add(new Commande(numero, client, saisieLe, envoyeeLe, port, Destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livraison, pays_livraison, remise));
+                result.add(new Commande(numero, client, saisie_le, envoyee_le, port, Destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise));
             }
         }
         return result;
@@ -149,13 +150,28 @@ public class DAO {
         }
     }
     
-    public void addCommande(String client, String saisieLe, String envoyeeLe, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise,
+    public void addCommande(String client, String saisie_le, String envoyee_le, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
                             int[] produit, int[] quantite ) throws Exception{
     if (produit.length != quantite.length){
                     throw new Exception("Produits != Quantite");
                 }    
     String sql1 = "INSERT INTO Commande (Client,SaisieLe,EnvoyeeLe,Port,Destinataire,Adresse_livraison,Ville_Livraison,Ville_livraison,Region_livraison,Code_postal_livraison,Pays_livraison,Remise) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";    
     
-    String sql = "INSERT INTO Ligne VALUES () ";
+    String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
+    
+    try (Connection connection = myDataSource.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
+            stmt.setString(1, client);
+            stmt.setString(2, saisie_le);
+            stmt.setString(3, envoyee_le);
+            stmt.setString(4, port);
+            stmt.setString(5, destinataire);
+            stmt.setString(6, adresse_livraison);
+            stmt.setString(7, ville_livraison);
+            stmt.setString(8, region_livraison);
+            stmt.setString(9, code_postal_livrais);
+            stmt.setString(10, pays_livraison);
+            stmt.setFloat(11, remise);
+    }
     }
 }

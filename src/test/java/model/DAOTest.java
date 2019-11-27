@@ -64,7 +64,7 @@ public class DAOTest {
     }
     
     @Test
-    public void getCategorieTest() throws SQLException {
+    public void getCategoriesTest() throws SQLException {
         List<Categorie> listCat = new ArrayList<>();
         
         listCat = dao.getCategories();
@@ -74,13 +74,56 @@ public class DAOTest {
     }
     
     @Test
-    public void getProduitTest() throws SQLException {
+    public void getProduitsTest() throws SQLException {
         List<Produit> listProd = new ArrayList<>();
         
         listProd = dao.getProduits();
         
         assertEquals(1, listProd.get(0).getReference());
         assertEquals("Grandma's Boysenberry Spread", listProd.get(5).getNom());
+    }
+    
+    @Test(expected=SQLException.class)
+    public void updateClientTestError() throws SQLException {
+        
+        Client cBefore = dao.getClientInfos("ALFKI");
+        
+        dao.updateClientInfos("ALFKI", null, "Jean Bon", "Représentant(e)", "Obere Str. 57", "Berlin", null, "12209", "Allemagne", "030-0074321", "030-0076545");
+        
+        Client cAfter = dao.getClientInfos("ALFKI");
+        
+        assertFalse(cBefore.getSociete().equals("Jean Bon"));
+        assertEquals(cBefore.getContact(),cAfter.getContact());
+        
+   
+    }
+    
+    @Test
+    public void updateClientTestSuccess() throws SQLException {
+        
+        Client cBefore = dao.getClientInfos("ALFKI");
+        
+        dao.updateClientInfos("ALFKI", "Alfreds Futterkiste", "Jean Bon", "Représentant(e)", "Obere Str. 57", "Berlin", null, "12209", "Allemagne", "030-0074321", "030-0076545");
+        
+        Client cAfter = dao.getClientInfos("ALFKI");
+        
+        assertEquals(cBefore.getSociete(),cAfter.getSociete());
+        assertEquals("Jean Bon", cAfter.getContact());
+        
+    }
+    
+    @Test
+    public void getCommandeOfClientTest() throws SQLException {
+        
+        Client c = dao.getClientInfos("ALFKI");
+        
+        List<Commande> listComm = new ArrayList<>();
+        
+        listComm = dao.getCommandes(c.getCode());
+        
+        assertEquals(10702,listComm.get(0).getNumero());
+        assertEquals(4, listComm.size());
+        
     }
     
     
