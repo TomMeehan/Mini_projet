@@ -151,8 +151,8 @@ public class DAO {
     }
     
     public void addCommande(String client, String saisie_le, String envoyee_le, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
-                            int[] produit, int[] quantite ) throws Exception{
-    if (produit.length != quantite.length){
+                            int[] produitID, int[] quantite ) throws Exception{
+    if (produitID.length != quantite.length){
                     throw new Exception("Produits != Quantite");
                 }    
     String sql1 = "INSERT INTO Commande (Client,SaisieLe,EnvoyeeLe,Port,Destinataire,Adresse_livraison,Ville_Livraison,Ville_livraison,Region_livraison,Code_postal_livraison,Pays_livraison,Remise) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";    
@@ -161,6 +161,7 @@ public class DAO {
     
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
+            connection.setAutoCommit(false);
             stmt.setString(1, client);
             stmt.setString(2, saisie_le);
             stmt.setString(3, envoyee_le);
@@ -172,6 +173,46 @@ public class DAO {
             stmt.setString(9, code_postal_livrais);
             stmt.setString(10, pays_livraison);
             stmt.setFloat(11, remise);
+            try {
+                stmt.executeUpdate();
+                
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                generatedKeys.next();
+                int numLigne=generatedKeys.getInt("Numero");
+                //Logger.getLogger("DAO").log(Level.INFO, "Nouvelle clé générée pour INVOICE : {0}", NumLigne);
+                try (PreparedStatement ligStmt = connection.prepareStatement(sql2)) {
+                    for (int produit = 0; produit < produitID.length; produit++){
+                        ligStmt.clearParameters();
+                        ligStmt.setInt(1, numLigne);
+                        ligStmt.setInt(2, produitID[produit]);
+                        ligStmt.setInt(3, quantite[produit]);
+
+                        int n = ligStmt.executeUpdate();
+                    }
+                }
+                connection.commit();
+            } catch (Exception ex){
+                connection.rollback();
+            } finally {
+                connection.setAutoCommit(true);
+            }
     }
+  }
+    
+    //Fonctions admin
+    public void chiffAffCat(int categorie, String dateDep, String dateFin){
+        String sql = "SELECT * FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
+                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
+                + "WHERE p.Categorie = ?";
+        
+        
+    }
+    
+    public void chiffAffPays(String pays, String dateDep, String dateFin){
+        
+    }
+    
+    public void chiffAffClient(int client, String dateDep, String dateFin){
+        
     }
 }
