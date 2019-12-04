@@ -14,7 +14,12 @@
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
     </head>
     <body>
-        <a href="productsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Primary link</a>
+        <div class="jumbotron center"> 
+            <div class="container">
+                <a href="productsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" align="center">Primary link</a>
+                <a href="productsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" align="center">Primary link</a>
+            </div>
+        </div>
         <table class="table">
             <thead>
               <tr>
