@@ -11,7 +11,7 @@ package model;
  */
 public class Produit {
     
-    private int categorie;
+    private Categorie categorie;
     
     private int reference;
     private String nom;
@@ -23,7 +23,7 @@ public class Produit {
     private int niveau_de_reapprovisionnement;
     private int indisponible;
 
-    public Produit(int categorie, int reference, String nom, int fournisseur, String quantite_par_unite, float prix_unitaire, int unites_en_stock, int unites_commandees, int niveau_de_reapprovisionnement, int indisponible) {
+    public Produit(Categorie categorie, int reference, String nom, int fournisseur, String quantite_par_unite, float prix_unitaire, int unites_en_stock, int unites_commandees, int niveau_de_reapprovisionnement, int indisponible) {
         this.categorie = categorie;
         this.reference = reference;
         this.nom = nom;
@@ -36,11 +36,11 @@ public class Produit {
         this.indisponible = indisponible;
     }
 
-    public int getCategorie() {
+    public Categorie getCategorie() {
         return categorie;
     }
 
-    public void setCategorie(int categorie) {
+    public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
 
