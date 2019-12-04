@@ -98,7 +98,7 @@ public class DAO {
                 int reference = rs.getInt("Reference");
                 String nom = rs.getString("Nom");
                 int fournisseur = rs.getInt("Fournisseur");
-                int categorie = rs.getInt("Categorie");
+                Categorie categorie = (Categorie) rs.getObject("Categorie");
                 String quantite_par_unite = rs.getString("Quantite_par_unite");
                 int prix_unitaire = rs.getInt("Prix_unitaire");
                 int unites_en_stock = rs.getInt("Unites_en_stock");
