@@ -8,9 +8,17 @@
         <servlet-name>Home</servlet-name>
         <servlet-class>servlet.Home</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductsInJSON</servlet-name>
+        <servlet-class>servlet.ProductsInJSON</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductsInJSON</servlet-name>
+        <url-pattern>/ProductsInJSON</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
