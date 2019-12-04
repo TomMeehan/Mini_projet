@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
+import org.junit.Ignore;
 /**
  *
  * @author pedago
@@ -53,7 +54,7 @@ public class DAOTest {
     
     // TESTS ICI
     
-    @Test
+    @Test@Ignore
     public void getClientTest() throws SQLException {
         Client c;
         String code = "ALFKI";
@@ -63,7 +64,7 @@ public class DAOTest {
         assertEquals("030-0074321",c.getTelephone());
     }
     
-    @Test
+    @Test@Ignore
     public void getCategoriesTest() throws SQLException {
         List<Categorie> listCat = new ArrayList<>();
         
@@ -73,7 +74,7 @@ public class DAOTest {
         assertEquals("Viandes", listCat.get(5).getLibelle());
     }
     
-    @Test
+    @Test@Ignore
     public void getProduitsTest() throws SQLException {
         List<Produit> listProd = new ArrayList<>();
         
@@ -83,7 +84,7 @@ public class DAOTest {
         assertEquals("Grandma's Boysenberry Spread", listProd.get(5).getNom());
     }
     
-    @Test(expected=SQLException.class)
+    @Test(expected=SQLException.class)@Ignore
     public void updateClientTestError() throws SQLException {
         
         Client cBefore = dao.getClientInfos("ALFKI");
@@ -98,7 +99,7 @@ public class DAOTest {
    
     }
     
-    @Test
+    @Test@Ignore
     public void updateClientTestSuccess() throws SQLException {
         
         Client cBefore = dao.getClientInfos("ALFKI");
@@ -112,7 +113,7 @@ public class DAOTest {
         
     }
     
-    @Test
+    @Test@Ignore
     public void getCommandeOfClientTest() throws SQLException {
         
         Client c = dao.getClientInfos("ALFKI");
@@ -126,7 +127,7 @@ public class DAOTest {
         
     }
     
-    @Test
+    @Test@Ignore
     public void addCommandeTestError() throws SQLException {
         
         //TODO

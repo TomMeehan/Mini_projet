@@ -4,9 +4,20 @@
         <description>ServletContextListener</description>
         <listener-class>servlet.DatabaseInitializer</listener-class>
     </listener>
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>servlet.Home</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>Home</welcome-file>
+    </welcome-file-list>
 </web-app>
