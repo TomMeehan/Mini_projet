@@ -9,7 +9,6 @@
         <servlet-class>servlet.Home</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>SessionListener</servlet-name>
         <servlet-class>servlet.SessionListener</servlet-class>
     </servlet>
@@ -20,17 +19,12 @@
     <servlet>
         <servlet-name>HeaderServlet</servlet-name>
         <servlet-class>servlet.HeaderServlet</servlet-class>
-=======
-        <servlet-name>ProductsInJSON</servlet-name>
-        <servlet-class>servlet.ProductsInJSON</servlet-class>
->>>>>>> origin/master
     </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>SessionListener</servlet-name>
         <url-pattern>/SessionListener</url-pattern>
     </servlet-mapping>
@@ -41,10 +35,6 @@
     <servlet-mapping>
         <servlet-name>HeaderServlet</servlet-name>
         <url-pattern>/HeaderServlet</url-pattern>
-=======
-        <servlet-name>ProductsInJSON</servlet-name>
-        <url-pattern>/ProductsInJSON</url-pattern>
->>>>>>> origin/master
     </servlet-mapping>
     <session-config>
         <session-timeout>

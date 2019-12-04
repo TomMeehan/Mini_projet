@@ -17,39 +17,27 @@
         <div class="jumbotron center"> 
             <div class="container">
                 <a href="productsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" align="center">Primary link</a>
-                <a href="productsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" align="center">Primary link</a>
+                <a href="ProductsInJSON" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" align="center">Produits</a>
+                <form onsubmit="event.preventDefault(); drawProductTable();">
+                    <button type="submit" class="btn btn-outline-primary">Produits</button>
+                </form>
             </div>
         </div>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-        </table>
+        
+        <div id="productsTable"></div>
+        <script id="productsTemplate" type="text/template">
+            <table class = "table">
+            <tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Fournisseur</th><th>Indisponible</th></tr>
+            {{#produits}}
+                <tr><td>{{reference}}</td><td>{{categorie}}</td><td>{{nom}}</td><td>{{indisponible}}</td></tr>
+            {{/produits}}
+            </table>
+        </script>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <script><jsp:include page="/WEB-INF/scripts/processProducts.js"/></script>
     </body>
     
 </html>
