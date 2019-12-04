@@ -41,7 +41,18 @@ public class DAO {
         }
         return me;
     }
-
+    public boolean checkLogin(String log, String mdp) throws SQLException {
+        String sql = "SELECT * FROM Client WHERE CONTACT = ? AND Code = ?";
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
+               stmt.setString(1, log);
+               stmt.setString(2, mdp);
+               try (ResultSet rs = stmt.executeQuery()) {
+                    return rs.next();
+               }
+        }
+    }
+    
     public List<Commande> getCommandes(String client) throws SQLException{
         String sql = "SELECT * FROM Commande WHERE Client = ?";
         List<Commande> result = new ArrayList<>();

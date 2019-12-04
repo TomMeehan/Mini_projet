@@ -14,8 +14,9 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="home">Comptoirs</a>   
-            <form class="form-inline">
-                <button class="btn btn-outline-success" type="button">Login</button>
+            <form class="form-inline" action="/WEB-INF/pages/login.jsp">
+                <button class="btn btn-outline-success" type="submit">Login</button>
+                
             </form>
         </nav>
     </body>
