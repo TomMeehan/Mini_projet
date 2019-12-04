@@ -136,7 +136,7 @@ public class DAO {
                 
                 int nbUpdated = statement.executeUpdate();
                 if (nbUpdated == 0) {
-                    throw new SQLException();
+                    throw new SQLException("Erreur lors de la mise à jour, code invalide");
                 }
                 //Pas de problème, on valide les changements 
                 myConnection.commit();
@@ -174,8 +174,10 @@ public class DAO {
             stmt.setString(10, pays_livraison);
             stmt.setFloat(11, remise);
             try {
-                stmt.executeUpdate();
-                
+                int updt = stmt.executeUpdate();
+                if (updt==0){
+                    throw new SQLException("Erreur lors de la creation");
+                            }
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 generatedKeys.next();
                 int numLigne=generatedKeys.getInt("Numero");
@@ -188,31 +190,162 @@ public class DAO {
                         ligStmt.setInt(3, quantite[produit]);
 
                         int n = ligStmt.executeUpdate();
+                        }
                     }
-                }
                 connection.commit();
-            } catch (Exception ex){
+                } catch (Exception ex){
                 connection.rollback();
-            } finally {
+                    } finally {
                 connection.setAutoCommit(true);
-            }
+                    }
+        }
     }
-  }
     
     //Fonctions admin
-    public void chiffAffCat(int categorie, String dateDep, String dateFin){
-        String sql = "SELECT * FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
+    public float chiffAffCat(int categorie, String dateDep, String dateFin) throws SQLException{
+        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
                 + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE p.Categorie = ?";
+                + "WHERE p.Categorie = ? AND c.SaisieLe BETWEEN ? AND ?";
+        
+        float result = 0;
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
+                result  += chiffreAff;
+                
+            }
+        }
+        return result;
         
         
     }
     
-    public void chiffAffPays(String pays, String dateDep, String dateFin){
+    public float chiffAffPays(String pays, String dateDep, String dateFin) throws SQLException{
+        
+        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
+                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
+                + "WHERE c.pays = ? AND c.SaisieLe BETWEEN ? AND ?";
+        float result = 0;
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
+                result  += chiffreAff;
+                
+            }
+        }
+        return result;
+    }
+    
+    public float chiffAffClient(int client, String dateDep, String dateFin) throws SQLException{
+        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
+                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
+                + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";
+        float result = 0;
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
+                result  += chiffreAff;
+                
+            }
+        }
+        return result;
+    }
+    
+    public void addProduit(String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
+        String sql = "INSERT INTO Produit(Nom,Fournisseur,Categorie,Quantite_par_unite,Prix_unitaire,Unites_en_stock,Unites_commandees,Niveau_de_reappro,Indisponible) VALUES (?,?,?,?,?,?,?,?,?) ";
+
+        try (Connection connection = myDataSource.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            connection.setAutoCommit(false);
+            stmt.setString(1, nom);
+            stmt.setInt(2, fournisseur);
+
+            int updt = stmt.executeUpdate();
+
+            if (updt == 0) {
+                throw new SQLException("Echec de la création du produit");
+            }
+            
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys();){
+                if ( !generatedKeys.next()){
+                    throw new SQLException("Echec de la création du produit");
+                }
+           connection.commit();
+         } catch (SQLException ex){
+            connection.rollback();
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
         
     }
     
-    public void chiffAffClient(int client, String dateDep, String dateFin){
+    public void deleteProd(int reference) throws SQLException{
         
+        String sql =   "DELETE FROM Produit WHERE Reference = ?";
+        
+        try (Connection connection = myDataSource.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(sql)){
+            connection.setAutoCommit(false);
+            stmt.setInt(1, reference);
+
+            try {
+                int updt = stmt.executeUpdate();
+                if (updt==0){
+                    throw new SQLException("Produit inexistant");
+                }
+                connection.commit();
+            }   catch (Exception ex){
+                connection.rollback();
+                }   finally {
+                connection.setAutoCommit(true);
+                }
+        }
     }
+    
+   public void updateProd(int ref,String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
+               String sql = "UPDATE Produit SET Nom = ?, Fournisseur = ?,Categorie = ?,Quantite_par_unite = ?, Prix_unitaire = ?,Unites_en_stock = ?,Unites_commandees = ?, Niveau_de_reappro = ?, Indisponible = ? WHERE Reference = ?";
+               
+        try (	Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)){
+            
+            myConnection.setAutoCommit(false);
+            try{
+                statement.setString(1, nom);
+                statement.setInt(2, fournisseur);
+                statement.setInt(3, categorie);
+                statement.setString(4, quantite_par_unite);
+                statement.setFloat(5, prix_unitaire);
+                statement.setInt(6, unites_en_stock);
+                statement.setInt(7, unites_commandees);
+                statement.setInt(8, niveau_de_reappro);
+                statement.setInt(9, indisponible);
+
+                statement.setInt(10, ref);
+                
+                int nbUpdated = statement.executeUpdate();
+                if (nbUpdated == 0) {
+                    throw new SQLException("Erreur lors de la mise à jour, produit invalide");
+                }
+                //Pas de problème, on valide les changements 
+                myConnection.commit();
+                
+            } catch (SQLException ex){
+                myConnection.rollback();
+                throw ex ;
+            } finally {
+                myConnection.setAutoCommit(true);
+            }
+        }               
+
+   }
 }
