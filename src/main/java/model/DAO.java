@@ -100,16 +100,35 @@ public class DAO {
     
     public List<Produit> getProduits() throws SQLException{
         String sql = "SELECT * FROM Produit";
+        String sql2 = "SELECT * FROM Categorie WHERE code = ?";
+        
         List<Produit> result = new ArrayList<>();
+        
         try (Connection connection = myDataSource.getConnection();
-            Statement stmt = connection.createStatement()){
+            Statement stmt = connection.createStatement();
+            PreparedStatement pstmt = connection.prepareStatement(sql2); ){
             ResultSet rs = stmt.executeQuery(sql);
             
+            
             while (rs.next()){
+                
+                int codeCat = rs.getInt("Categorie");
+                
+                pstmt.setInt(1,codeCat);
+                
+                ResultSet rsCat = pstmt.executeQuery();
+                
+                rsCat.next();
+                
+                int code = rsCat.getInt("Code");
+                String libelle = rsCat.getString("Libelle");
+                String desc = rsCat.getString("Description");
+                
+                Categorie categorie = new Categorie(code,libelle,desc);
+                
                 int reference = rs.getInt("Reference");
                 String nom = rs.getString("Nom");
                 int fournisseur = rs.getInt("Fournisseur");
-                Categorie categorie = (Categorie) rs.getObject("Categorie");
                 String quantite_par_unite = rs.getString("Quantite_par_unite");
                 int prix_unitaire = rs.getInt("Prix_unitaire");
                 int unites_en_stock = rs.getInt("Unites_en_stock");
