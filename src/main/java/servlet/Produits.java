@@ -5,26 +5,18 @@
  */
 package servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DAO;
-import model.DataSourceFactory;
 
 /**
  *
- * @author pedago
+ * @author Tom
  */
-public class ProductsInJSON extends HttpServlet {
+public class Produits extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,31 +30,10 @@ public class ProductsInJSON extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-        
-        Properties result = new Properties();
-        
-        try {
-            String categorie=request.getParameter("categorie");
-            
-            if (categorie == null)
-                result.put("produits", dao.getProduits());
-            else{
-                result.put("produits", dao.getProduitFromCategorie(categorie));
-            }
-            
-        } catch (SQLException ex) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            result.put("produits", Collections.EMPTY_LIST);
-            result.put("message", ex.getMessage());
-        }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(result);
-            out.println(gsonData);
-        }
+        String param = request.getParameter("categorie");
+        if (param != null)
+            request.setAttribute("categorie", param);      
+        request.getRequestDispatcher("WEB-INF/pages/produits.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

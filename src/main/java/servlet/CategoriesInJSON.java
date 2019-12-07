@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,9 +21,9 @@ import model.DataSourceFactory;
 
 /**
  *
- * @author pedago
+ * @author Tom
  */
-public class ProductsInJSON extends HttpServlet {
+public class CategoriesInJSON extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,23 +37,16 @@ public class ProductsInJSON extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
+          DAO dao = new DAO(DataSourceFactory.getDataSource());
         
         Properties result = new Properties();
         
         try {
-            String categorie=request.getParameter("categorie");
-            
-            if (categorie == null)
-                result.put("produits", dao.getProduits());
-            else{
-                result.put("produits", dao.getProduitFromCategorie(categorie));
-            }
+            result.put("categories", dao.getCategories());
             
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            result.put("produits", Collections.EMPTY_LIST);
+            result.put("categories", Collections.EMPTY_LIST);
             result.put("message", ex.getMessage());
         }
         try (PrintWriter out = response.getWriter()){

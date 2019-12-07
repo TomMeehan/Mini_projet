@@ -98,6 +98,7 @@ public class DAO {
         return result;
     }
     
+    
     public List<Produit> getProduits() throws SQLException{
         String sql = "SELECT * FROM Produit";
         String sql2 = "SELECT * FROM Categorie WHERE code = ?";
@@ -120,6 +121,50 @@ public class DAO {
                 
                 rsCat.next();
                 
+                int code = rsCat.getInt("Code");
+                String libelle = rsCat.getString("Libelle");
+                String desc = rsCat.getString("Description");
+                
+                Categorie categorie = new Categorie(code,libelle,desc);
+                
+                int reference = rs.getInt("Reference");
+                String nom = rs.getString("Nom");
+                int fournisseur = rs.getInt("Fournisseur");
+                String quantite_par_unite = rs.getString("Quantite_par_unite");
+                int prix_unitaire = rs.getInt("Prix_unitaire");
+                int unites_en_stock = rs.getInt("Unites_en_stock");
+                int unites_commandees = rs.getInt("Unites_commandees");
+                int niveau_de_reapprovi = rs.getInt("Niveau_de_reappro");
+                int indisponible = rs.getInt("Indisponible");
+                
+                result.add(new Produit(categorie,reference,nom,fournisseur,quantite_par_unite,prix_unitaire,unites_en_stock,unites_commandees,niveau_de_reapprovi,indisponible));
+                
+            }
+        }
+        return result;
+    }
+    
+    public List<Produit> getProduitFromCategorie(String codeCat) throws SQLException{
+        String sql = "SELECT * FROM Produit WHERE categorie = ?";
+        String sql2 = "SELECT * FROM Categorie WHERE code = ?";
+        
+        List<Produit> result = new ArrayList<>();
+        
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement pstmt1 = connection.prepareStatement(sql);
+            PreparedStatement pstmt2 = connection.prepareStatement(sql2); ){
+            
+            pstmt1.setString(1,codeCat);
+            
+            ResultSet rs = pstmt1.executeQuery();
+                
+            pstmt2.setString(1,codeCat);
+
+            ResultSet rsCat = pstmt2.executeQuery();
+
+            rsCat.next();
+
+            while (rs.next()){
                 int code = rsCat.getInt("Code");
                 String libelle = rsCat.getString("Libelle");
                 String desc = rsCat.getString("Description");
