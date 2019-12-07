@@ -13,7 +13,7 @@ function putCategories() {
         success : 
                 function(result) {       
                     result.categories.forEach( c => {
-                        $('#dropDownCat').append('<a class="dropdown-item" href="Produits?categorie=' + c.code + '">' + c.libelle + '</a>');
+                        $('#dropDownCat').append('<a class="dropdown-item" href="Produits?cat=' + c.code + '">' + c.libelle + '</a>');
                     });
                 }
     });

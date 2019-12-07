@@ -30,9 +30,9 @@ public class Produits extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String param = request.getParameter("categorie");
+        String param = request.getParameter("cat");
         if (param != null)
-            request.setAttribute("categorie", param);      
+            request.setAttribute("cat", param);      
         request.getRequestDispatcher("WEB-INF/pages/produits.jsp").forward(request,response);
     }
 

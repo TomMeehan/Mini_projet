@@ -16,11 +16,15 @@
     <body>
         <div id="productsTable"></div>
         <script id="productsTemplate" type="text/template">
-            
+            <div class="card">
+                <div class="card-body bg-light">
+                  <h1 class="display-4">{{titre}}</h1>
+                </div>
+              </div>
             <table class = "table">
-            <tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Disponible</th></tr>
+            <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Disponible</th></tr>
             {{#produits}}
-                <tr><td>{{reference}}</td><td>{{categorie.libelle}}</td><td>{{nom}}</td><td>{{dispo}}</td></tr>
+                <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{dispo}}</td></tr>
             {{/produits}}
             </table>
         </script>

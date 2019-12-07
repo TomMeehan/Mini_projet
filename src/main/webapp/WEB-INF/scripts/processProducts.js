@@ -21,12 +21,21 @@ var getUrlParameter = function getUrlParameter(sParam) {
 function drawProductTable() {
     $.ajax({
         url : "ProductsInJSON",
-        data : { "categorie" : getUrlParameter("categorie") },
+        data : { "cat" : getUrlParameter("cat") },
         dataType : "json",
         error : showError,
         success : 
                 function(result) {
-                    console.log(getUrlParameter("categorie"));
+                    
+                    result.titre = "Produits";
+                    
+                    result.cat = getUrlParameter("cat");
+                    
+                    if (result.cat) {
+                        console.log(result);
+                        result.titre = result.produits[0].categorie.libelle;
+                    }
+                    
                     result.produits.forEach( p => {
                         if (p.indisponible == 0)
                             p.dispo = "Oui";

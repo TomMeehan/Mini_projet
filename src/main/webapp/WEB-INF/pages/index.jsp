@@ -14,6 +14,12 @@
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
     </head>
     <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">Comptoirs</h1>
+              <p class="lead">Bienvenue sur le site comptoirs. Consultez tous nos produits et par catégories !</p>
+            </div>
+        </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>

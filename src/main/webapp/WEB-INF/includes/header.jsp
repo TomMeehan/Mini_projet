@@ -30,13 +30,14 @@
                     <div id ="dropDownCat" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
                     </div>
                 </li>
-                
+                <!-- TO REMOVE -->
                 <li class="nav-item">
                   <a class="nav-link" href="ProductsInJSON">Produits RAW</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="CategoriesInJSON">Categories RAW</a>
                 </li>
+                <!-- END OF TOREMOVE -->
               </ul>
               <form class="form-inline my-2 my-lg-0 ml-auto" action="/WEB-INF/pages/login.jsp">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
