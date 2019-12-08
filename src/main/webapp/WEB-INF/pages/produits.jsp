@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Produits</title>
+        <title>Products</title>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
     </head>
     <body>

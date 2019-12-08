@@ -9,15 +9,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login to your account</title>
+        <link rel="stylesheet" type="text/css" href ="css/login.css"/>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
     </head>
     <body>
-        <form action="<c:url value="/" />" method="POST"> <!-- l'action par défaut est l'URL courant, qui va rappeler la servlet -->
-                login (untel) : <input name='loginParam'><br>
-                password (ABCD): <input name='passwordParam' type='password'><br>
-                <input type='submit' name='action' value='login'>
-        </form>
-        <h1>Hello World!</h1>
+         <div class="wrapper">
+            <form class="form-signin" method="POST">       
+              <h2 class="form-signin-heading">Login</h2>
+              <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" />
+              <input type="password" class="form-control" name="password" placeholder="Password" required=""/>      
+              <button class="btn btn-lg btn-primary btn-block" type="submit" name="action" value="connect">Login</button>   
+            </form>
+         </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     </body>
 </html>

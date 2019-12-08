@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,13 +40,21 @@
                 </li>
                 <!-- END OF TOREMOVE -->
               </ul>
-              <form class="form-inline my-2 my-lg-0 ml-auto" action="login">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-              </form>
+                <c:if test="${empty sessionScope.userSession}">
+                    <form class="form-inline my-2 my-lg-0 ml-auto" action="login">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                    </form>
+                </c:if>
+                <c:if test="${!empty sessionScope.userSession}">
+                    <form class="form-inline my-2 my-lg-0 ml-auto" action="disconnect">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Disconnect</button>
+                    </form>
+                </c:if> 
             </div>
             
         </nav>
-    </body>
     <jsp:include page="bootstrap.jsp"/>
     <script><jsp:include page="/WEB-INF/scripts/header.js"/></script>
+    </body>
+    
 </html>
