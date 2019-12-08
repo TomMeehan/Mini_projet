@@ -20,7 +20,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 function drawProductTable() {
     $.ajax({
-        url : "ProductsInJSON",
+        url : "productsInJSON",
         data : { "cat" : getUrlParameter("cat") },
         dataType : "json",
         error : showError,

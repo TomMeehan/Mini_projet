@@ -7,13 +7,13 @@ function putCategories() {
     console.log("Insertion des catégories...");
     
     $.ajax({
-        url : "CategoriesInJSON",
+        url : "categoriesInJSON",
         dataType : "json",
         error : showError,
         success : 
                 function(result) {       
                     result.categories.forEach( c => {
-                        $('#dropDownCat').append('<a class="dropdown-item" href="Produits?cat=' + c.code + '">' + c.libelle + '</a>');
+                        $('#dropDownCat').append('<a class="dropdown-item" href="produits?cat=' + c.code + '">' + c.libelle + '</a>');
                     });
                 }
     });
