@@ -13,12 +13,8 @@
         <servlet-class>servlet.ProductsInJSON</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>sessionController</servlet-name>
-        <servlet-class>servlet.SessionController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>sessionListener</servlet-name>
-        <servlet-class>servlet.SessionListener</servlet-class>
+        <servlet-class>listeners.SessionListener</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>headerServlet</servlet-name>
@@ -51,10 +47,6 @@
     <servlet-mapping>
         <servlet-name>productsInJSON</servlet-name>
         <url-pattern>/productsInJSON</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>sessionController</servlet-name>
-        <url-pattern>/sessionController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>sessionListener</servlet-name>

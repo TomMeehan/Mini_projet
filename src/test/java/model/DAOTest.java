@@ -54,7 +54,7 @@ public class DAOTest {
     
     // TESTS ICI
     
-    @Test@Ignore
+    @Test
     public void getClientTest() throws Exception {
         Client c;
         String code = "ALFKI";
@@ -64,7 +64,7 @@ public class DAOTest {
         assertEquals("030-0074321",c.getTelephone());
     }
     
-    @Test@Ignore
+    @Test
     public void getCategoriesTest() throws SQLException {
         List<Categorie> listCat = new ArrayList<>();
         
@@ -74,7 +74,7 @@ public class DAOTest {
         assertEquals("Viandes", listCat.get(5).getLibelle());
     }
     
-    @Test@Ignore
+    @Test
     public void getProduitsTest() throws SQLException {
         List<Produit> listProd = new ArrayList<>();
         
@@ -84,7 +84,7 @@ public class DAOTest {
         assertEquals("Grandma's Boysenberry Spread", listProd.get(5).getNom());
     }
     
-    @Test(expected=Exception.class)@Ignore
+    @Test(expected=Exception.class)
     public void updateClientTestError() throws Exception {
         
         Client cBefore = dao.getClientInfos("ALFKI");
@@ -99,7 +99,7 @@ public class DAOTest {
    
     }
     
-    @Test@Ignore
+    @Test
     public void updateClientTestSuccess() throws Exception {
         
         Client cBefore = dao.getClientInfos("ALFKI");
@@ -113,7 +113,7 @@ public class DAOTest {
         
     }
     
-    @Test@Ignore
+    @Test
     public void getCommandeOfClientTest() throws Exception {
         
         Client c = dao.getClientInfos("ALFKI");
@@ -127,7 +127,7 @@ public class DAOTest {
         
     }
     
-    @Test@Ignore
+    @Test
     public void addCommandeTestError() throws SQLException {
         
         //TODO

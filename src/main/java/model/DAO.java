@@ -26,28 +26,29 @@ public class DAO {
 		this.myDataSource = dataSource;
 	}
         
-    public Client getClientInfos(String Code) throws SQLException, Exception{
-        ArrayList<String> AllInfos = new ArrayList();
+    public Client getClientInfos(String Code) throws SQLException{
         String sql = "SELECT * FROM Client WHERE Code = ?";
+        
+        ArrayList<String> AllInfos = new ArrayList();
         Client me = null;
+        
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql)) {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next())
                         me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postal"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));                      
-                    else
-                        throw new Exception("Utilisateur ou mot de passe incorrect.");
                }
         }
         return me;
     }
-    public boolean checkLogin(String log, String mdp) throws SQLException {
+    public boolean checkLogin(String username, String password) throws SQLException,Exception {
         String sql = "SELECT * FROM Client WHERE CONTACT = ? AND Code = ?";
+        
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql)) {
-               stmt.setString(1, log);
-               stmt.setString(2, mdp);
+               stmt.setString(1, username);
+               stmt.setString(2, password);
                try (ResultSet rs = stmt.executeQuery()) {
                     return rs.next();
                }

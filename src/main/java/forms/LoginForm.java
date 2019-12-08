@@ -65,13 +65,11 @@ public final class LoginForm {
     }
     
     private void validateCredentials(String username, String password) throws Exception {
-        
-        Client client = dao.getClientInfos(password);
-        if (client == null){
-            throw new Exception("Ce mot de passe ne correspond à aucun utilisateur");
-        }else if (!client.getContact().equals(username)){
-            throw new Exception("Utilisateur introuvable");
-        }
+        Client client = null;
+        if (dao.checkLogin(username, password))
+            client = dao.getClientInfos(password);
+        else
+            throw new Exception("Utilisateur ou mot de passe incorrect.");
         
     }
 

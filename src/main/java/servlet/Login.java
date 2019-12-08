@@ -77,14 +77,13 @@ public class Login extends HttpServlet {
             session.invalidate();
             showView("login.jsp",request,response);
         }
-        
-       
-        
-        
-            
-        
-        
 
+
+    }
+    
+    private String findUserInSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return (session == null) ? null : (String) session.getAttribute("username");
     }
 
 
