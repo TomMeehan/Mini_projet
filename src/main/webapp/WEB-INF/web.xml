@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>servlet.DatabaseInitializer</listener-class>
+        <listener-class>listeners.DatabaseInitializer</listener-class>
     </listener>
     <servlet>
         <servlet-name>home</servlet-name>
@@ -40,6 +40,10 @@
         <servlet-name>disconnect</servlet-name>
         <servlet-class>servlet.Disconnect</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>profil</servlet-name>
+        <servlet-class>servlet.Profil</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -75,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>disconnect</servlet-name>
         <url-pattern>/disconnect</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>profil</servlet-name>
+        <url-pattern>/profil</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

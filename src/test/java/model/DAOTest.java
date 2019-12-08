@@ -35,9 +35,9 @@ public class DAOTest {
         myDataSource = getDataSource();
         myConnection = myDataSource.getConnection();
         // On crée le schema de la base de test
-        executeSQLScript(myConnection, "../servlet/comptoirs_schema_derby.sql");
+        executeSQLScript(myConnection, "../listeners/comptoirs_schema_derby.sql");
         // On y met des données
-        executeSQLScript(myConnection, "../servlet/comptoirs_data.sql");		
+        executeSQLScript(myConnection, "../listeners/comptoirs_data.sql");		
 
         dao = new DAO(myDataSource);
     }
@@ -55,7 +55,7 @@ public class DAOTest {
     // TESTS ICI
     
     @Test@Ignore
-    public void getClientTest() throws SQLException {
+    public void getClientTest() throws Exception {
         Client c;
         String code = "ALFKI";
         
@@ -84,8 +84,8 @@ public class DAOTest {
         assertEquals("Grandma's Boysenberry Spread", listProd.get(5).getNom());
     }
     
-    @Test(expected=SQLException.class)@Ignore
-    public void updateClientTestError() throws SQLException {
+    @Test(expected=Exception.class)@Ignore
+    public void updateClientTestError() throws Exception {
         
         Client cBefore = dao.getClientInfos("ALFKI");
         
@@ -100,7 +100,7 @@ public class DAOTest {
     }
     
     @Test@Ignore
-    public void updateClientTestSuccess() throws SQLException {
+    public void updateClientTestSuccess() throws Exception {
         
         Client cBefore = dao.getClientInfos("ALFKI");
         
@@ -114,7 +114,7 @@ public class DAOTest {
     }
     
     @Test@Ignore
-    public void getCommandeOfClientTest() throws SQLException {
+    public void getCommandeOfClientTest() throws Exception {
         
         Client c = dao.getClientInfos("ALFKI");
         

@@ -41,9 +41,9 @@ public final class LoginForm {
         }
         
         if(errors.isEmpty())
-            result = "Successs";
+            result = "Success";
         else
-            result = "Failure";
+            result = errors.get(FIELD_USERNAME + FIELD_PASSWORD);
         
         user.setUsername(username);
         user.setPassword(password);

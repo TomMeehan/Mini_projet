@@ -26,7 +26,7 @@ public class DAO {
 		this.myDataSource = dataSource;
 	}
         
-    public Client getClientInfos(String Code) throws SQLException{
+    public Client getClientInfos(String Code) throws SQLException, Exception{
         ArrayList<String> AllInfos = new ArrayList();
         String sql = "SELECT * FROM Client WHERE Code = ?";
         Client me = null;
@@ -34,9 +34,10 @@ public class DAO {
             PreparedStatement stmt = connection.prepareStatement(sql)) {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
-                       rs.next();
-                       me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postal"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));
-                       
+                    if (rs.next())
+                        me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postal"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));                      
+                    else
+                        throw new Exception("Utilisateur ou mot de passe incorrect.");
                }
         }
         return me;

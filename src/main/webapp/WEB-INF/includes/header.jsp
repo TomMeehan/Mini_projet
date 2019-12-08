@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="css/header.css"
     </head>
     <body>
 
@@ -40,17 +41,27 @@
                 </li>
                 <!-- END OF TOREMOVE -->
               </ul>
-                <c:if test="${empty sessionScope.userSession}">
-                    <form class="form-inline my-2 my-lg-0 ml-auto" action="login">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-                    </form>
-                </c:if>
-                <c:if test="${!empty sessionScope.userSession}">
-                    <form class="form-inline my-2 my-lg-0 ml-auto" action="disconnect">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Disconnect</button>
-                    </form>
-                </c:if> 
-            </div>
+                
+            <c:if test="${empty sessionScope.userSession}">
+                <form class="form-inline my-2 my-lg-0 ml-auto" action="login">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                </form>
+            </c:if>
+            <c:if test="${!empty sessionScope.userSession}">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown my-2 my-lg-0 ml-auto">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="images/profil_image.png" width="30" height="30"/>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                      <a href="profil" class="dropdown-item">Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="disconnect" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+                </ul>
+            </c:if> 
+            
             
         </nav>
     <jsp:include page="bootstrap.jsp"/>
