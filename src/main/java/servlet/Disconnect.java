@@ -34,7 +34,7 @@ public class Disconnect extends HttpServlet {
         
         HttpSession session = request.getSession();
         session.invalidate();
-        request.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(request,response);
+        response.sendRedirect("login");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
