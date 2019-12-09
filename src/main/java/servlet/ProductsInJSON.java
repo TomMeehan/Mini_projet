@@ -44,7 +44,7 @@ public class ProductsInJSON extends HttpServlet {
         Properties result = new Properties();
         
         try {
-            String categorie=request.getParameter("categorie");
+            String categorie=request.getParameter("cat");
             
             if (categorie == null)
                 result.put("produits", dao.getProduits());

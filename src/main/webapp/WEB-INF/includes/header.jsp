@@ -32,12 +32,18 @@
                     <div id ="dropDownCat" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
                     </div>
                 </li>
-                <!-- TO REMOVE -->
+                <!-- TO REMOVE -->          
                 <li class="nav-item">
                   <a class="nav-link" href="productsInJSON">Produits RAW</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="categoriesInJSON">Categories RAW</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="sessionInJSON">Session RAW</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="clientInJSON">Client RAW</a>
                 </li>
                 <!-- END OF TOREMOVE -->
               </ul>
@@ -65,6 +71,8 @@
             
         </nav>
     <jsp:include page="bootstrap.jsp"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     <script><jsp:include page="/WEB-INF/scripts/header.js"/></script>
     </body>
     

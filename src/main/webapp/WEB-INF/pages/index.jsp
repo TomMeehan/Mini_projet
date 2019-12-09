@@ -20,9 +20,6 @@
               <p class="lead">Bienvenue sur le site comptoirs. Consultez tous nos produits et par catégories !</p>
             </div>
         </div>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     </body>
     
 </html>

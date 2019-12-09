@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log("ready");
     drawProductTable();
 });
 
@@ -32,7 +31,6 @@ function drawProductTable() {
                     result.cat = getUrlParameter("cat");
                     
                     if (result.cat) {
-                        console.log(result);
                         result.titre = result.produits[0].categorie.libelle;
                     }
                     

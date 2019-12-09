@@ -40,6 +40,14 @@
         <servlet-name>profil</servlet-name>
         <servlet-class>servlet.Profil</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sessionInJSON</servlet-name>
+        <servlet-class>servlet.SessionInJSON</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>clientInJSON</servlet-name>
+        <servlet-class>servlet.ClientInJSON</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -76,10 +84,16 @@
         <servlet-name>profil</servlet-name>
         <url-pattern>/profil</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sessionInJSON</servlet-name>
+        <url-pattern>/sessionInJSON</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>clientInJSON</servlet-name>
+        <url-pattern>/clientInJSON</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>
-            1
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>home</welcome-file>

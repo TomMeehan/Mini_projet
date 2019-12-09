@@ -12,7 +12,7 @@ function putCategories() {
         error : showError,
         success : 
                 function(result) {       
-                    result.categories.forEach( c => {
+                    result.cat.forEach( c => {
                         $('#dropDownCat').append('<a class="dropdown-item" href="produits?cat=' + c.code + '">' + c.libelle + '</a>');
                     });
                 }

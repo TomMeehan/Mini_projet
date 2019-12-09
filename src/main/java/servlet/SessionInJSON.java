@@ -5,25 +5,22 @@
  */
 package servlet;
 
+import beans.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DAO;
-import model.DataSourceFactory;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Tom
+ * @author Tom THIS IS A DEV FOCUSED SERVLET ONLY
  */
-public class CategoriesInJSON extends HttpServlet {
+public class SessionInJSON extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +34,12 @@ public class CategoriesInJSON extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-          DAO dao = new DAO(DataSourceFactory.getDataSource());
         
-        Properties result = new Properties();
-        
-        try {
-            result.put("cat", dao.getCategories());
-            
-        } catch (SQLException ex) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            result.put("cat", Collections.EMPTY_LIST);
-            result.put("message", ex.getMessage());
-        }
+        HttpSession session = request.getSession(false);
         try (PrintWriter out = response.getWriter()){
             response.setContentType("application/json;charset=UTF-8");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(result);
+            String gsonData = gson.toJson(session);
             out.println(gsonData);
         }
     }

@@ -5,17 +5,23 @@
  */
 package servlet;
 
+import beans.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Client;
 import model.DAO;
 import model.DataSourceFactory;
 
@@ -23,7 +29,7 @@ import model.DataSourceFactory;
  *
  * @author Tom
  */
-public class CategoriesInJSON extends HttpServlet {
+public class ClientInJSON extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +42,27 @@ public class CategoriesInJSON extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-          DAO dao = new DAO(DataSourceFactory.getDataSource());
         
-        Properties result = new Properties();
+        response.setContentType("text/html;charset=UTF-8");
+        
+        HttpSession session = request.getSession();    
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+        String pass = null;
+        Client client = null;
         
         try {
-            result.put("cat", dao.getCategories());
+            if(session.getAttribute("userSession") != null) 
+                pass = ((User)session.getAttribute("userSession")).getPassword();
             
-        } catch (SQLException ex) {
+            client = dao.getClientInfos(pass);
+            
+        } catch (Exception ex) {   
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            result.put("cat", Collections.EMPTY_LIST);
-            result.put("message", ex.getMessage());
         }
         try (PrintWriter out = response.getWriter()){
             response.setContentType("application/json;charset=UTF-8");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(result);
+            String gsonData = gson.toJson(client);
             out.println(gsonData);
         }
     }

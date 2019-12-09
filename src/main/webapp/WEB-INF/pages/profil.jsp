@@ -18,7 +18,12 @@
         <c:if test="${not empty sessionScope.userSession}">
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
         </c:if>
-    <script src=>"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+            
+        <div id ="clientInfos"></div>
+        
+        <script id="clientTemplate" type="text/template">
+            <p>VOTRE ADRESSE : {{adresse}}</p>
+        </script>
+     <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
     </body>
 </html>
