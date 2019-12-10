@@ -25,7 +25,7 @@ public final class LoginForm {
     private DAO dao = new DAO(DataSourceFactory.getDataSource());
     
     private String result;
-    private Map<String, String> errors = new HashMap<String,String>();
+    private Map<String, String> errors = new HashMap<>();
     
     public User connectUser ( HttpServletRequest request ) {
         
