@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <jsp:include page="/WEB-INF/includes/head.jsp"/>
         <title>Page client</title>
+        <link rel="stylesheet" type="text/css" href ="css/profil.css"/>
         
     </head>
     <body>
@@ -20,7 +21,8 @@
         <div id ="clientInfos"></div>
         
         <script id="clientTemplate" type="text/template">
-            <table class="table table-bordered">
+            <div class="container">
+            <table class="table table-bordered" >
                 <tbody>
                     <tr>
                       <th scope="row" class="bg-dark text-light">Nom</th>
@@ -28,11 +30,11 @@
                     </tr>
                     <tr>
                       <th scope="row" class="bg-dark text-light">Societe</th>
-                      <td>{{contact}}</td>
+                      <td>{{societe}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Societe</th>
-                      <td>{{contact}}</td>
+                      <th scope="row" class="bg-dark text-light">Fonction</th>
+                      <td>{{fonction}}</td>
                     </tr>
                     <tr>
                       <th scope="row" class="bg-dark text-light">Societe</th>
@@ -40,6 +42,10 @@
                     </tr>
                 </tbody>
             </table>
+            <form class="form-inline my-2 my-lg-0 ml-auto" action="toEditProfile">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Modifier</button>
+            </form>
+    <div >
         </script>
      <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
     </body>
