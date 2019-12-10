@@ -12,16 +12,31 @@
         
     </head>
     <body>
-        <jsp:include page="/WEB-INF/includes/header.jsp"/>  
-        <form>
-            <div class="form-group">
-              <label for="Nom"></label>
-              <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-            </div>
-            <div class="form-group">
-              <label for="formGroupExampleInput2">Another label</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-            </div>
-         </form>
+        <jsp:include page="/WEB-INF/includes/header.jsp"/> 
+        <div id ="clientInfosEdit"></div>
+        <script id="clientTemplateEdit" type="text/template">
+            <div class="container">
+            <table class="table table-bordered" >
+                <tbody>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Nom</th>
+                      <td><input type="text" class="form-control" placeholder="Votre nom" value='{{contact}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <td><input type="text" class="form-control" placeholder="Votre societe" value='{{societe}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Fonction</th>
+                      <td><input type="text" class="form-control" placeholder="Votre societe" value='{{fonction}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <td><input type="text" class="form-control" placeholder="Votre societe" value='{{fonction}}'></td>
+                    </tr>
+                </tbody>
+            </table>
+        </script>
+        <script><jsp:include page="/WEB-INF/scripts/editClientInfo.js"/></script>
     </body>
 </html>
