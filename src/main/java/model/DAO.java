@@ -283,7 +283,7 @@ public class DAO {
                         }
                     }
                     
-                    }
+                }
                 connection.commit();
                 } catch (SQLException ex){
                 connection.rollback();
