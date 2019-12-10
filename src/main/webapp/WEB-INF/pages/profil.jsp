@@ -12,27 +12,34 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
-        <p>${form.result}</p>
+        
         <c:if test="${not empty sessionScope.userSession}">
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
         </c:if>
-            <style>
-                .row.vdivide [class*='col-']:not(:last-child):after {
-                background: #e0e0e0;
-                width: 1px;
-                content: "";
-                display:block;
-                position: absolute;
-                top:0;
-                bottom: 0;
-                right: 0;
-                min-height: 25px;
-                }
-            </style>
+            
         <div id ="clientInfos"></div>
         
         <script id="clientTemplate" type="text/template">
-           Nom : {{contact}}
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Nom</th>
+                      <td>{{contact}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <td>{{contact}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <td>{{contact}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <td>{{contact}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </script>
      <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
     </body>
