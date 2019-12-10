@@ -16,32 +16,23 @@
         <c:if test="${not empty sessionScope.userSession}">
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
         </c:if>
-            
+            <style>
+                .row.vdivide [class*='col-']:not(:last-child):after {
+                background: #e0e0e0;
+                width: 1px;
+                content: "";
+                display:block;
+                position: absolute;
+                top:0;
+                bottom: 0;
+                right: 0;
+                min-height: 25px;
+                }
+            </style>
         <div id ="clientInfos"></div>
         
         <script id="clientTemplate" type="text/template">
-            <div class="container">
-                <div class="row">
-                  <div class="col">
-                    <ul class="list-group">
-                        <li class="list-group-item active">Nom :</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item active">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item active">Vestibulum at eros</li>
-                    </ul>
-                  </div>
-                  <div class="col">
-                    <ul class="list-group">
-                        <li class="list-group-item active">{{contact}}</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item active">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item active">Vestibulum at eros</li>
-                    </ul>
-                  </div>
-                </div>
-            </div>
+           Nom : {{contact}}
         </script>
             <jsp:include page="/WEB-INF/includes/footer.jsp"/>
      <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
