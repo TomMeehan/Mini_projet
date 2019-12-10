@@ -6,14 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <jsp:include page="/WEB-INF/includes/head.jsp"/>
         <title>Page client</title>
-        <jsp:include page="/WEB-INF/includes/header.jsp"/>
+        
     </head>
     <body>
+        <jsp:include page="/WEB-INF/includes/header.jsp"/>
         <p>${form.result}</p>
         <c:if test="${not empty sessionScope.userSession}">
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
@@ -35,16 +33,17 @@
                   </div>
                   <div class="col">
                     <ul class="list-group">
-                        <li class="list-group-item">{{contact}}</li>
+                        <li class="list-group-item active">{{contact}}</li>
                         <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item active">Morbi leo risus</li>
                         <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
+                        <li class="list-group-item active">Vestibulum at eros</li>
                     </ul>
                   </div>
                 </div>
             </div>
         </script>
+            <jsp:include page="/WEB-INF/includes/footer.jsp"/>
      <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
     </body>
 </html>

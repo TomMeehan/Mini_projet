@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <style>
             .navbar {
-               height: 70px;
+               min-height: 70px;
             }
         </style>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

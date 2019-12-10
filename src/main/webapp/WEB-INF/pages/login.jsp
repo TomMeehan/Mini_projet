@@ -6,15 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <jsp:include page="/WEB-INF/includes/head.jsp"/>
         <title>Login to your account</title>
         <link rel="stylesheet" type="text/css" href ="css/login.css"/>
-        <jsp:include page="/WEB-INF/includes/header.jsp"/>
+        
     </head>
     <body>
+        <jsp:include page="/WEB-INF/includes/header.jsp"/>
          <div class="wrapper">
             <form class="form-signin" method="POST">       
                 <h2 class="form-signin-heading">Login</h2>
@@ -28,6 +26,6 @@
                 </c:if>
             </form>
          </div>
-    
+        <jsp:include page="/WEB-INF/includes/footer.jsp"/>
      </body>
 </html>

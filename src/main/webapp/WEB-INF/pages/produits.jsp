@@ -6,14 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <jsp:include page="/WEB-INF/includes/head.jsp"/>
         <title>Products</title>
-        <jsp:include page="/WEB-INF/includes/header.jsp"/>
+        
     </head>
     <body>
+        <jsp:include page="/WEB-INF/includes/header.jsp"/>
         <div id="productsTable"></div>
         <script id="productsTemplate" type="text/template">
             <div class="card">
@@ -28,7 +26,7 @@
             {{/produits}}
             </table>
         </script>
-        
+            <jsp:include page="/WEB-INF/includes/footer.jsp"/>
     <script><jsp:include page="/WEB-INF/scripts/processProducts.js"/></script>
     </body>
     
