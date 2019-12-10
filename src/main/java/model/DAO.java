@@ -236,6 +236,8 @@ public class DAO {
     
     String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
     
+    String sql3 = "UPDATE";
+    
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
             connection.setAutoCommit(false);
