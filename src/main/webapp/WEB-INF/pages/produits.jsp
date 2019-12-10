@@ -26,8 +26,6 @@
             {{/produits}}
             </table>
         </script>
-            <jsp:include page="/WEB-INF/includes/footer.jsp"/>
     <script><jsp:include page="/WEB-INF/scripts/processProducts.js"/></script>
     </body>
-    
 </html>

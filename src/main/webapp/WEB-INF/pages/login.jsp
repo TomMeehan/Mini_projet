@@ -26,6 +26,5 @@
                 </c:if>
             </form>
          </div>
-        <jsp:include page="/WEB-INF/includes/footer.jsp"/>
      </body>
 </html>

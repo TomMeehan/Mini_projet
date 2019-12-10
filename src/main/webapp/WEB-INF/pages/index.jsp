@@ -9,17 +9,16 @@
     <jsp:include page="/WEB-INF/includes/head.jsp"/>
     
         <title>Home</title>
-    <jsp:include page="/WEB-INF/includes/header.jsp"/>    
+       
     </head>
     <body>
-        
+        <jsp:include page="/WEB-INF/includes/header.jsp"/>       
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
               <h1 class="display-4">Comptoirs</h1>
               <p class="lead">Bienvenue sur le site comptoirs. Consultez tous nos produits et par catégories !</p>
             </div>
         </div>
-        
     </body>
     
 </html>
