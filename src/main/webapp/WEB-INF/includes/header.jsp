@@ -6,11 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <jsp:include page="/WEB-INF/includes/head.jsp"/>
-    
-        <title>Header</title>  
-    </head>
-    <body>
         <style>
             .navbar {
                min-height: 70px;
@@ -71,8 +66,5 @@
             
             
         </nav>
-    <jsp:include page="/WEB-INF/includes/footer.jsp"/>
     <script><jsp:include page="/WEB-INF/scripts/header.js"/></script>
-    </body>
-</html>
 

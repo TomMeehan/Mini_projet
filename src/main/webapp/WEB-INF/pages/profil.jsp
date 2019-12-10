@@ -34,7 +34,6 @@
         <script id="clientTemplate" type="text/template">
            Nom : {{contact}}
         </script>
-            <jsp:include page="/WEB-INF/includes/footer.jsp"/>
      <script><jsp:include page="/WEB-INF/scripts/processClientInfo.js"/></script>
     </body>
 </html>
