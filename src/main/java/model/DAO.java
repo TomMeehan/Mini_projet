@@ -236,7 +236,7 @@ public class DAO {
     
     String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
     
-    String sql3 = "UPDATE";
+    String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock + ?, Unites_Commandees = Unites_en_stock - ? WHERE Reference = ?";
     
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
@@ -262,18 +262,32 @@ public class DAO {
                 int numLigne=generatedKeys.getInt("Numero");
                 //Logger.getLogger("DAO").log(Level.INFO, "Nouvelle clé générée pour INVOICE : {0}", NumLigne);
                 try (PreparedStatement ligStmt = connection.prepareStatement(sql2)) {
-                    for (int produit = 0; produit < produitID.length; produit++){
+                    try (PreparedStatement transa = connection.prepareStatement(sql3)){
+                        
+                        for (int produit = 0; produit < produitID.length; produit++){
                         ligStmt.clearParameters();
                         ligStmt.setInt(1, numLigne);
                         ligStmt.setInt(2, produitID[produit]);
                         ligStmt.setInt(3, quantite[produit]);
 
                         int n = ligStmt.executeUpdate();
+                        
+                        transa.setInt(1,quantite[produit]);
+                        transa.setInt(2,quantite[produit]);
+                        transa.setInt(3,produitID[produit]);
+                        
+                        int updtTransa = transa.executeUpdate();
+                        if (updtTransa == 0){
+                            throw new SQLException("Quantité demandée supérieure au stock");
+                        }
                         }
                     }
+                    
+                    }
                 connection.commit();
-                } catch (Exception ex){
+                } catch (SQLException ex){
                 connection.rollback();
+                
                     } finally {
                 connection.setAutoCommit(true);
                     }
