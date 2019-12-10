@@ -28,11 +28,35 @@
                     </tr>
                     <tr>
                       <th scope="row" class="bg-dark text-light">Fonction</th>
-                      <td><input type="text" class="form-control" placeholder="Votre societe" value='{{fonction}}'></td>
+                      <td><input type="text" class="form-control" placeholder="Votre fonction" value='{{fonction}}'></td>
                     </tr>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Societe</th>
-                      <td><input type="text" class="form-control" placeholder="Votre societe" value='{{fonction}}'></td>
+                      <th scope="row" class="bg-dark text-light">Adresse</th>
+                      <td><input type="text" class="form-control" placeholder="Votre adresse" value='{{adresse}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Code postal</th>
+                      <td><input type="text" class="form-control" placeholder="Votre code postal" value='{{code_postal}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Ville</th>
+                      <td><input type="text" class="form-control" placeholder="Votre ville" value='{{ville}}'></td>
+                    </tr>
+                     <tr>
+                      <th scope="row" class="bg-dark text-light">Pays</th>
+                      <td><input type="text" class="form-control" placeholder="Votre pays" value='{{pays}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Région</th>
+                      <td><input type="text" class="form-control" placeholder="Votre région" value='{{#region}}{{region}}{{/region}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">Tel.</th>
+                      <td><input type="text" class="form-control" placeholder="Votre telephone" value='{{telephone}}'></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="bg-dark text-light">FAX</th>
+                      <td><input type="text" class="form-control" placeholder="Votre fax" value='{{telephone}}'></td>
                     </tr>
                 </tbody>
             </table>
