@@ -15,6 +15,7 @@
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
         
         <c:if test="${not empty sessionScope.userSession}">
+            
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
         </c:if>
             
