@@ -55,6 +55,7 @@ public class ClientInJSON extends HttpServlet {
                 pass = ((User)session.getAttribute("userSession")).getPassword();
             
             client = dao.getClientInfos(pass);
+            client.setCode("HIDDEN");
             
         } catch (Exception ex) {   
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
