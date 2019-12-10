@@ -25,21 +25,34 @@
             <table class="table table-bordered" >
                 <tbody>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Nom</th>
+                      <th scope="row" class="text-light">Nom</th>
                       <td>{{contact}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Societe</th>
+                      <th scope="row" class="text-light">Societe</th>
                       <td>{{societe}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Fonction</th>
+                      <th scope="row" class="text-light">Fonction</th>
                       <td>{{fonction}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="bg-dark text-light">Societe</th>
-                      <td>{{contact}}</td>
+                      <th scope="row" class="text-light">Adresse</th>
+                      <table>
+                        <tr></tr>
+                      </table>
+                      <td>{{adresse}}, {{code_postal}} {{ville}}, {{pays}}</td>
                     </tr>
+                    <tr>
+                      <th scope="row" class="text-light">Telephone</th>
+                      <td>{{telephone}}</td>
+                    </tr>
+                    {{#telephone}}
+                    <tr>
+                      <th scope="row" class="text-light">Fax</th>
+                      <td>{{telephone}}</td>
+                    </tr>
+                    {{/telephone}}
                 </tbody>
             </table>
             <form class="form-inline my-2 my-lg-0 ml-auto" action="toEditProfile">
