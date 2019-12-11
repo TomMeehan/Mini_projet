@@ -48,13 +48,42 @@ function drawProductTable() {
     });
 }
 
-function addProduitToPanier(reference) {
+function addProduitToPanier(reference, prix_unitaire) {
     
-    $.get("addProduit",{ ref : reference , qte : $('#quantite'.concat(reference).val).val()},
+    $.get("addProduit",{ reference : reference , prix_unitaire : prix_unitaire, qte : $('#quantite'.concat(reference).val).val()},
                 function(responseText) {
                     console.log(responseText);
                 }
     );
+    
+    $.ajax({
+        url : "addProduit",
+        data : { "cat" : getUrlParameter("cat") },
+        dataType : "json",
+        error : showError,
+        success : 
+                function(result) {
+                    
+                    result.titre = "Produits";
+                    
+                    result.cat = getUrlParameter("cat");
+                    
+                    if (result.cat) {
+                        result.titre = result.produits[0].categorie.libelle;
+                    }
+                    
+                    result.produits.forEach( p => {
+                        if (p.indisponible == 0)
+                            p.dispo = "Oui";
+                        else
+                            p.dispo = "Non";
+                    });
+                    
+                    var template = $('#productsTemplate').html();
+                    var processedTemplate = Mustache.to_html(template,result);
+                    $('#productsTable').html(processedTemplate);
+                }
+    });
 }
 
 

@@ -20,7 +20,7 @@
                     <div class="card-body bg-light">
                       <h1 class="display-4">{{titre}}</h1>
                     </div>
-                  </div>
+                  </div>              
                     <table class = "table">
                     <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th></tr>
                     {{#produits}}
@@ -30,7 +30,14 @@
                                         <input class="form-control" id="quantite{{reference}}" type="number" value="1" min="0" max="10">
                                     </div>
                                 </td>
-                                <td><button type="button" onClick="addProduitToPanier('{{reference}}')" class="btn btn-secondary">Ajouter</button></td>
+                                <td>
+                                <form action="addProduit">
+                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
+                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
+                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
+                                    <button type="submit" class="btn btn-secondary">Ajouter</button>
+                                </form>
+                                </td>
                         </tr>
                     {{/produits}}
                     </table>

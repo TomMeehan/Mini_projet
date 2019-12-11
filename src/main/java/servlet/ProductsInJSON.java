@@ -49,7 +49,8 @@ public class ProductsInJSON extends HttpServlet {
             if (categorie == null)
                 result.put("produits", dao.getProduits());
             else{
-                result.put("produits", dao.getProduitFromCategorie(categorie));
+                int categorieInt = Integer.valueOf(categorie);
+                result.put("produits", dao.getProduitFromCategorie(categorieInt));
             }
             
         } catch (SQLException ex) {
