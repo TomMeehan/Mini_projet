@@ -15,7 +15,7 @@ import model.Produit;
  */
 public class Panier {
     
-    private Map<Produit,Integer> produits;
+    private Map<ProduitPanier,Integer> produits;
     private int nbTotalProduits;
     private float prixTotal;
 
@@ -25,13 +25,13 @@ public class Panier {
         prixTotal = 0;
     }
     
-    public Panier(Map<Produit, Integer> produits, int nbTotalProduits, float prixTotal) {
+    public Panier(Map<ProduitPanier, Integer> produits, int nbTotalProduits, float prixTotal) {
         this.produits = produits;
         this.nbTotalProduits = nbTotalProduits;
         this.prixTotal = prixTotal;
     }
     
-    public void addProduit(Produit p, int quantite){
+    public void addProduit(ProduitPanier p, int quantite){
         
         if (produits.containsKey(p)){
             produits.put(p,produits.get(p) + quantite);
@@ -43,7 +43,7 @@ public class Panier {
         prixTotal += p.getPrix_unitaire() * quantite;
     }
     
-    public void removeProduit(Produit p, int quantite){
+    public void removeProduit(ProduitPanier p, int quantite){
         
         if (produits.containsKey(p)){
             if (produits.get(p) - quantite <= 0){
@@ -55,11 +55,11 @@ public class Panier {
     }
     
 
-    public Map<Produit, Integer> getProduits() {
+    public Map<ProduitPanier, Integer> getProduits() {
         return produits;
     }
 
-    public void setProduits(Map<Produit, Integer> produits) {
+    public void setProduits(Map<ProduitPanier, Integer> produits) {
         this.produits = produits;
     }
 

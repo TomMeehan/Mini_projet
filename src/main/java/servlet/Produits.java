@@ -33,7 +33,6 @@ public class Produits extends HttpServlet {
         String param = request.getParameter("cat");
         if (param != null)
             request.setAttribute("cat", param);
-        
         request.getRequestDispatcher("WEB-INF/pages/produits.jsp").forward(request,response);
     }
 
