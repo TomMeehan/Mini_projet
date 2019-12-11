@@ -48,6 +48,17 @@ function drawProductTable() {
     });
 }
 
+function addProduitToPanier(reference) {
+    
+    $.get("addProduit",{ ref : reference , qte : $('#quantite'.concat(reference).val).val()},
+                function(responseText) {
+                    console.log(responseText);
+                }
+    );
+}
+
+
+
 function showError(xhr, status, message) {
     console.log(xhr.responseText);
     //alert(JSON.parse(xhr.responseText).message);

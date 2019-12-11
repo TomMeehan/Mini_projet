@@ -5,28 +5,19 @@
  */
 package servlet;
 
-import beans.User;
-import forms.LoginForm;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Produit;
 
 /**
  *
  * @author Tom
  */
-public class Login extends HttpServlet {
-    
-    public static final String ATT_USER = "user";
-    public static final String ATT_FORM = "form";
-    public static final String ATT_USER_SESSION = "userSession";
-    public static final String ATT_PANIER = "panier";
-    
+public class AddProduit extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,58 +30,10 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
-
-        if (actionIs(request, "connect")) {
-            newSession(request, response);
-        // On gère les cas ou la session s'est terminée pour cause de timeout
-        // cf. web.xml
-        /*} else 	if (actionIs(request, "Rejouer")  && (null != request.getSession(false))) {
-                playNewGame(request, response);
-        } else if (actionIs(request, "Deviner")   && (null != request.getSession(false))) {
-                guessNumber(request, response);
-        */} else {
-                showView("login.jsp", request, response);
-        }
-    }
-    
-    private boolean actionIs(HttpServletRequest request, String action) {
-        return action.equals(request.getParameter("action"));
-    }
-    
-    private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/pages/" + jsp).forward(request, response);
-    }
-    
-    private void newSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        LoginForm form = new LoginForm();
-        User user = form.connectUser(request);
-        HttpSession session = request.getSession();
-        Panier panier = new Panier();
-        
-        request.setAttribute(ATT_FORM, form);
-        request.setAttribute(ATT_USER, user);
-        
-        if (form.getErrors().isEmpty()){
-            session.setAttribute(ATT_USER_SESSION, user);
-            session.setAttribute(ATT_PANIER, panier);
-            response.sendRedirect("home");
-        }
-        else{
-            session.invalidate();
-            showView("login.jsp",request,response);
-        }
-
-
+       
     }
-    
-    private String findUserInSession(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        return (session == null) ? null : (String) session.getAttribute("username");
-    }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

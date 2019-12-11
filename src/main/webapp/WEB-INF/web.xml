@@ -56,6 +56,14 @@
         <servlet-name>updateClient</servlet-name>
         <servlet-class>servlet.UpdateClient</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>panier</servlet-name>
+        <servlet-class>servlet.Panier</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addProduit</servlet-name>
+        <servlet-class>servlet.AddProduit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -107,6 +115,14 @@
     <servlet-mapping>
         <servlet-name>updateClient</servlet-name>
         <url-pattern>/updateClient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>panier</servlet-name>
+        <url-pattern>/panier</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addProduit</servlet-name>
+        <url-pattern>/addProduit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

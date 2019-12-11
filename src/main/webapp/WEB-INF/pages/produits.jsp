@@ -21,12 +21,19 @@
                       <h1 class="display-4">{{titre}}</h1>
                     </div>
                   </div>
-                <table class = "table">
-                <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th></tr>
-                {{#produits}}
-                    <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td><td><button type="button" class="btn btn-secondary">Ajouter</button></td></tr>
-                {{/produits}}
-                </table>
+                    <table class = "table">
+                    <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th></tr>
+                    {{#produits}}
+                        <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control" id="quantite{{reference}}" type="number" value="1" min="0" max="10">
+                                    </div>
+                                </td>
+                                <td><button type="button" onClick="addProduitToPanier('{{reference}}')" class="btn btn-secondary">Ajouter</button></td>
+                        </tr>
+                    {{/produits}}
+                    </table>
             </script>                
             </c:when>
             <c:otherwise>
