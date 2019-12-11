@@ -57,6 +57,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                       <a href="profil" class="dropdown-item">Profile</a>
+                      <a href="panier" class="dropdown-item">Mon panier</a>
                       <div class="dropdown-divider"></div>
                       <a href="disconnect" class="dropdown-item">Logout</a>
                     </div>
