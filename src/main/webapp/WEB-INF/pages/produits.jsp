@@ -20,27 +20,26 @@
                     <div class="card-body bg-light">
                       <h1 class="display-4">{{titre}}</h1>
                     </div>
-                  </div>              
+                  </div>                   
                     <table class = "table">
                     <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th></tr>
                     {{#produits}}
                         <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
                                 <td>
-                                    <div class="form-group">
-                                        <input class="form-control" id="quantite{{reference}}" type="number" value="1" min="0" max="10">
+                                <form class="productData">
+                                    <div class="input-group">
+                                        <input class="form-control" id="quantite" name="quantite" type="number" value="1" min="0" max="10">
+                                        <input id="reference" name="reference" type="hidden" value="{{reference}}">
+                                        <input id="categorie" name="categorie" type="hidden" value="{{categorie.libelle}}">
+                                        <input id="nom" name="nom" type="hidden" value="{{nom}}">
+                                        <input id="prix_unitaire" name="prix_unitaire" type="hidden" value="{{prix_unitaire}}">
+                                        <button type="sumbit" class="btn btn-secondary form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Produit ajouté au panier" >Ajouter</button>
                                     </div>
-                                </td>
-                                <td>
-                                <form action="addProduit">
-                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
-                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
-                                    <input id="reference" name="reference" type="hidden" value="'{{reference}}'">
-                                    <button type="submit" class="btn btn-secondary">Ajouter</button>
                                 </form>
                                 </td>
                         </tr>
                     {{/produits}}
-                    </table>
+                    </table>                   
             </script>                
             </c:when>
             <c:otherwise>

@@ -32,7 +32,8 @@ public class Produits extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String param = request.getParameter("cat");
         if (param != null)
-            request.setAttribute("cat", param);      
+            request.setAttribute("cat", param);
+        
         request.getRequestDispatcher("WEB-INF/pages/produits.jsp").forward(request,response);
     }
 

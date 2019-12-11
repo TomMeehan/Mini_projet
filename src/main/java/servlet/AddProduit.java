@@ -6,12 +6,11 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import model.Categorie;
 
 /**
  *
@@ -32,7 +31,27 @@ public class AddProduit extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        System.out.println(request.getParameter("reference"));
+        int reference = -1;
+        String categorie = null;
+        String nom = null;
+        float prix_unitaire = -1f;
+        
+        String refString = request.getParameter("reference");
+        if (refString != null) reference = Integer.valueOf(refString);
+        
+        categorie =  request.getParameter("categorie");
+
+        
+        nom = request.getParameter("nom");
+        
+        String prixString = request.getParameter("prix_unitaire");
+        if (prixString != null) prix_unitaire = Float.valueOf(prixString);
+        
+        System.out.println(reference);
+        System.out.println(categorie);
+        System.out.println(nom);
+        System.out.println(prix_unitaire);
+        
        
     }
 
