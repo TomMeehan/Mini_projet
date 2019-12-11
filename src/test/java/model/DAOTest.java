@@ -19,6 +19,8 @@ import static org.junit.Assert.*;
 
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 /**
  *
@@ -29,6 +31,14 @@ public class DAOTest {
     private static DataSource myDataSource;
     private static Connection myConnection ;
     private DAO dao;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
   
     @Before
     public void setUp() throws SQLException, IOException, SqlToolError {
@@ -55,7 +65,7 @@ public class DAOTest {
     // TESTS ICI
     
     @Test
-    public void getClientTest() throws Exception {
+    public void getClientInfosTest() throws Exception {
         Client c;
         String code = "ALFKI";
         
@@ -126,16 +136,7 @@ public class DAOTest {
         assertEquals(4, listComm.size());
         
     }
-    
-    @Test
-    public void addCommandeTestError() throws SQLException {
-        
-        //TODO
-        
-    }
-    
-    
-    
+  
     @After
     public void tearDown() throws SQLException {
         myConnection.close();
@@ -147,5 +148,199 @@ public class DAOTest {
         ds.setUser("sa");
         ds.setPassword("sa");
         return ds;
+    }
+
+
+    /**
+     * Test of checkLogin method, of class DAO.
+     */
+    @Test
+    public void testCheckLogin() throws Exception {
+        
+        String username = "Maria Anders";
+        String password = "ALFKI";
+        
+        dao.checkLogin(username, password);
+        
+        assertEquals(true, dao.checkLogin(username, password));
+        
+        
+
+    }
+    
+    @Test
+    public void testLoginFailed() throws Exception {
+        
+        String username = "Maria And";
+        String password = "ALFKI";
+        
+        dao.checkLogin(username, password);
+        
+        assertEquals(false, dao.checkLogin(username, password));
+        
+        
+
+    }
+
+
+    /**
+     * Test of getProduitFromCategorie method, of class DAO.
+     */
+    @Test
+    public void testGetProduitFromCategorie() throws Exception {
+        List<Produit> lp;
+        int codeCat = 1 ;
+        lp = dao.getProduitFromCategorie(codeCat);
+        
+        
+        
+        assertEquals("Chai", lp.get(0).getNom());
+
+    }
+    
+    @Test
+    public void testgetProduit() throws SQLException{
+        Produit p = null;
+        int reference = 1;
+        
+        p = dao.getProduit(reference);
+        System.out.println(p.getNom());
+        
+        
+    }
+
+    /**
+     * Test of addCommande method, of class DAO.
+     */
+    @Test
+    public void testAddCommande() throws Exception {
+        System.out.println("addCommande");
+        String client = "";
+        String saisie_le = "";
+        String envoyee_le = "";
+        String port = "";
+        String destinataire = "";
+        String adresse_livraison = "";
+        String ville_livraison = "";
+        String region_livraison = "";
+        String code_postal_livrais = "";
+        String pays_livraison = "";
+        float remise = 0.0F;
+        int[] produitID = null;
+        int[] quantite = null;
+        DAO instance = null;
+        instance.addCommande(client, saisie_le, envoyee_le, port, destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise, produitID, quantite);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of chiffAffCat method, of class DAO.
+     */
+    @Test
+    public void testChiffAffCat() throws Exception {
+        System.out.println("chiffAffCat");
+        int categorie = 0;
+        String dateDep = "";
+        String dateFin = "";
+        DAO instance = null;
+        float expResult = 0.0F;
+        float result = instance.chiffAffCat(categorie, dateDep, dateFin);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of chiffAffPays method, of class DAO.
+     */
+    @Test
+    public void testChiffAffPays() throws Exception {
+        System.out.println("chiffAffPays");
+        String pays = "";
+        String dateDep = "";
+        String dateFin = "";
+        DAO instance = null;
+        float expResult = 0.0F;
+        float result = instance.chiffAffPays(pays, dateDep, dateFin);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of chiffAffClient method, of class DAO.
+     */
+    @Test
+    public void testChiffAffClient() throws Exception {
+        System.out.println("chiffAffClient");
+        int client = 0;
+        String dateDep = "";
+        String dateFin = "";
+        DAO instance = null;
+        float expResult = 0.0F;
+        float result = instance.chiffAffClient(client, dateDep, dateFin);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of addProduit method, of class DAO.
+     */
+    @Test
+    public void testAddProduit() throws Exception {
+        System.out.println("addProduit");
+        String nom = "Gils";
+        int fournisseur = 1;
+        int categorie = 3;
+        String quantite_par_unite = "Une poignée";
+        float prix_unitaire = 1.5F;
+        int unites_en_stock = 500;
+        int unites_commandees = 1;
+        int niveau_de_reappro = 20;
+        int indisponible = 0;
+
+        dao.addProduit(nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
+        
+        List<Produit> lp = dao.getProduitFromCategorie(3);
+        
+        System.out.println();
+        
+    }
+
+    /**
+     * Test of deleteProd method, of class DAO.
+     */
+    @Test
+    public void testDeleteProd() throws Exception {
+        System.out.println("deleteProd");
+        int reference = 0;
+        DAO instance = null;
+        instance.deleteProd(reference);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateProd method, of class DAO.
+     */
+    @Test
+    public void testUpdateProd() throws Exception {
+        System.out.println("updateProd");
+        int ref = 0;
+        String nom = "";
+        int fournisseur = 0;
+        int categorie = 0;
+        String quantite_par_unite = "";
+        float prix_unitaire = 0.0F;
+        int unites_en_stock = 0;
+        int unites_commandees = 0;
+        int niveau_de_reappro = 0;
+        int indisponible = 0;
+        DAO instance = null;
+        instance.updateProd(ref, nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }

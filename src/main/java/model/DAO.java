@@ -42,6 +42,52 @@ public class DAO {
         }
         return me;
     }
+    
+    public Produit getProduit(int ref) throws SQLException{
+        Produit p = null;
+
+        String sql = "SELECT * FROM Produit WHERE Reference = ?";
+        
+        String sql2 = "SELECT * FROM Categorie WHERE code = ?";
+
+        try(Connection conn = myDataSource.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt2 = conn.prepareStatement(sql2)){
+            stmt.setInt(1, ref);
+            try(ResultSet rs = stmt.executeQuery()){
+                if (rs.next()){
+                    
+                int codeCat = rs.getInt("Categorie");
+                
+                stmt2.setInt(1,codeCat);
+                
+                ResultSet rsCat = stmt2.executeQuery();
+                
+                rsCat.next();
+                
+                int code = rsCat.getInt("Code");
+                String libelle = rsCat.getString("Libelle");
+                String desc = rsCat.getString("Description");
+                
+                Categorie cat = new Categorie(code,libelle,desc);
+
+                String nom = rs.getString("Nom");
+                int fournisseur =rs.getInt("Fournisseur");
+                String Quantite_p_u = rs.getString("Quantite_par_unite");
+                float prix = rs.getFloat("Prix_Unitaire");
+                int stock = rs.getInt("Unites_en_stock");
+                int commandees = rs.getInt("Unites_commandees");
+                int reappro = rs.getInt("Niveau_de_reappro");
+                int indispo = rs.getInt("Indisponible");
+
+                p = new Produit(cat, ref, nom, fournisseur, Quantite_p_u, prix, stock, commandees, reappro, indispo);
+                    
+                }
+            }
+        }
+        return p;
+    }
+    
     public boolean checkLogin(String username, String password) throws SQLException,Exception {
         String sql = "SELECT * FROM Client WHERE CONTACT = ? AND Code = ?";
         
@@ -146,7 +192,7 @@ public class DAO {
         return result;
     }
     
-    public List<Produit> getProduitFromCategorie(String codeCat) throws SQLException{
+    public List<Produit> getProduitFromCategorie(int codeCat) throws SQLException{
         String sql = "SELECT * FROM Produit WHERE categorie = ?";
         String sql2 = "SELECT * FROM Categorie WHERE code = ?";
         
@@ -156,11 +202,11 @@ public class DAO {
             PreparedStatement pstmt1 = connection.prepareStatement(sql);
             PreparedStatement pstmt2 = connection.prepareStatement(sql2); ){
             
-            pstmt1.setString(1,codeCat);
+            pstmt1.setInt(1,codeCat);
             
             ResultSet rs = pstmt1.executeQuery();
                 
-            pstmt2.setString(1,codeCat);
+            pstmt2.setInt(1,codeCat);
 
             ResultSet rsCat = pstmt2.executeQuery();
 
