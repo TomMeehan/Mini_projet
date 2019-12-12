@@ -63,6 +63,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                       <a href="profil" class="dropdown-item">Profile</a>
                       <a href="toPanier" class="dropdown-item">Mon panier</a>
+                      <a href="commandes" class="dropdown-item">Mes commandes</a>
                       <div class="dropdown-divider"></div>
                       <a href="disconnect" class="dropdown-item">Logout</a>
                     </div>

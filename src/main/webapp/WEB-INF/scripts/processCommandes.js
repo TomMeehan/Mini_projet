@@ -1,19 +1,19 @@
 $(document).ready(function () {
-    drawPanier();
+    drawCommandes();
 });
 
 
-function drawPanier() {
+function drawCommandes() {
     $.ajax({
-        url : "panierInJSON",
+        url : "commandesInJSON",
         dataType : "json",
         error : showError,
         success : 
                 function(result) {
                     
-                    var template = $('#panierTemplate').html();
+                    var template = $('#commandesTemplate').html();
                     var processedTemplate = Mustache.to_html(template,result);
-                    $('#panierInfos').html(processedTemplate);
+                    $('#commandesData').html(processedTemplate);
 
                 }
     });
@@ -23,3 +23,4 @@ function showError(xhr, status, message) {
     console.log(xhr.responseText);
     //alert(JSON.parse(xhr.responseText).message);
 }
+

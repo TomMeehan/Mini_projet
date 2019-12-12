@@ -8,7 +8,6 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -35,26 +34,15 @@ public class DAO {
             PreparedStatement stmt = connection.prepareStatement(sql)) {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int col = rsmd.getColumnCount();
                     if (rs.next()){
                         
-                        for (int i = 1; i <= col; i++){
-                            if (i > 1 ) System.out.print(", ");
-                            String colValue = rs.getString(i);
-                            System.out.print(colValue + " : " + rsmd.getColumnName(i));
-                        }
                         
-                        String societe = rs.getString("societe");
-                        
+                        String societe = rs.getString("societe");    
                         String contact = rs.getString("contact");
                         String fonction = rs.getString("fonction");
                         String adresse = rs.getString("adresse");
                         String ville = rs.getString("ville");
                         String region = rs.getString("region");
-                        if (rs.wasNull()) {
-                            System.out.println("ouais"); // set it to empty string as you desire.
-                        }
                         String code_postal = rs.getString("code_postal");
                         String pays = rs.getString("pays");
                         String telephone = rs.getString("telephone");
