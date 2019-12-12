@@ -389,6 +389,7 @@ public class DAO {
         return tousPays ;  
     } 
     
+        
     //Fonctions admin
     public List<Pair<String,Integer>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
         /*String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
