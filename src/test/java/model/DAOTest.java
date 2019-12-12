@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import model.DAO.Pair;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -240,17 +241,18 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffCat() throws Exception {
-        int cat = 1;
-        String dateDeb =  "1994-12-15";
-        String dateFin = "1994-12-16";
+        String dateDeb =  "1994-08-04";
+        String dateFin = "1996-05-30";
         
-        
+        List<Pair<String,Integer>> ok =null;
         try {
-            float f = dao.chiffAffCat(cat, dateDeb, dateFin);
+           ok = dao.chiffAffCat(dateDeb, dateFin);
         } catch (Exception e){
             System.out.println(e.getMessage());
-        }
-        //System.out.println(f);
+        }/*
+        for (int i = 0; i < ok.size(); i++) {
+            System.out.println(ok.get(i));
+        }*/
     }
 
     /**
@@ -258,7 +260,18 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffPays() throws Exception {
-        fail();
+        String dateDeb =  "1994-08-04";
+        String dateFin = "1996-05-30";
+        
+        List<Pair<String,Integer>> ok =null;
+        try {
+           ok = dao.chiffAffPays(dateDeb, dateFin);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        for (int i = 0; i < ok.size(); i++) {
+            System.out.println(ok.get(i));
+        }
     }
 
     /**

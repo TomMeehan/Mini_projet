@@ -371,56 +371,110 @@ public class DAO {
     return updtTransa;
     }
     
-    //Fonctions admin
-    public float chiffAffCat(int categorie, String dateDep, String dateFin) throws SQLException{
-        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM (Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) "
-                + " INNER JOIN Commande ON Ligne.Commande = Commande.Numero"
-                + " WHERE Produit.Categorie = ? AND (Commande.SaisieLe BETWEEN ? AND ?)";
+        public List<String> getPays() throws SQLException{
+        String sql = "SELECT * FROM Client";
         
-        System.out.println(sql);
-        float result = 0;
+        List<String> tousPays = new ArrayList();
+        
         try (Connection connection = myDataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
+            Statement stmt = connection.createStatement()) {
             
-            stmt.setInt(1,categorie);
-            stmt.setString(2,dateDep);
-            stmt.setString(3,dateFin);
-            
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery(sql);
             
             while (rs.next()){
-                float chiffreAff=rs.getFloat("Chiffre_affaire");                
-                result  += chiffreAff;
-                
+                tousPays.add(rs.getString("Pays"));
             }
+               
         }
-        return result;
+        return tousPays ;  
+    } 
+    
+    //Fonctions admin
+    public List<Pair<String,Integer>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
+        /*String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+                + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
+                + " WHERE x.Categorie = ? AND Commande.SaisieLe BETWEEN ? AND ?";*/
+        
+        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
+                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+        
+        
+        float result = 0;
+        List<Categorie> listeCat=null;
+        List<Pair<String,Integer>> chiffAffCat =  new ArrayList();
+                
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+            
+            listeCat = this.getCategories();
+            
+            
+            for (Categorie cat : listeCat) {
+                pstmt.clearParameters();
+                pstmt.setInt(1,cat.getCode());
+                pstmt.setString(2,dateDep);
+                pstmt.setString(3,dateFin);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while (rs.next()){
+                    float chiffreAff=rs.getFloat("Chiffre_affaire");                
+                    result  += chiffreAff;
+
+                }
+
+                chiffAffCat.add(new Pair(cat.getLibelle(),result));
+            }
+
+        }
+        return chiffAffCat;
         
         
     }
     
-    public float chiffAffPays(String pays, String dateDep, String dateFin) throws SQLException{
-        
+    public List<Pair<String,Integer>> chiffAffPays(String dateDep, String dateFin) throws SQLException{
+        /*
         String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
                 + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE c.pays = ? AND c.SaisieLe BETWEEN ? AND ?";
+                + "WHERE c.pays = ? AND c.SaisieLe BETWEEN ? AND ?";*/
+        
+        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
+                + "Client.Pays = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+        
+        
         float result = 0;
-        try (Connection connection = myDataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
-            
-            stmt.setString(1,pays);
-            stmt.setString(2,dateDep);
-            stmt.setString(3,dateFin);
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            while (rs.next()){
-                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
-                result  += chiffreAff;
+        List<String> listePays=null;
+        List<Pair<String,Integer>> chiffAffPays =  new ArrayList();
                 
+        try (Connection connection = myDataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+            
+            listePays = this.getPays();
+            //System.out.println(listePays.get(0));
+            
+            for (String pays : listePays) {
+                pstmt.clearParameters();
+                pstmt.setString(1,pays);
+                pstmt.setString(2,dateDep);
+                pstmt.setString(3,dateFin);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while (rs.next()){
+                    float chiffreAff=rs.getFloat("Chiffre_affaire");                
+                    result  += chiffreAff;
+
+                }
+
+                chiffAffPays.add(new Pair(pays,result));
             }
+
         }
-        return result;
+        return chiffAffPays;
+        
+        
     }
     
     public float chiffAffClient(int client, String dateDep, String dateFin) throws SQLException{
@@ -534,4 +588,61 @@ public class DAO {
         }               
 
    }
+   
+public class Pair<A, B> {
+    private A first;
+    private B second;
+
+    public Pair(A first, B second) {
+        super();
+        this.first = first;
+        this.second = second;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashFirst = first != null ? first.hashCode() : 0;
+        int hashSecond = second != null ? second.hashCode() : 0;
+
+        return (hashFirst + hashSecond) * hashSecond + hashFirst;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Pair) {
+            Pair otherPair = (Pair) other;
+            return 
+            ((  this.first == otherPair.first ||
+                ( this.first != null && otherPair.first != null &&
+                  this.first.equals(otherPair.first))) &&
+             (  this.second == otherPair.second ||
+                ( this.second != null && otherPair.second != null &&
+                  this.second.equals(otherPair.second))) );
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString()
+    { 
+           return "(" + first + ", " + second + ")"; 
+    }
+
+    public A getFirst() {
+        return first;
+    }
+
+    public void setFirst(A first) {
+        this.first = first;
+    }
+
+    public B getSecond() {
+        return second;
+    }
+
+    public void setSecond(B second) {
+        this.second = second;
+    }
+}
 }
