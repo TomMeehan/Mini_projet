@@ -28,12 +28,13 @@
                                 <td>
                                 <form class="productData">
                                     <div class="input-group">
-                                        <input class="form-control" id="quantite" name="quantite" type="number" value="1" min="0" max="10">
-                                        <input id="reference" name="reference" type="hidden" value="{{reference}}">
-                                        <input id="categorie" name="categorie" type="hidden" value="{{categorie.libelle}}">
-                                        <input id="nom" name="nom" type="hidden" value="{{nom}}">
-                                        <input id="prix_unitaire" name="prix_unitaire" type="hidden" value="{{prix_unitaire}}">
-                                        <button type="sumbit" class="btn btn-secondary form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Produit ajouté au panier" >Ajouter</button>
+                                        <input class="form-control" id="quantite{{reference}}" name="quantite" type="number" value="1" min="0" max="10">
+                                        <input id="reference{{reference}}" name="reference" type="hidden" value="{{reference}}">
+                                        <input id="categorie{{reference}}" name="categorie" type="hidden" value="{{categorie.libelle}}">
+                                        <input id="nom{{reference}}" name="nom" type="hidden" value="{{nom}}">
+                                        <input id="prix_unitaire{{reference}}" name="prix_unitaire" type="hidden" value="{{prix_unitaire}}">
+                                        <input id="unites_en_stock{{reference}}" name="unites_en_stock" type="hidden" value="{{unites_en_stock}}">
+                                        <button id="submit{{reference}}" name="button" type="sumbit" class="btn btn-secondary form-control" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Produit ajouté au panier" >Ajouter</button>
                                     </div>
                                 </form>
                                 </td>

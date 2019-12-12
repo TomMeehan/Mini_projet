@@ -44,7 +44,7 @@ function drawProductTable() {
                     var template = $('#productsTemplate').html();
                     var processedTemplate = Mustache.to_html(template,result);
                     $('#productsTable').html(processedTemplate);
-
+                    
                     $('[data-toggle="popover"]').popover();
                     $('.popover-dismiss').popover({
                         trigger: 'focus'
@@ -54,19 +54,44 @@ function drawProductTable() {
 
                         e.preventDefault();
 
-                        var form = $(this);
+                        var form = $(this);        
+                        var unites_en_stock = parseInt($(this [name="unites_en_stock"]).val());
+                        console.log("stock :" + unites_en_stock);
+                        
+                        var quantite = parseInt($(this [name="quantite"]).val());
+                        console.log("quantite :" + quantite);
+                        var idSumbitBtn = $(this [name="button"]);
+                        
+                        if (unites_en_stock < quantite){
+                            idSumbitBtn.popover('disable');    
+                            idSumbitBtn.attr("disabled",true);
+                            
+                            $(this [name="quantite"]).change( function (e) {
 
-                        $.ajax({
+                                if(parseInt($(this).val()) <= unites_en_stock){
+                                    console.log("oui");
+                                    idSumbitBtn.popover('enable');    
+                                    idSumbitBtn.removeAttr("disabled");
+                                }
+                            });
+                        }
+                        else{
+                            $(this [name="unites_en_stock"]).val(unites_en_stock - quantite);
+                            
+                            $.ajax({
                             type: "POST",
-                            url : "addProduit",
+                            url : "addProduitPanier",
                             data : form.serialize(),
                             error : showError,
                             success : 
                                     function(data) {
 
                                     }
-                        });
-                        console.log("preventing");
+                            });
+                            console.log("preventing submit");
+                        }
+
+                        
                     });
                 }
     });

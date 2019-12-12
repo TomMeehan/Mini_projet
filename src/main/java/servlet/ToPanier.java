@@ -5,23 +5,18 @@
  */
 package servlet;
 
-import beans.Panier;
-import beans.ProduitPanier;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Tom
  */
-public class AddProduit extends HttpServlet {
-    
-    Panier panier;
-    ProduitPanier produit;
+public class ToPanier extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,45 +31,7 @@ public class AddProduit extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession(false);
-        
-        panier = ((Panier) session.getAttribute("panier"));
-        
-        if (panier == null){
-            panier = new Panier();
-        }
-        
-        int reference = -1;
-        String categorie = null;
-        String nom = null;
-        float prix_unitaire = -1f;
-        
-        int quantite = -1;
-        
-        String refString = request.getParameter("reference");
-        if (refString != null) reference = Integer.valueOf(refString);
-        
-        categorie =  request.getParameter("categorie");
-
-        nom = request.getParameter("nom");
-        
-        String prixString = request.getParameter("prix_unitaire");
-        if (prixString != null) prix_unitaire = Float.valueOf(prixString);
-        
-        String qteString = request.getParameter("quantite");
-        if (qteString != null) quantite = Integer.valueOf(qteString);
-        
-        produit = new ProduitPanier(reference,categorie,nom,prix_unitaire);
-        panier.addProduit(produit, quantite);
-        
-        
-        session.setAttribute("panier",panier);
-        
-        //TEST
-        Panier test = ((Panier) session.getAttribute("panier"));
-        
-        System.out.println(test.getNbTotalProduits());
-       
+        request.getRequestDispatcher("monPanier.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
