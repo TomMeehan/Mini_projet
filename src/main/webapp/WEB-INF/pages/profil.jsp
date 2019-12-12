@@ -13,12 +13,17 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
-        
+        <div class="card">
+            <div class="card-body bg-light">
+              <h1 class="display-4 text-center">Profil</h1>
+            </div>
+        </div>
+        <%--
         <c:if test="${not empty sessionScope.userSession}">
             
             <p> VOUS ETES CONNECTE EN TANT QUE : ${sessionScope.userSession.username}</p>
         </c:if>
-            
+        --%> 
         <div id ="clientInfos"></div>
         
         <script id="clientTemplate" type="text/template">
@@ -26,31 +31,31 @@
             <table class="table table-bordered" >
                 <tbody>
                     <tr>
-                      <th scope="row" class="text-light">Nom</th>
+                      <th scope="row" class="bg-dark text-light">Nom</th>
                       <td>{{contact}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="text-light">Societe</th>
+                      <th scope="row"class="bg-dark text-light">Societe</th>
                       <td>{{societe}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="text-light">Fonction</th>
+                      <th scope="row" class="bg-dark text-light">Fonction</th>
                       <td>{{fonction}}</td>
                     </tr>
                     <tr>
-                      <th scope="row" class="text-light">Adresse</th>
-                      <table>
-                        <tr></tr>
-                      </table>
-                      <td>{{adresse}}, {{code_postal}} {{ville}}, {{pays}}</td>
+                      <th scope="row" class="bg-dark text-light">Adresse</th>
+                      
+                      <td><table>
+                        <tr><td>{{adresse}}, {{code_postal}} {{ville}}, {{pays}}</td></tr>
+                      </table></td>
                     </tr>
                     <tr>
-                      <th scope="row" class="text-light">Telephone</th>
+                      <th scope="row" class="bg-dark text-light">Telephone</th>
                       <td>{{telephone}}</td>
                     </tr>
                     {{#telephone}}
                     <tr>
-                      <th scope="row" class="text-light">Fax</th>
+                      <th scope="row" class="bg-dark text-light">Fax</th>
                       <td>{{telephone}}</td>
                     </tr>
                     {{/telephone}}
