@@ -41,10 +41,6 @@
         <servlet-class>servlet.SessionInJSON</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>clientInJSON</servlet-name>
-        <servlet-class>servlet.ClientInJSON</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>toEditProfile</servlet-name>
         <servlet-class>servlet.ToEditProfile</servlet-class>
     </servlet>
@@ -103,10 +99,6 @@
     <servlet-mapping>
         <servlet-name>sessionInJSON</servlet-name>
         <url-pattern>/sessionInJSON</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>clientInJSON</servlet-name>
-        <url-pattern>/clientInJSON</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toEditProfile</servlet-name>

@@ -38,9 +38,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="sessionInJSON">Session RAW</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="clientInJSON">Client RAW</a>
-                </li>
                 <!-- END OF TOREMOVE -->
               </ul>
                 

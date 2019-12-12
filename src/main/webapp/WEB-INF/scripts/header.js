@@ -1,10 +1,8 @@
 $(document).ready(function () {
-    console.log("header generated");
     putCategories();
 });
 
 function putCategories() {
-    console.log("Insertion des catégories...");
     
     $.ajax({
         url : "categoriesInJSON",

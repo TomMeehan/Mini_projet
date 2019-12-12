@@ -8,7 +8,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <jsp:include page="/WEB-INF/includes/head.jsp"/>
         <title>Page client</title>
-        <link rel="stylesheet" type="text/css" href ="css/profil.css"/>
         
     </head>
     <body>

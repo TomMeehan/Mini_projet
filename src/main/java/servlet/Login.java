@@ -47,13 +47,7 @@ public class Login extends HttpServlet {
 
         if (actionIs(request, "connect")) {
             newSession(request, response);
-        // On gère les cas ou la session s'est terminée pour cause de timeout
-        // cf. web.xml
-        /*} else 	if (actionIs(request, "Rejouer")  && (null != request.getSession(false))) {
-                playNewGame(request, response);
-        } else if (actionIs(request, "Deviner")   && (null != request.getSession(false))) {
-                guessNumber(request, response);
-        */} else {
+        } else {
                 showView("login.jsp", request, response);
         }
     }
