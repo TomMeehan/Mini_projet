@@ -87,4 +87,8 @@ public class Panier {
         this.prixTotal = prixTotal;
     }
     
+    public int getNbProduits() {
+        return this.produits.size();
+    }
+    
 }

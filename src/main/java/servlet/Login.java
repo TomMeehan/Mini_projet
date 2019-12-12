@@ -9,11 +9,14 @@ import beans.Panier;
 import beans.User;
 import forms.LoginForm;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.DAO;
+import model.DataSourceFactory;
 
 /**
  *
@@ -25,6 +28,7 @@ public class Login extends HttpServlet {
     public static final String ATT_FORM = "form";
     public static final String ATT_USER_SESSION = "userSession";
     public static final String ATT_PANIER = "panier";
+    public static final String ATT_COMMANDES = "commandes";
     
 
     /**
@@ -63,7 +67,7 @@ public class Login extends HttpServlet {
     }
     
     private void newSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
         LoginForm form = new LoginForm();
         User user = form.connectUser(request);
         HttpSession session = request.getSession();
@@ -75,6 +79,13 @@ public class Login extends HttpServlet {
         if (form.getErrors().isEmpty()){
             session.setAttribute(ATT_USER_SESSION, user);
             session.setAttribute(ATT_PANIER, panier);
+            try{
+               session.setAttribute(ATT_COMMANDES, dao.getCommandes(user.getPassword())); 
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+            
             response.sendRedirect("home");
         }
         else{

@@ -8,6 +8,7 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -28,16 +29,41 @@ public class DAO {
         
     public Client getClientInfos(String Code) throws SQLException{
         String sql = "SELECT * FROM Client WHERE Code = ?";
-        
-        ArrayList<String> AllInfos = new ArrayList();
         Client me = null;
         
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql)) {
                stmt.setString(1, Code);
                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next())
-                        me = new Client(Code,rs.getString("societe"),rs.getString("contact"),rs.getString("fonction"),rs.getString("adresse"),rs.getString("ville"),rs.getString("region"),rs.getString("code_postal"),rs.getString("pays"),rs.getString("telephone"),rs.getString("fax"));                      
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int col = rsmd.getColumnCount();
+                    if (rs.next()){
+                        
+                        for (int i = 1; i <= col; i++){
+                            if (i > 1 ) System.out.print(", ");
+                            String colValue = rs.getString(i);
+                            System.out.print(colValue + " : " + rsmd.getColumnName(i));
+                        }
+                        
+                        String societe = rs.getString("societe");
+                        
+                        String contact = rs.getString("contact");
+                        String fonction = rs.getString("fonction");
+                        String adresse = rs.getString("adresse");
+                        String ville = rs.getString("ville");
+                        String region = rs.getString("region");
+                        if (rs.wasNull()) {
+                            System.out.println("ouais"); // set it to empty string as you desire.
+                        }
+                        String code_postal = rs.getString("code_postal");
+                        String pays = rs.getString("pays");
+                        String telephone = rs.getString("telephone");
+                        String fax = rs.getString("fax");
+                        me = new Client(Code,societe,contact,fonction,adresse,ville,region,code_postal,pays,telephone,fax);
+                    }
+                                         
+               }catch (Exception e){
+                   System.out.println(e.getMessage());
                }
         }
         return me;
@@ -273,17 +299,17 @@ public class DAO {
         }
     }
     
-    public void addCommande(String client, String saisie_le, String envoyee_le, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
+    public int addCommande(String client, String saisie_le, String envoyee_le, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
                             int[] produitID, int[] quantite ) throws Exception{
     if (produitID.length != quantite.length){
                     throw new Exception("Produits != Quantite");
                 }    
-    String sql1 = "INSERT INTO Commande (Client,SaisieLe,EnvoyeeLe,Port,Destinataire,Adresse_livraison,Ville_Livraison,Ville_livraison,Region_livraison,Code_postal_livraison,Pays_livraison,Remise) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";    
+    String sql1 = "INSERT INTO Commande (Client,saisie_le,Envoyee_le,Port,Destinataire,Adresse_livraison,Ville_livraison,Region_livraison,Code_postal_livrais,Pays_livraison,Remise) VALUES (?,?,?,?,?,?,?,?,?,?,?) ";    
     
     String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
     
     String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock + ?, Unites_Commandees = Unites_en_stock - ? WHERE Reference = ?";
-    
+    int updtTransa=-1;
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
             connection.setAutoCommit(false);
@@ -305,13 +331,15 @@ public class DAO {
                             }
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 generatedKeys.next();
-                int numLigne=generatedKeys.getInt("Numero");
+                int numLigne=generatedKeys.getInt(1);
                 //Logger.getLogger("DAO").log(Level.INFO, "Nouvelle clé générée pour INVOICE : {0}", NumLigne);
                 try (PreparedStatement ligStmt = connection.prepareStatement(sql2)) {
                     try (PreparedStatement transa = connection.prepareStatement(sql3)){
                         
                         for (int produit = 0; produit < produitID.length; produit++){
                         ligStmt.clearParameters();
+                        System.out.println("\n -- " + produit + " : " + numLigne + "," + produitID[produit] + "," + quantite[produit]);
+                        
                         ligStmt.setInt(1, numLigne);
                         ligStmt.setInt(2, produitID[produit]);
                         ligStmt.setInt(3, quantite[produit]);
@@ -322,7 +350,7 @@ public class DAO {
                         transa.setInt(2,quantite[produit]);
                         transa.setInt(3,produitID[produit]);
                         
-                        int updtTransa = transa.executeUpdate();
+                        updtTransa = transa.executeUpdate();
                         if (updtTransa == 0){
                             throw new SQLException("Quantité demandée supérieure au stock");
                         }
@@ -333,11 +361,14 @@ public class DAO {
                 connection.commit();
                 } catch (SQLException ex){
                 connection.rollback();
+                throw ex;
                 
                     } finally {
                 connection.setAutoCommit(true);
                     }
         }
+    
+    return updtTransa;
     }
     
     //Fonctions admin

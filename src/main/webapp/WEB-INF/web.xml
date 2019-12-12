@@ -68,6 +68,10 @@
         <servlet-name>panierInJSON</servlet-name>
         <servlet-class>servlet.PanierInJSON</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>validerPanier</servlet-name>
+        <servlet-class>servlet.ValiderPanier</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>panierInJSON</servlet-name>
         <url-pattern>/panierInJSON</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validerPanier</servlet-name>
+        <url-pattern>/validerPanier</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
