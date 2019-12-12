@@ -36,46 +36,51 @@ public class AddProduitPanier extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("userSession") != null){
+            panier = ((Panier) session.getAttribute("panier"));
         
-        panier = ((Panier) session.getAttribute("panier"));
-        
-        if (panier == null){
-            panier = new Panier();
+            if (panier == null){
+                panier = new Panier();
+            }
+
+            int reference = -1;
+            String categorie = null;
+            String nom = null;
+            float prix_unitaire = -1f;
+
+            int quantite = -1;
+            int unites_en_stock = -1;
+
+            String refString = request.getParameter("reference");
+            if (refString != null) reference = Integer.valueOf(refString);
+
+            categorie =  request.getParameter("categorie");
+
+            nom = request.getParameter("nom");
+
+            String prixString = request.getParameter("prix_unitaire");
+            if (prixString != null) prix_unitaire = Float.valueOf(prixString);
+
+            String qteString = request.getParameter("quantite");
+            if (qteString != null) quantite = Integer.valueOf(qteString);
+
+            String stockString = request.getParameter("unites_en_stock");
+            if (stockString != null) unites_en_stock = Integer.valueOf(stockString);
+
+            if (quantite > unites_en_stock) request.setAttribute("errors","quantite en stock insuffisante");
+
+            produit = new ProduitPanier(reference,categorie,nom,prix_unitaire,quantite,unites_en_stock);
+            panier.addProduit(produit);
+
+
+
+            session.setAttribute("panier",panier);
+        } else {
+            response.sendRedirect("home");
         }
         
-        int reference = -1;
-        String categorie = null;
-        String nom = null;
-        float prix_unitaire = -1f;
         
-        int quantite = -1;
-        int unites_en_stock = -1;
-        
-        String refString = request.getParameter("reference");
-        if (refString != null) reference = Integer.valueOf(refString);
-        
-        categorie =  request.getParameter("categorie");
-
-        nom = request.getParameter("nom");
-        
-        String prixString = request.getParameter("prix_unitaire");
-        if (prixString != null) prix_unitaire = Float.valueOf(prixString);
-        
-        String qteString = request.getParameter("quantite");
-        if (qteString != null) quantite = Integer.valueOf(qteString);
-        
-        String stockString = request.getParameter("unites_en_stock");
-        if (stockString != null) unites_en_stock = Integer.valueOf(stockString);
-        
-        if (quantite > unites_en_stock) request.setAttribute("errors","quantite en stock insuffisante");
-        
-        produit = new ProduitPanier(reference,categorie,nom,prix_unitaire,quantite,unites_en_stock);
-        panier.addProduit(produit);
-
-        
-        
-        session.setAttribute("panier",panier);
        
     }
 

@@ -33,7 +33,12 @@ public class Commandes extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("WEB-INF/pages/commandes.jsp").forward(request,response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("userSession") != null){
+            request.getRequestDispatcher("WEB-INF/pages/commandes.jsp").forward(request,response);
+        } else {
+            response.sendRedirect("home");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

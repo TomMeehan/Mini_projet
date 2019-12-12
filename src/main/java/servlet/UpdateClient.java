@@ -62,42 +62,48 @@ public class UpdateClient extends HttpServlet {
 
         String errors = new String();
         
-        try {
-            HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         
-            if (session != null){
+        if (session.getAttribute("userSession") != null){
+            try {
+                
 
-                code = ((User) session.getAttribute("userSession")).getPassword();
 
-                if (code != null) {
-                        contact = request.getParameter(FIELD_CONTACT);
-                        if (contact == null || contact.trim().length() == 0 ) throw new Exception("Veuillez renseigner un nom.");
-                        societe = request.getParameter(FIELD_SOCIETE);
-                        if (societe == null || societe.trim().length() == 0 ) throw new Exception("Veuillez renseigner une société valide.");
-                        fonction = request.getParameter(FIELD_FONCTION);
-                        adresse = request.getParameter(FIELD_ADRESSE);
-                        ville = request.getParameter(FIELD_VILLE);
-                        code_postal = request.getParameter(FIELD_CODE_POSTAL);
-                        pays = request.getParameter(FIELD_PAYS);
-                        region = request.getParameter(FIELD_REGION);
-                        telephone = request.getParameter(FIELD_TELEPHONE);
-                        fax = request.getParameter(FIELD_FAX); 
-                }
+
+                    code = ((User) session.getAttribute("userSession")).getPassword();
+
+                    if (code != null) {
+                            contact = request.getParameter(FIELD_CONTACT);
+                            if (contact == null || contact.trim().length() == 0 ) throw new Exception("Veuillez renseigner un nom.");
+                            societe = request.getParameter(FIELD_SOCIETE);
+                            if (societe == null || societe.trim().length() == 0 ) throw new Exception("Veuillez renseigner une société valide.");
+                            fonction = request.getParameter(FIELD_FONCTION);
+                            adresse = request.getParameter(FIELD_ADRESSE);
+                            ville = request.getParameter(FIELD_VILLE);
+                            code_postal = request.getParameter(FIELD_CODE_POSTAL);
+                            pays = request.getParameter(FIELD_PAYS);
+                            region = request.getParameter(FIELD_REGION);
+                            telephone = request.getParameter(FIELD_TELEPHONE);
+                            fax = request.getParameter(FIELD_FAX); 
+                    }
+                    dao.updateClientInfos(code, societe, contact, fonction, adresse, ville, code_postal, pays, region, telephone, fax);
+
+
+
+
+            } catch (Exception e) {
+                errors = e.getMessage();
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-            
-            dao.updateClientInfos(code, societe, contact, fonction, adresse, ville, code_postal, pays, region, telephone, fax);
- 
-        } catch (Exception e) {
-            errors = e.getMessage();
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            if (errors.isEmpty()){
+                response.sendRedirect("profil");
+            }else{
+                request.setAttribute("errors",errors);
+                request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request,response);
+            }
+        } else {
+            response.sendRedirect("home");
         }
-        if (errors.isEmpty()){
-            response.sendRedirect("profil");
-        }else{
-            request.setAttribute("errors",errors);
-            request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request,response);
-        }
-        
 
     }
 

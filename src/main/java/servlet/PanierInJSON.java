@@ -39,22 +39,24 @@ public class PanierInJSON extends HttpServlet {
         HttpSession session = request.getSession();    
         ArrayList<Panier> list = new ArrayList();
         Panier panier = null;
-        
-        try {
-            if(session.getAttribute("panier") != null) 
-                panier = ((Panier)session.getAttribute("panier"));          
-            
-            list.add(panier);
-            
-        } catch (Exception ex) {   
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        if(session.getAttribute("panier") != null){
+            try {
+
+                    panier = ((Panier)session.getAttribute("panier"));          
+
+                list.add(panier);
+
+            } catch (Exception ex) {   
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+            try (PrintWriter out = response.getWriter()){
+                response.setContentType("application/json;charset=UTF-8");
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String gsonData = gson.toJson(panier);
+                out.println(gsonData);
+            }           
         }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(panier);
-            out.println(gsonData);
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

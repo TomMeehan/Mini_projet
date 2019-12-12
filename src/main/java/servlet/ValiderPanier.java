@@ -46,49 +46,55 @@ public class ValiderPanier extends HttpServlet {
         Panier panier = null;
         User user = null;
         String pass = null;
-        System.out.println("validation");
-        try {
-            if(session.getAttribute("userSession") != null) 
-                pass = ((User)session.getAttribute("userSession")).getPassword();
-            
-            client = dao.getClientInfos(pass);
-            
-            if(session.getAttribute("panier") != null)
-                panier = ((Panier)session.getAttribute("panier"));
-            
-            ArrayList<ProduitPanier> produits = panier.getProduits();
-            
-            int[] produitsID = new int[panier.getNbProduits()];
-            int[] quantites = new int[panier.getNbProduits()];
-            int i = 0;
-            
-            for (ProduitPanier p : produits){
-                produitsID[i] = p.getReference();
-                quantites[i] = p.getQuantite();
-                i++;
-            }
+        
+        if(session.getAttribute("userSession") != null){
             try {
-                Date date = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String formattedDate = formatter.format(date);
-                System.out.println("ajout");
-                dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites);
-            } catch (Exception ex){
-                System.out.println(ex.getMessage());
-                throw ex;
-            }
-            
-            try {
-                session.setAttribute("commandes", dao.getCommandes(client.getCode()));
-            } catch (Exception ex){
-                System.out.println(ex.getMessage());
-                throw ex;
-            }
-            
-        } catch (Exception ex) { 
-            System.out.println(ex.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
+
+               pass = ((User)session.getAttribute("userSession")).getPassword();
+
+               client = dao.getClientInfos(pass);
+
+               if(session.getAttribute("panier") != null)
+                   panier = ((Panier)session.getAttribute("panier"));
+
+               ArrayList<ProduitPanier> produits = panier.getProduits();
+
+               int[] produitsID = new int[panier.getNbProduits()];
+               int[] quantites = new int[panier.getNbProduits()];
+               int i = 0;
+
+               for (ProduitPanier p : produits){
+                   produitsID[i] = p.getReference();
+                   quantites[i] = p.getQuantite();
+                   i++;
+               }
+               try {
+                   Date date = new Date();
+                   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                   String formattedDate = formatter.format(date);
+                   System.out.println("ajout");
+                   dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites);
+               } catch (Exception ex){
+                   System.out.println(ex.getMessage());
+                   throw ex;
+               }
+
+               try {
+                   session.setAttribute("commandes", dao.getCommandes(client.getCode()));
+               } catch (Exception ex){
+                   System.out.println(ex.getMessage());
+                   throw ex;
+               }
+
+           } catch (Exception ex) { 
+               System.out.println(ex.getMessage());
+               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+           }      
+        }else {
+            response.sendRedirect("home");
+        }  
+        
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

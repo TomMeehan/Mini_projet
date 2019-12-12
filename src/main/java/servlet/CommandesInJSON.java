@@ -39,21 +39,26 @@ public class CommandesInJSON extends HttpServlet {
         HttpSession session = request.getSession();    
         ArrayList<Commande> list = new ArrayList();
         CommandeBean commandes = null;
-        try {
-            if(session.getAttribute("commandes") != null) 
-                list = ((ArrayList<Commande>)session.getAttribute("commandes"));          
-            
-            commandes = new CommandeBean(list);
-        } catch (Exception ex) {   
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            System.out.println(ex.getMessage());
+        if(session.getAttribute("commandes") != null){
+            try {
+
+                    list = ((ArrayList<Commande>)session.getAttribute("commandes"));          
+
+                commandes = new CommandeBean(list);
+            } catch (Exception ex) {   
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                System.out.println(ex.getMessage());
+            }
+            try (PrintWriter out = response.getWriter()){
+                response.setContentType("application/json;charset=UTF-8");
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String gsonData = gson.toJson(commandes);
+                out.println(gsonData);
+            }         
+        } else {
+            response.sendRedirect("home");
         }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(commandes);
-            out.println(gsonData);
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,10 +17,6 @@
         <servlet-class>listeners.SessionListener</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>headerServlet</servlet-name>
-        <servlet-class>servlet.HeaderServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>produits</servlet-name>
         <servlet-class>servlet.Produits</servlet-class>
     </servlet>
@@ -91,10 +87,6 @@
     <servlet-mapping>
         <servlet-name>sessionListener</servlet-name>
         <url-pattern>/sessionListener</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>headerServlet</servlet-name>
-        <url-pattern>/headerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>produits</servlet-name>

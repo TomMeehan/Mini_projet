@@ -43,22 +43,26 @@ public class ClientInJSON extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         String pass = null;
         Client client = null;
-        
-        try {
-            if(session.getAttribute("userSession") != null) 
+        if(session.getAttribute("userSession") != null){
+            try {
+
                 pass = ((User)session.getAttribute("userSession")).getPassword();
-            client = dao.getClientInfos(pass);
-            client.setCode("HIDDEN");
-            
-        } catch (Exception ex) {   
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                client = dao.getClientInfos(pass);
+                client.setCode("HIDDEN");
+
+            } catch (Exception ex) {   
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+            try (PrintWriter out = response.getWriter()){
+                response.setContentType("application/json;charset=UTF-8");
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String gsonData = gson.toJson(client);
+                out.println(gsonData);
+            }            
+        } else {
+            response.sendRedirect("home");
         }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(client);
-            out.println(gsonData);
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
