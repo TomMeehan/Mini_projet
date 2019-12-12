@@ -64,6 +64,10 @@
         <servlet-name>addProduitPanier</servlet-name>
         <servlet-class>servlet.AddProduitPanier</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>panierInJSON</servlet-name>
+        <servlet-class>servlet.PanierInJSON</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -123,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>addProduitPanier</servlet-name>
         <url-pattern>/addProduitPanier</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>panierInJSON</servlet-name>
+        <url-pattern>/panierInJSON</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

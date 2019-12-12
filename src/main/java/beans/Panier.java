@@ -5,9 +5,8 @@
  */
 package beans;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
-import model.Produit;
 
 /**
  *
@@ -15,51 +14,60 @@ import model.Produit;
  */
 public class Panier {
     
-    private Map<ProduitPanier,Integer> produits;
+    private ArrayList<ProduitPanier> produits;
     private int nbTotalProduits;
     private float prixTotal;
+    
 
     public Panier(){
-        produits = new HashMap();
+        produits = new ArrayList();
         nbTotalProduits = 0;
         prixTotal = 0;
     }
     
-    public Panier(Map<ProduitPanier, Integer> produits, int nbTotalProduits, float prixTotal) {
+    public Panier(ArrayList<ProduitPanier> produits, int nbTotalProduits, float prixTotal) {
         this.produits = produits;
         this.nbTotalProduits = nbTotalProduits;
         this.prixTotal = prixTotal;
     }
     
-    public void addProduit(ProduitPanier p, int quantite){
+    public void addProduit(ProduitPanier p){
+        boolean  trouve = false;
         
-        if (produits.containsKey(p)){
-            produits.put(p,produits.get(p) + quantite);
-        }else{
-            produits.put(p,quantite);
-        }
-        
-        nbTotalProduits += quantite;
-        prixTotal += p.getPrix_unitaire() * quantite;
-    }
-    
-    public void removeProduit(ProduitPanier p, int quantite){
-        
-        if (produits.containsKey(p)){
-            if (produits.get(p) - quantite <= 0){
-                produits.remove(p);
-            }else{
-                produits.put(p,produits.get(p) - quantite);
+        for (ProduitPanier pL : this.produits){
+            if (p.getReference() == pL.getReference()){
+                trouve = true;
+                pL.setQuantite(pL.getQuantite() + p.getQuantite());
             }
         }
+        
+        if (!trouve) this.produits.add(p);
+
+        
+        nbTotalProduits += p.getQuantite();
+        prixTotal += p.getPrix_unitaire() * p.getQuantite();
+    }
+    
+    public void removeProduit(ProduitPanier p) throws Exception{
+        
+        boolean  trouve = false;
+        
+        for (ProduitPanier pL : this.produits){
+            if (p.getReference() == pL.getReference()){
+                trouve = true;
+                this.produits.remove(pL);
+            }
+        }
+        
+        if (!trouve) throw new Exception("Produit introuvable");
     }
     
 
-    public Map<ProduitPanier, Integer> getProduits() {
+    public ArrayList<ProduitPanier> getProduits() {
         return produits;
     }
 
-    public void setProduits(Map<ProduitPanier, Integer> produits) {
+    public void setProduits(ArrayList<ProduitPanier> produits) {
         this.produits = produits;
     }
 

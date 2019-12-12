@@ -50,6 +50,7 @@ public class AddProduitPanier extends HttpServlet {
         float prix_unitaire = -1f;
         
         int quantite = -1;
+        int unites_en_stock = -1;
         
         String refString = request.getParameter("reference");
         if (refString != null) reference = Integer.valueOf(refString);
@@ -64,17 +65,17 @@ public class AddProduitPanier extends HttpServlet {
         String qteString = request.getParameter("quantite");
         if (qteString != null) quantite = Integer.valueOf(qteString);
         
-        produit = new ProduitPanier(reference,categorie,nom,prix_unitaire);
-        panier.addProduit(produit, quantite);
+        String stockString = request.getParameter("unites_en_stock");
+        if (stockString != null) unites_en_stock = Integer.valueOf(stockString);
+        
+        if (quantite > unites_en_stock) request.setAttribute("errors","quantite en stock insuffisante");
+        
+        produit = new ProduitPanier(reference,categorie,nom,prix_unitaire,quantite,unites_en_stock);
+        panier.addProduit(produit);
+
         
         
         session.setAttribute("panier",panier);
-        
-        //TEST
-        Panier test = ((Panier) session.getAttribute("panier"));
-        
-        System.out.println(test.getNbTotalProduits());
-        System.out.println(test.getPrixTotal());
        
     }
 

@@ -15,12 +15,16 @@ public class ProduitPanier {
     private String categorie;
     private String nom;
     private float prix_unitaire;
+    private int quantite;
+    private int unites_en_stock;
 
-    public ProduitPanier(int reference, String categorie, String nom, float prix_unitaire) {
+    public ProduitPanier(int reference, String categorie, String nom, float prix_unitaire, int quantite, int unites_en_stock) {
         this.reference = reference;
         this.categorie = categorie;
         this.nom = nom;
         this.prix_unitaire = prix_unitaire;
+        this.quantite = quantite;
+        this.unites_en_stock = unites_en_stock;
     }
 
     public int getReference() {
@@ -53,6 +57,22 @@ public class ProduitPanier {
 
     public void setPrix_unitaire(float prix_unitaire) {
         this.prix_unitaire = prix_unitaire;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
+    public int getUnites_en_stock() {
+        return unites_en_stock;
+    }
+
+    public void setUnites_en_stock(int unites_en_stock) {
+        this.unites_en_stock = unites_en_stock;
     }
     
     

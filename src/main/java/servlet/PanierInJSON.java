@@ -5,18 +5,23 @@
  */
 package servlet;
 
+import beans.Panier;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Tom
  */
-public class ToPanier extends HttpServlet {
+public class PanierInJSON extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +36,25 @@ public class ToPanier extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getRequestDispatcher("WEB-INF/pages/monPanier.jsp").forward(request,response);
+        HttpSession session = request.getSession();    
+        ArrayList<Panier> list = new ArrayList();
+        Panier panier = null;
+        
+        try {
+            if(session.getAttribute("panier") != null) 
+                panier = ((Panier)session.getAttribute("panier"));          
+            
+            list.add(panier);
+            
+        } catch (Exception ex) {   
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        try (PrintWriter out = response.getWriter()){
+            response.setContentType("application/json;charset=UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String gsonData = gson.toJson(panier);
+            out.println(gsonData);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
