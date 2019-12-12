@@ -8,6 +8,7 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,16 +240,17 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffCat() throws Exception {
-        System.out.println("chiffAffCat");
-        int categorie = 0;
-        String dateDep = "";
-        String dateFin = "";
-        DAO instance = null;
-        float expResult = 0.0F;
-        float result = instance.chiffAffCat(categorie, dateDep, dateFin);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int cat = 1;
+        String dateDeb =  "1994-12-15";
+        String dateFin = "1994-12-16";
+        
+        
+        try {
+            float f = dao.chiffAffCat(cat, dateDeb, dateFin);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        //System.out.println(f);
     }
 
     /**
@@ -256,16 +258,7 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffPays() throws Exception {
-        System.out.println("chiffAffPays");
-        String pays = "";
-        String dateDep = "";
-        String dateFin = "";
-        DAO instance = null;
-        float expResult = 0.0F;
-        float result = instance.chiffAffPays(pays, dateDep, dateFin);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail();
     }
 
     /**
@@ -273,16 +266,7 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffClient() throws Exception {
-        System.out.println("chiffAffClient");
-        int client = 0;
-        String dateDep = "";
-        String dateFin = "";
-        DAO instance = null;
-        float expResult = 0.0F;
-        float result = instance.chiffAffClient(client, dateDep, dateFin);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail();
     }
 
     /**
@@ -290,7 +274,7 @@ public class DAOTest {
      */
     @Test
     public void testAddProduit() throws Exception {
-        System.out.println("addProduit");
+
         String nom = "Gils";
         int fournisseur = 1;
         int categorie = 3;
@@ -303,44 +287,58 @@ public class DAOTest {
 
         dao.addProduit(nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
         
-        List<Produit> lp = dao.getProduitFromCategorie(3);
         
-        System.out.println();
+        assertEquals("Gils",dao.getProduit(78).getNom());
         
     }
 
     /**
      * Test of deleteProd method, of class DAO.
      */
-    @Test
+    @Test (expected = Exception.class)
     public void testDeleteProd() throws Exception {
-        System.out.println("deleteProd");
-        int reference = 0;
-        DAO instance = null;
-        instance.deleteProd(reference);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int ref = 1 ;
+        dao.deleteProd(ref);
+        
+        dao.getProduit(ref);
     }
 
     /**
      * Test of updateProd method, of class DAO.
      */
     @Test
-    public void testUpdateProd() throws Exception {
-        System.out.println("updateProd");
-        int ref = 0;
-        String nom = "";
-        int fournisseur = 0;
-        int categorie = 0;
-        String quantite_par_unite = "";
-        float prix_unitaire = 0.0F;
-        int unites_en_stock = 0;
-        int unites_commandees = 0;
-        int niveau_de_reappro = 0;
-        int indisponible = 0;
-        DAO instance = null;
-        instance.updateProd(ref, nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testUpdateProdSuccess() throws Exception {
+        int ref = 1;
+        String nom = "Box";
+        int fournisseur = 1;
+        int categorie = 1;
+        String quantite_par_unite = "10 packs";
+        float prix_unitaire = 1.5F;
+        int unites_en_stock=0;
+        int unites_commandees=0;
+        int niveau_de_reappro=0;
+        int indisponible=1;
+        
+        dao.updateProd(ref, nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
+        
+        assertEquals("Box", dao.getProduit(ref).getNom());
+    }
+    
+    @Test (expected = Exception.class)
+    public void testUpdateProdFail() throws Exception {
+        int ref = 1;
+        String nom = "Box";
+        int fournisseur = 1;
+        int categorie = 1;
+        String quantite_par_unite = "10 packs";
+        float prix_unitaire = 1.5F;
+        int unites_en_stock=0;
+        int unites_commandees=0;
+        int niveau_de_reappro=0;
+        int indisponible=5;
+        
+        dao.updateProd(ref, nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
+        
+        assertEquals("Chai", dao.getProduit(ref).getNom());
     }
 }
