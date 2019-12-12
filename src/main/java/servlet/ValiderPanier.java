@@ -46,7 +46,7 @@ public class ValiderPanier extends HttpServlet {
         Panier panier = null;
         User user = null;
         String pass = null;
-        
+        System.out.println("validation");
         try {
             if(session.getAttribute("userSession") != null) 
                 pass = ((User)session.getAttribute("userSession")).getPassword();
@@ -71,6 +71,7 @@ public class ValiderPanier extends HttpServlet {
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = formatter.format(date);
+                System.out.println("ajout");
                 dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites);
             } catch (Exception ex){
                 System.out.println(ex.getMessage());
@@ -84,11 +85,10 @@ public class ValiderPanier extends HttpServlet {
                 throw ex;
             }
             
-        } catch (Exception ex) {   
+        } catch (Exception ex) { 
+            System.out.println(ex.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

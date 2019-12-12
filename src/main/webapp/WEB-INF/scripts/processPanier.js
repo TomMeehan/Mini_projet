@@ -14,7 +14,23 @@ function drawPanier() {
                     var template = $('#panierTemplate').html();
                     var processedTemplate = Mustache.to_html(template,result);
                     $('#panierInfos').html(processedTemplate);
+                    
+                    $("#panierData").submit(function(e){
 
+                        e.preventDefault();     
+
+                        $.ajax({
+                        type: "POST",
+                        url : "validerPanier",
+                        data : result,
+                        error : showError,
+                        success : 
+                                function(data) {
+                                    window.location.href="commandes";
+                                }
+                        });
+                        console.log("preventing submit");
+                    });
                 }
     });
 }
