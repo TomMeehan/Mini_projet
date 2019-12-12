@@ -342,17 +342,23 @@ public class DAO {
     
     //Fonctions admin
     public float chiffAffCat(int categorie, String dateDep, String dateFin) throws SQLException{
-        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
-                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE p.Categorie = ? AND c.SaisieLe BETWEEN ? AND ?";
+        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM (Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) "
+                + " INNER JOIN Commande ON Ligne.Commande = Commande.Numero"
+                + " WHERE Produit.Categorie = ? AND (Commande.SaisieLe BETWEEN ? AND ?)";
         
+        System.out.println(sql);
         float result = 0;
         try (Connection connection = myDataSource.getConnection();
-            Statement stmt = connection.createStatement()){
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            stmt.setInt(1,categorie);
+            stmt.setString(2,dateDep);
+            stmt.setString(3,dateFin);
+            
+            ResultSet rs = stmt.executeQuery();
             
             while (rs.next()){
-                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
+                float chiffreAff=rs.getFloat("Chiffre_affaire");                
                 result  += chiffreAff;
                 
             }
@@ -369,8 +375,13 @@ public class DAO {
                 + "WHERE c.pays = ? AND c.SaisieLe BETWEEN ? AND ?";
         float result = 0;
         try (Connection connection = myDataSource.getConnection();
-            Statement stmt = connection.createStatement()){
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            stmt.setString(1,pays);
+            stmt.setString(2,dateDep);
+            stmt.setString(3,dateFin);
+            
+            ResultSet rs = stmt.executeQuery();
             
             while (rs.next()){
                 float chiffreAff=rs.getFloat("Chiffre d'affaire");                
@@ -387,7 +398,12 @@ public class DAO {
                 + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";
         float result = 0;
         try (Connection connection = myDataSource.getConnection();
-            Statement stmt = connection.createStatement()){
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+            
+            stmt.setInt(1,client);
+            stmt.setString(2,dateDep);
+            stmt.setString(3,dateFin);
+            
             ResultSet rs = stmt.executeQuery(sql);
             
             while (rs.next()){
