@@ -6,7 +6,6 @@
 package servlet;
 
 import beans.Panier;
-import beans.User;
 import forms.LoginForm;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Client;
 import model.DAO;
 import model.DataSourceFactory;
 
@@ -69,7 +69,7 @@ public class Login extends HttpServlet {
     private void newSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         LoginForm form = new LoginForm();
-        User user = form.connectUser(request);
+        Client user = form.connectUser(request);
         HttpSession session = request.getSession();
         Panier panier = new Panier();
         
@@ -80,7 +80,7 @@ public class Login extends HttpServlet {
             session.setAttribute(ATT_USER_SESSION, user);
             session.setAttribute(ATT_PANIER, panier);
             try{
-               session.setAttribute(ATT_COMMANDES, dao.getCommandes(user.getPassword())); 
+               session.setAttribute(ATT_COMMANDES, dao.getCommandes(user.getCode())); 
             } catch (SQLException e){
                 System.out.println(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

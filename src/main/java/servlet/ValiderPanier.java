@@ -7,7 +7,6 @@ package servlet;
 
 import beans.Panier;
 import beans.ProduitPanier;
-import beans.User;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,13 +43,12 @@ public class ValiderPanier extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Client client = null;
         Panier panier = null;
-        User user = null;
         String pass = null;
         
         if(session.getAttribute("userSession") != null){
             try {
 
-               pass = ((User)session.getAttribute("userSession")).getPassword();
+               pass = ((Client)session.getAttribute("userSession")).getCode();
 
                client = dao.getClientInfos(pass);
 

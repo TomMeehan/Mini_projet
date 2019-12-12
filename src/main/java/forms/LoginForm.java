@@ -5,7 +5,7 @@
  */
 package forms;
 
-import beans.User;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +27,15 @@ public final class LoginForm {
     private String result;
     private Map<String, String> errors = new HashMap<>();
     
-    public User connectUser ( HttpServletRequest request ) {
+    public Client connectUser ( HttpServletRequest request ) {
         
         String username = getFieldValue(request, FIELD_USERNAME);
         String password = getFieldValue(request, FIELD_PASSWORD);
         
-        User user = new User();
+        Client client = null;
         
         try {
-            validateCredentials(username,password);
+            client = validateCredentials(username,password);
         } catch ( Exception e ) {
             setErreur ( FIELD_USERNAME + FIELD_PASSWORD , e.getMessage() );
         }
@@ -43,12 +43,9 @@ public final class LoginForm {
         if(errors.isEmpty())
             result = "Success";
         else
-            result = errors.get(FIELD_USERNAME + FIELD_PASSWORD);
+            result = errors.get(FIELD_USERNAME + FIELD_PASSWORD);      
         
-        user.setUsername(username);
-        user.setPassword(password);
-        
-        return user;
+        return client;
     }
 
     public String getResult() {
@@ -64,13 +61,13 @@ public final class LoginForm {
         }
     }
     
-    private void validateCredentials(String username, String password) throws Exception {
+    private Client validateCredentials(String username, String password) throws Exception {
         Client client = null;
         if (dao.checkLogin(username, password))
             client = dao.getClientInfos(password);
         else
             throw new Exception("Utilisateur ou mot de passe incorrect.");
-        
+        return client;
     }
 
     public Map<String, String> getErrors() {

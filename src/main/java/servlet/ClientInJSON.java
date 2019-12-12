@@ -5,7 +5,6 @@
  */
 package servlet;
 
-import beans.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class ClientInJSON extends HttpServlet {
         if(session.getAttribute("userSession") != null){
             try {
 
-                pass = ((User)session.getAttribute("userSession")).getPassword();
+                pass = ((Client)session.getAttribute("userSession")).getCode();
                 client = dao.getClientInfos(pass);
                 client.setCode("HIDDEN");
 
