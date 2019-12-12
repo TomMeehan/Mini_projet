@@ -41,11 +41,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="clientInJSON">Client RAW</a>
                 </li>
-                <c:if test="${not empty sessionScope.userSession}">
-                   <li class="nav-item">
-                        <a class="nav-link" href="panierInJSON">Panier RAW</a>
-                   </li> 
-                </c:if>
                 <!-- END OF TOREMOVE -->
               </ul>
                 

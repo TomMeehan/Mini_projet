@@ -1,39 +1,20 @@
 $(document).ready(function () {
-    drawPanier();
-});
+    $("#panierData").submit(function(e){
 
+        e.preventDefault();     
 
-function drawPanier() {
-    $.ajax({
-        url : "panierInJSON",
-        dataType : "json",
+        $.ajax({
+        type: "POST",
+        url : "validerPanier",
         error : showError,
         success : 
-                function(result) {
-                    
-                    var template = $('#panierTemplate').html();
-                    var processedTemplate = Mustache.to_html(template,result);
-                    $('#panierInfos').html(processedTemplate);
-                    
-                    $("#panierData").submit(function(e){
-
-                        e.preventDefault();     
-
-                        $.ajax({
-                        type: "POST",
-                        url : "validerPanier",
-                        data : result,
-                        error : showError,
-                        success : 
-                                function(data) {
-                                    window.location.href="commandes";
-                                }
-                        });
-                        console.log("preventing submit");
-                    });
+                function(data) {
+                    window.location.href="commandes";
                 }
+        });
+        console.log("preventing submit");
     });
-}
+});
 
 function showError(xhr, status, message) {
     console.log(xhr.responseText);

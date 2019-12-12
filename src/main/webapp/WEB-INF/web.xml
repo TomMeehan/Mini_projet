@@ -61,10 +61,6 @@
         <servlet-class>servlet.AddProduitPanier</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>panierInJSON</servlet-name>
-        <servlet-class>servlet.PanierInJSON</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>validerPanier</servlet-name>
         <servlet-class>servlet.ValiderPanier</servlet-class>
     </servlet>
@@ -127,10 +123,6 @@
     <servlet-mapping>
         <servlet-name>addProduitPanier</servlet-name>
         <url-pattern>/addProduitPanier</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>panierInJSON</servlet-name>
-        <url-pattern>/panierInJSON</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>validerPanier</servlet-name>

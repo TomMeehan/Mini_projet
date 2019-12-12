@@ -12,7 +12,7 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
-        <c:if test="${not empty sessionScope.userSession}">
+        <%--<c:if test="${not empty sessionScope.userSession}">
             <div class="container">
                 <div id="panierInfos"></div>
             </div>
@@ -35,7 +35,28 @@
                     </div>
                 </form>
             </script>   
-        </c:if>
-    <script><jsp:include page="/WEB-INF/scripts/processPanier.js"/></script> 
+        </c:if>--%>
+        
+        <div class="container">
+            <div class="card">
+                <div class="card-body bg-light">
+                      <h1 class="display-4">Mon panier</h1>
+                    </div>
+                  </div>
+                <table class="table">
+                <tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Prix unitaire</th><th>Quantite</th></tr>
+                <c:forEach var="produits" items="${panier.produits}">
+                    <tr><td>${produits.reference}</td><td>${produits.categorie}</td><td>${produits.nom}</td><td>${produits.prix_unitaire} €</td><td>${produits.quantite}</td></tr>
+                </c:forEach>
+                    
+                </table>
+                <form id="panierData">
+                    <div class="input-group">
+                        <input id="produits" name="produits" type="hidden" value="${panier.produits}">
+                        <button id="submit" name="button" type="sumbit" class="btn btn-secondary form-control">Valider</button>
+                    </div>
+                </form>
+        </div>
+    <script><jsp:include page="/WEB-INF/scripts/processPanier.js"/></script>
     </body>
 </html>

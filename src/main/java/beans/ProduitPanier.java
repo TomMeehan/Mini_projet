@@ -5,11 +5,13 @@
  */
 package beans;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Tom
  */
-public class ProduitPanier {
+public class ProduitPanier implements Serializable {
     
     private int reference;
     private String categorie;
