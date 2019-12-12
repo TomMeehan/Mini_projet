@@ -5,11 +5,13 @@
  */
 package servlet;
 
+import beans.Panier;
+import beans.ProduitPanier;
 import beans.User;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,7 @@ import model.DataSourceFactory;
  *
  * @author Tom
  */
-public class ClientInJSON extends HttpServlet {
+public class ValiderPanier extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,29 +38,57 @@ public class ClientInJSON extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession();    
+        HttpSession session = request.getSession(false);
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        String pass = null;
         Client client = null;
+        Panier panier = null;
+        User user = null;
+        String pass = null;
         
         try {
             if(session.getAttribute("userSession") != null) 
                 pass = ((User)session.getAttribute("userSession")).getPassword();
+            
             client = dao.getClientInfos(pass);
-            client.setCode("HIDDEN");
+            
+            if(session.getAttribute("panier") != null)
+                panier = ((Panier)session.getAttribute("panier"));
+            
+            ArrayList<ProduitPanier> produits = panier.getProduits();
+            
+            int[] produitsID = new int[panier.getNbProduits()];
+            int[] quantites = new int[panier.getNbProduits()];
+            int i = 0;
+            
+            for (ProduitPanier p : produits){
+                produitsID[i] = p.getReference();
+                quantites[i] = p.getQuantite();
+                i++;
+            }
+            try {
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = formatter.format(date);
+                System.out.println(dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites));
+            } catch (Exception ex){
+                System.out.println(ex.getMessage());
+                throw ex;
+            }
+            
+            try {
+                session.setAttribute("commandes", dao.getCommandes(client.getCode()));
+            } catch (Exception ex){
+                System.out.println(ex.getMessage());
+                throw ex;
+            }
             
         } catch (Exception ex) {   
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(client);
-            out.println(gsonData);
-        }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,30 +17,19 @@ function drawPanier() {
                     
                     $("#panierData").submit(function(e){
 
-                        e.preventDefault();
+                        e.preventDefault();     
 
-                        var form = $(this);        
-                        console.log(JSON.parse($(this [name="produits"]).val()));
-                        
-                        if (true){
-                        }
-                        else{
-                            $(this [name="unites_en_stock"]).val(unites_en_stock - quantite);
-                            
-                            $.ajax({
-                            type: "POST",
-                            url : "addProduitPanier",
-                            data : form.serialize(),
-                            error : showError,
-                            success : 
-                                    function(data) {
+                        $.ajax({
+                        type: "POST",
+                        url : "validerPanier",
+                        data : result,
+                        error : showError,
+                        success : 
+                                function(data) {
 
-                                    }
-                            });
-                            console.log("preventing submit");
-                        }
-
-                        
+                                }
+                        });
+                        console.log("preventing submit");
                     });
                 }
     });
