@@ -12,50 +12,36 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
-        <%--<c:if test="${not empty sessionScope.userSession}">
-            <div class="container">
-                <div id="panierInfos"></div>
-            </div>
-            <script id="panierTemplate" type="text/template">
-                <div class="card">
-                    <div class="card-body bg-light">
-                      <h1 class="display-4">Mon panier</h1>
-                    </div>
-                  </div>
-                <table class="table">
-                <tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Prix unitaire</th><th>Quantite</th></tr>
-                {{#produits}}
-                    <tr><td>{{reference}}</td><td>{{categorie}}</td><td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{quantite}}</td></tr>
-                {{/produits}}
-                </table>
-                <form id="panierData">
-                    <div class="input-group">
-                        <input id="produits" name="produits" type="hidden" value="{{produits}}">
-                        <button id="submit" name="button" type="sumbit" class="btn btn-secondary form-control">Valider</button>
-                    </div>
-                </form>
-            </script>   
-        </c:if>--%>
-        
         <div class="container">
-            <div class="card">
-                <div class="card-body bg-light">
-                      <h1 class="display-4">Mon panier</h1>
+                <div class="card my-4">
+                    <div class="card-body bg-light text-center">
+                        <h1 class="display-4">Mon panier</h1>
                     </div>
-                  </div>
-                <table class="table">
-                <tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Prix unitaire</th><th>Quantite</th></tr>
+                </div>
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark"><tr><th>Ref.</th><th>Catégorie</th><th>Nom</th><th>Prix unitaire</th><th>Quantite</th></tr></thead>
                 <c:forEach var="produits" items="${panier.produits}">
-                    <tr><td>${produits.reference}</td><td>${produits.categorie}</td><td>${produits.nom}</td><td>${produits.prix_unitaire} €</td><td>${produits.quantite}</td></tr>
+                        <tr><td>${produits.reference}</td><td>${produits.categorie}</td><td>${produits.nom}</td><td>${produits.prix_unitaire} €</td><td>${produits.quantite}</td></tr>
                 </c:forEach>
                     
                 </table>
-                <form id="panierData">
-                    <div class="input-group">
-                        <input id="produits" name="produits" type="hidden" value="${panier.produits}">
-                        <button id="submit" name="button" type="sumbit" class="btn btn-secondary form-control">Valider</button>
+            <c:choose>
+            <c:when test="${!empty panier.produits}">
+                <form id="panierData" class="form my-4">
+                    <div class="input-group justify-content-center">
+                        <input id="produits" name="produits" type="hidden" value="${panier.produits}">                       
+                        <button id="submit" name="button" type="sumbit" class="btn btn-secondary">Valider la commande</button>                      
                     </div>
                 </form>
+            </c:when>
+                <c:otherwise>
+                    <div class="card my-4">
+                        <div class="card-body bg-light text-center">
+                            <p class="card-text">Votre panier est vide.</p>
+                        </div>
+                    </div>                    
+                </c:otherwise>    
+            </c:choose>
         </div>
     <script><jsp:include page="/WEB-INF/scripts/processPanier.js"/></script>
     </body>

@@ -25,7 +25,7 @@
               </div>
             </c:if>
         <c:if test="${!empty sessionScope.userSession}">
-            <form  method="psot" action="updateClient">
+            <form  method="post" action="updateClient">
                 <table class="table table-bordered" >
                     <tbody>
                         <tr>

@@ -37,7 +37,7 @@
                         </tr>
                         <tr>
                           <th scope="row" class="bg-dark text-light">Adresse</th>
-                          <td>${userSession.adresse}, ${userSession.code_postal} ${userSession.ville}, ${userSession.pays}</td>
+                          <td>${userSession.adresse}, ${userSession.code_postal} ${userSession.ville}, ${userSession.region}, ${userSession.pays}</td>
                         </tr>
                         <tr>
                           <th scope="row" class="bg-dark text-light">Telephone</th>

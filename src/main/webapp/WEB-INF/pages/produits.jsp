@@ -21,8 +21,8 @@
                       <h1 class="display-4">{{titre}}</h1>
                     </div>
                   </div>                   
-                    <table class = "table">
-                    <tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th></tr>
+                    <table class = "table table-striped">
+                    <thead class="thead-dark"><tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th><th></th></tr></thead>
                     {{#produits}}
                         <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
                                 <td>

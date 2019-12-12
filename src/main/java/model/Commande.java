@@ -17,7 +17,7 @@ public class Commande implements Serializable{
     
     private int numero ;
     private String saisieLe;
-    private String envoyee_le;
+    private String envoyeeLe;
     private float port;
     private String destinataire;
     private String adresseLivraison;
@@ -27,11 +27,11 @@ public class Commande implements Serializable{
     private String paysLivraison;
     private float remise;
 
-    public Commande(String client, int numero, String saisieLe, String envoyee_le, float port, String destinataire, String adresseLivraison, String villeLivraison, String regionLivraison, String code_postalLivrais, String paysLivraison, float remise) {
+    public Commande(String client, int numero, String saisieLe, String envoyeeLe, float port, String destinataire, String adresseLivraison, String villeLivraison, String regionLivraison, String code_postalLivrais, String paysLivraison, float remise) {
         this.client = client;
         this.numero = numero;
         this.saisieLe = saisieLe;
-        this.envoyee_le = envoyee_le;
+        this.envoyeeLe = envoyeeLe;
         this.port = port;
         this.destinataire = destinataire;
         this.adresseLivraison = adresseLivraison;
@@ -66,12 +66,12 @@ public class Commande implements Serializable{
         this.saisieLe = saisieLe;
     }
 
-    public String getEnvoyee_le() {
-        return envoyee_le;
+    public String getEnvoyeeLe() {
+        return envoyeeLe;
     }
 
-    public void setEnvoyee_le(String envoyee_le) {
-        this.envoyee_le = envoyee_le;
+    public void setEnvoyeeLe(String envoyeeLe) {
+        this.envoyeeLe = envoyeeLe;
     }
 
     public float getPort() {

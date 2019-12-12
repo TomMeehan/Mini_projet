@@ -61,14 +61,12 @@ public class UpdateClient extends HttpServlet {
 
         String errors = new String();
         
-        HttpSession session = request.getSession();
+        Client updatedClient = null;
         
+        HttpSession session = request.getSession();
         if (session.getAttribute("userSession") != null){
             try {
                 
-
-
-
                     code = ((Client) session.getAttribute("userSession")).getCode();
 
                     if (code != null) {
@@ -82,12 +80,14 @@ public class UpdateClient extends HttpServlet {
                             code_postal = request.getParameter(FIELD_CODE_POSTAL);
                             pays = request.getParameter(FIELD_PAYS);
                             region = request.getParameter(FIELD_REGION);
+                            System.out.println(region);
                             telephone = request.getParameter(FIELD_TELEPHONE);
                             fax = request.getParameter(FIELD_FAX); 
                     }
                     dao.updateClientInfos(code, societe, contact, fonction, adresse, ville, code_postal, pays, region, telephone, fax);
-
-
+                        
+                    updatedClient = dao.getClientInfos(code);
+                    session.setAttribute("userSession",updatedClient);
 
 
             } catch (Exception e) {
