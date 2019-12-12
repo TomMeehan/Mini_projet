@@ -5,47 +5,41 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author pedago
  */
-public class Commande {
+public class Commande implements Serializable{
     
     private String client;
     
     private int numero ;
-    private String saisie_le;
+    private String saisieLe;
     private String envoyee_le;
     private float port;
-    private String Destinataire;
-    private String adresse_livraison;
-    private String ville_livraison;
-    private String region_livraison;
-    private String code_postal_livrais;
-    private String pays_livraison;
+    private String destinataire;
+    private String adresseLivraison;
+    private String villeLivraison;
+    private String regionLivraison;
+    private String code_postalLivrais;
+    private String paysLivraison;
     private float remise;
 
-    public Commande(int numero, String client, String saisieLe, String envoyeeLe, float port, String Destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livraison, String pays_livraison, float remise) {
-        this.numero = numero;
+    public Commande(String client, int numero, String saisieLe, String envoyee_le, float port, String destinataire, String adresseLivraison, String villeLivraison, String regionLivraison, String code_postalLivrais, String paysLivraison, float remise) {
         this.client = client;
-        this.saisie_le = saisieLe;
-        this.envoyee_le = envoyeeLe;
-        this.port = port;
-        this.Destinataire = Destinataire;
-        this.adresse_livraison = adresse_livraison;
-        this.ville_livraison = ville_livraison;
-        this.region_livraison = region_livraison;
-        this.code_postal_livrais = code_postal_livraison;
-        this.pays_livraison = pays_livraison;
-        this.remise = remise;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
         this.numero = numero;
+        this.saisieLe = saisieLe;
+        this.envoyee_le = envoyee_le;
+        this.port = port;
+        this.destinataire = destinataire;
+        this.adresseLivraison = adresseLivraison;
+        this.villeLivraison = villeLivraison;
+        this.regionLivraison = regionLivraison;
+        this.code_postalLivrais = code_postalLivrais;
+        this.paysLivraison = paysLivraison;
+        this.remise = remise;
     }
 
     public String getClient() {
@@ -56,20 +50,28 @@ public class Commande {
         this.client = client;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
     public String getSaisieLe() {
-        return saisie_le;
+        return saisieLe;
     }
 
     public void setSaisieLe(String saisieLe) {
-        this.saisie_le = saisieLe;
+        this.saisieLe = saisieLe;
     }
 
-    public String getEnvoyeeLe() {
+    public String getEnvoyee_le() {
         return envoyee_le;
     }
 
-    public void setEnvoyeeLe(String envoyeeLe) {
-        this.envoyee_le = envoyeeLe;
+    public void setEnvoyee_le(String envoyee_le) {
+        this.envoyee_le = envoyee_le;
     }
 
     public float getPort() {
@@ -81,51 +83,51 @@ public class Commande {
     }
 
     public String getDestinataire() {
-        return Destinataire;
+        return destinataire;
     }
 
-    public void setDestinataire(String Destinataire) {
-        this.Destinataire = Destinataire;
+    public void setDestinataire(String destinataire) {
+        this.destinataire = destinataire;
     }
 
-    public String getAdresse_livraison() {
-        return adresse_livraison;
+    public String getAdresseLivraison() {
+        return adresseLivraison;
     }
 
-    public void setAdresse_livraison(String adresse_livraison) {
-        this.adresse_livraison = adresse_livraison;
+    public void setAdresseLivraison(String adresseLivraison) {
+        this.adresseLivraison = adresseLivraison;
     }
 
-    public String getVille_livraison() {
-        return ville_livraison;
+    public String getVilleLivraison() {
+        return villeLivraison;
     }
 
-    public void setVille_livraison(String ville_livraison) {
-        this.ville_livraison = ville_livraison;
+    public void setVilleLivraison(String villeLivraison) {
+        this.villeLivraison = villeLivraison;
     }
 
-    public String getRegion_livraison() {
-        return region_livraison;
+    public String getRegionLivraison() {
+        return regionLivraison;
     }
 
-    public void setRegion_livraison(String region_livraison) {
-        this.region_livraison = region_livraison;
+    public void setRegionLivraison(String regionLivraison) {
+        this.regionLivraison = regionLivraison;
     }
 
-    public String getCode_postal_livrais() {
-        return code_postal_livrais;
+    public String getCode_postalLivrais() {
+        return code_postalLivrais;
     }
 
-    public void setCode_postal_livrais(String code_postal_livrais) {
-        this.code_postal_livrais = code_postal_livrais;
+    public void setCode_postalLivrais(String code_postalLivrais) {
+        this.code_postalLivrais = code_postalLivrais;
     }
 
-    public String getPays_livraison() {
-        return pays_livraison;
+    public String getPaysLivraison() {
+        return paysLivraison;
     }
 
-    public void setPays_livraison(String pays_livraison) {
-        this.pays_livraison = pays_livraison;
+    public void setPaysLivraison(String paysLivraison) {
+        this.paysLivraison = paysLivraison;
     }
 
     public float getRemise() {
@@ -135,5 +137,7 @@ public class Commande {
     public void setRemise(float remise) {
         this.remise = remise;
     }
+
+    
     
 }

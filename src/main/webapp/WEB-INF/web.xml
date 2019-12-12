@@ -72,10 +72,6 @@
         <servlet-name>commandes</servlet-name>
         <servlet-class>servlet.Commandes</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>commandesInJSON</servlet-name>
-        <servlet-class>servlet.CommandesInJSON</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -143,10 +139,6 @@
     <servlet-mapping>
         <servlet-name>commandes</servlet-name>
         <url-pattern>/commandes</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>commandesInJSON</servlet-name>
-        <url-pattern>/commandesInJSON</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -14,29 +14,25 @@
        <jsp:include page="/WEB-INF/includes/header.jsp"/>
        <c:if test="${not empty sessionScope.userSession}">
             <div class="container">
-                <div id="commandesData"></div>
-            </div>
-            <script id="commandesTemplate" type="text/template">
                 <div class="card my-4">
                     <div class="card-body bg-light">
                       <h1 class="display-4">Mes commandes</h1>
                     </div>
                   </div>
-                {{#commandes}}
+                <c:forEach var="record" items="${commandes}">
                 <div class="card my-4">
                     <div class="card-header">
-                    <h4>Commande N°{{numero}}</h4>
+                    <h4>Commande N°${record.numero}</h4>
                   </div>
                     <div class="card-body">
-                      <h5 class="card-title">Date de saisie : {{saisie_le}}</h5>
-                      <p class="card-text"><strong>Destinataire :</strong>  {{Destinataire}}</p>     
-                      <p class="card-text"><strong>Frais de port :</strong> {{port}} €</p>
-                      <p class="card-text"><strong>Remise :</strong> {{remise}} €</p>
+                      <h5 class="card-title">Date de saisie : ${record.saisieLe}</h5>
+                      <p class="card-text"><strong>Destinataire :</strong>  ${record.destinataire}</p>     
+                      <p class="card-text"><strong>Frais de port :</strong> ${record.port} €</p>
+                      <p class="card-text"><strong>Remise :</strong> ${record.remise} €</p>
                     </div>
                 </div>
-                {{/commandes}}       
-            </script>   
+                </c:forEach>       
+            </div>                    
         </c:if>
-       <script><jsp:include page="/WEB-INF/scripts/processCommandes.js"/></script> 
     </body>
 </html>

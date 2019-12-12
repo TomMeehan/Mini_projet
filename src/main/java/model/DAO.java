@@ -137,7 +137,7 @@ public class DAO {
                 String pays_livraison = rs.getString("Pays_livraison");
                 float remise = rs.getFloat("Remise");
                 
-                result.add(new Commande(numero, client, saisie_le, envoyee_le, port, Destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise));
+                result.add(new Commande(client,numero,saisie_le, envoyee_le, port, Destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise));
             }
         }
         return result;
