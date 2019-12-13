@@ -45,52 +45,50 @@ public class ValiderPanier extends HttpServlet {
         Panier panier = null;
         String pass = null;
         
-        if(session.getAttribute("userSession") != null){
-            try {
 
-               pass = ((Client)session.getAttribute("userSession")).getCode();
+        try {
+            if(session.getAttribute("userSession") != null)
+                pass = ((Client)session.getAttribute("userSession")).getCode();
 
-               client = dao.getClientInfos(pass);
+           client = dao.getClientInfos(pass);
 
-               if(session.getAttribute("panier") != null)
-                   panier = ((Panier)session.getAttribute("panier"));
+           if(session.getAttribute("panier") != null)
+               panier = ((Panier)session.getAttribute("panier"));
 
-               ArrayList<ProduitPanier> produits = panier.getProduits();
+           ArrayList<ProduitPanier> produits = panier.getProduits();
 
-               int[] produitsID = new int[panier.getNbProduits()];
-               int[] quantites = new int[panier.getNbProduits()];
-               int i = 0;
+           int[] produitsID = new int[panier.getNbProduits()];
+           int[] quantites = new int[panier.getNbProduits()];
+           int i = 0;
 
-               for (ProduitPanier p : produits){
-                   produitsID[i] = p.getReference();
-                   quantites[i] = p.getQuantite();
-                   i++;
-               }
-               try {
-                   Date date = new Date();
-                   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                   String formattedDate = formatter.format(date);
-                   System.out.println("ajout");
-                   dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites);
-               } catch (Exception ex){
-                   System.out.println(ex.getMessage());
-                   throw ex;
-               }
-
-               try {
-                   session.setAttribute("commandes", dao.getCommandes(client.getCode()));
-               } catch (Exception ex){
-                   System.out.println(ex.getMessage());
-                   throw ex;
-               }
-
-           } catch (Exception ex) { 
+           for (ProduitPanier p : produits){
+               produitsID[i] = p.getReference();
+               quantites[i] = p.getQuantite();
+               i++;
+           }
+           try {
+               Date date = new Date();
+               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+               String formattedDate = formatter.format(date);
+               System.out.println("ajout");
+               dao.addCommande(client.getCode(), formattedDate, formattedDate, String.valueOf(panier.getPrixTotal()/10), client.getContact(), client.getAdresse(), client.getVille(), client.getRegion(), client.getCode_postal(), client.getPays(), 0, produitsID, quantites);
+           } catch (Exception ex){
                System.out.println(ex.getMessage());
-               response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-           }      
-        }else {
-            response.sendRedirect("home");
-        }  
+               throw ex;
+           }
+
+           try {
+               session.setAttribute("commandes", dao.getCommandes(client.getCode()));
+           } catch (Exception ex){
+               System.out.println(ex.getMessage());
+               throw ex;
+           }
+
+       } catch (Exception ex) { 
+           System.out.println(ex.getMessage());
+           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+       }      
+
         
        
     }

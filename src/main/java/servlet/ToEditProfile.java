@@ -31,12 +31,8 @@ public class ToEditProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        if (session.getAttribute("userSession") != null){
-            request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request,response);
-        } else {
-            response.sendRedirect("home");
-        }
+        request.getRequestDispatcher("/WEB-INF/pages/user/editProfile.jsp").forward(request,response);
+
         
     }
 
