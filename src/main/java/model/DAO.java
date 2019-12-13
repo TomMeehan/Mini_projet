@@ -27,7 +27,7 @@ public class DAO {
 	}
         
     public Client getClientInfos(String Code) throws SQLException{
-        String sql = "SELECT * FROM Client WHERE Code = ?";
+        String sql = "SELECT societe,contact,fonction,adresse,ville,region,code_postal,pays,telephone,fax FROM Client WHERE Code = ?";
         Client me = null;
         
         try (Connection connection = myDataSource.getConnection();
@@ -36,17 +36,26 @@ public class DAO {
                try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()){
                         
-                        
-                        String societe = rs.getString("societe");    
+                        String societe = rs.getString("societe");
+                        if (societe != null) societe = societe.trim();
                         String contact = rs.getString("contact");
+                        if (contact != null) contact = contact.trim();
                         String fonction = rs.getString("fonction");
+                        if (fonction != null) fonction = fonction.trim();
                         String adresse = rs.getString("adresse");
+                        if (adresse != null) adresse = adresse.trim();
                         String ville = rs.getString("ville");
+                        if (ville != null) ville = ville.trim();
                         String region = rs.getString("region");
+                        if (region != null) region = region.trim();
                         String code_postal = rs.getString("code_postal");
+                        if (code_postal != null) code_postal = code_postal.trim();
                         String pays = rs.getString("pays");
+                        if (pays != null) pays = pays.trim();
                         String telephone = rs.getString("telephone");
+                        if (telephone != null) telephone = telephone.trim();
                         String fax = rs.getString("fax");
+                        if (fax != null) fax = fax.trim();
                         me = new Client(Code,societe,contact,fonction,adresse,ville,region,code_postal,pays,telephone,fax);
                     }
                                          
