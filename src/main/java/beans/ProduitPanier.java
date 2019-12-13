@@ -19,14 +19,16 @@ public class ProduitPanier implements Serializable {
     private float prix_unitaire;
     private int quantite;
     private int unites_en_stock;
+    private int stock_initial;
 
-    public ProduitPanier(int reference, String categorie, String nom, float prix_unitaire, int quantite, int unites_en_stock) {
+    public ProduitPanier(int reference, String categorie, String nom, float prix_unitaire, int quantite, int unites_en_stock, int stock_initial) {
         this.reference = reference;
         this.categorie = categorie;
         this.nom = nom;
         this.prix_unitaire = prix_unitaire;
         this.quantite = quantite;
         this.unites_en_stock = unites_en_stock;
+        this.stock_initial = stock_initial;
     }
 
     public int getReference() {
@@ -75,6 +77,14 @@ public class ProduitPanier implements Serializable {
 
     public void setUnites_en_stock(int unites_en_stock) {
         this.unites_en_stock = unites_en_stock;
+    }
+
+    public int getStock_initial() {
+        return stock_initial;
+    }
+
+    public void setStock_initial(int stock_initial) {
+        this.stock_initial = stock_initial;
     }
     
     

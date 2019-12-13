@@ -54,19 +54,21 @@ function drawProductTable() {
 
                         e.preventDefault();
 
-                        var form = $(this);        
-                        var unites_en_stock = parseInt($(this [name="unites_en_stock"]).val());
+                        var form = $(this);    
+                        var id = $(this).attr("id");
+                        
+                        var unites_en_stock = parseInt($("#unites_en_stock"+id).val());
                         console.log("stock :" + unites_en_stock);
                         
-                        var quantite = parseInt($(this [name="quantite"]).val());
+                        var quantite = parseInt($("#quantite"+id).val());
                         console.log("quantite :" + quantite);
-                        var idSumbitBtn = $(this [name="button"]);
+                        var idSumbitBtn = $("#submit"+id);
                         
                         if (unites_en_stock < quantite){
                             idSumbitBtn.popover('disable');    
                             idSumbitBtn.attr("disabled",true);
                             
-                            $(this [name="quantite"]).change( function (e) {
+                            $("#quantite"+id).change( function (e) {
 
                                 if(parseInt($(this).val()) <= unites_en_stock){
                                     console.log("oui");
@@ -75,8 +77,7 @@ function drawProductTable() {
                                 }
                             });
                         }
-                        else{
-                            $(this [name="unites_en_stock"]).val(unites_en_stock - quantite);
+                        else{                          
                             
                             $.ajax({
                             type: "POST",
@@ -85,7 +86,9 @@ function drawProductTable() {
                             error : showError,
                             success : 
                                     function(data) {
-
+                                        unites_en_stock -= quantite;
+                                        $("#unites_en_stock"+id).val(unites_en_stock);
+                                        console.log($("#unites_en_stock"+id).val());
                                     }
                             });
                             console.log("preventing submit");

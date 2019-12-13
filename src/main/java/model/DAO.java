@@ -305,7 +305,7 @@ public class DAO {
     
     String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
     
-    String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock + ?, Unites_Commandees = Unites_en_stock - ? WHERE Reference = ?";
+    String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock - ?, Unites_Commandees = Unites_en_stock - ? WHERE Reference = ?";
     int updtTransa=-1;
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){

@@ -89,7 +89,7 @@ public class ValiderPanier extends HttpServlet {
            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
        }      
 
-        
+       response.sendRedirect("commandes");
        
     }
 

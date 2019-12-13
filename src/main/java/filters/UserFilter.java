@@ -39,7 +39,6 @@ public class UserFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
             try {
-                    System.out.println("filtrage");
                     HttpSession session = ((HttpServletRequest) request).getSession(false);
                     if (session != null && session.getAttribute("userSession") != null) {			
                             chain.doFilter(request, response);

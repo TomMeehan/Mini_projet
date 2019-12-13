@@ -26,9 +26,9 @@
                     {{#produits}}
                         <tr><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
                                 <td>
-                                <form class="productData">
+                                <form class="productData" id={{reference}}>
                                     <div class="input-group">
-                                        <input class="form-control" id="quantite{{reference}}" name="quantite" type="number" value="1" min="0" max="10">
+                                        <input class="form-control" id="quantite{{reference}}" name="quantite" type="number" value="1" min="0" max="100">
                                         <input id="reference{{reference}}" name="reference" type="hidden" value="{{reference}}">
                                         <input id="categorie{{reference}}" name="categorie" type="hidden" value="{{categorie.libelle}}">
                                         <input id="nom{{reference}}" name="nom" type="hidden" value="{{nom}}">

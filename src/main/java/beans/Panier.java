@@ -6,7 +6,6 @@
 package beans;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *
@@ -31,21 +30,34 @@ public class Panier {
         this.prixTotal = prixTotal;
     }
     
-    public void addProduit(ProduitPanier p){
+    public void addProduit(ProduitPanier p, boolean isUpdate){
         boolean  trouve = false;
+        int nbTotal = 0;
+        float prix = 0;
         
         for (ProduitPanier pL : this.produits){
             if (p.getReference() == pL.getReference()){
-                trouve = true;
-                pL.setQuantite(pL.getQuantite() + p.getQuantite());
+                trouve = true; 
+                if (isUpdate){
+                    pL.setQuantite(p.getQuantite());
+                    pL.setUnites_en_stock(p.getUnites_en_stock()); 
+                }
+                    
+                else{
+                    pL.setQuantite(pL.getQuantite() + p.getQuantite());
+                    pL.setUnites_en_stock(pL.getUnites_en_stock() - p.getQuantite()); 
+                }
+                  
+                
             }
+            nbTotal += pL.getQuantite();
+            prix += pL.getQuantite() * pL.getPrix_unitaire();
         }
         
         if (!trouve) this.produits.add(p);
 
-        
-        nbTotalProduits += p.getQuantite();
-        prixTotal += p.getPrix_unitaire() * p.getQuantite();
+        this.nbTotalProduits = nbTotal;
+        this.prixTotal = prix;
     }
     
     public void removeProduit(ProduitPanier p) throws Exception{
@@ -71,7 +83,7 @@ public class Panier {
         this.produits = produits;
     }
 
-    public int getNbTotalProduits() {
+    public int getNbTotalProduits() {   
         return nbTotalProduits;
     }
 
