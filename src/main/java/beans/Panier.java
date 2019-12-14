@@ -60,17 +60,19 @@ public class Panier {
         this.prixTotal = prix;
     }
     
-    public void removeProduit(ProduitPanier p) throws Exception{
-        
+    public void removeProduit(int reference, int quantite, float prix_unitaire) throws Exception{
         boolean  trouve = false;
         
         for (ProduitPanier pL : this.produits){
-            if (p.getReference() == pL.getReference()){
+            if (reference == pL.getReference()){
+                System.out.println("trouvé");
                 trouve = true;
                 this.produits.remove(pL);
+                break;
             }
         }
-        
+        this.nbTotalProduits -= quantite;
+        this.prixTotal -= prix_unitaire * quantite;
         if (!trouve) throw new Exception("Produit introuvable");
     }
     
