@@ -58,6 +58,9 @@ public class UpdatePanier extends HttpServlet {
         
         String action = request.getParameter("action");
         if (action.equals("update")) updatePanier(session, request, response);
+        else if (action.equals("remove")) removeFromPanier(session, request, response);
+        
+        response.sendRedirect("toPanier");
         
         
     }
@@ -101,6 +104,31 @@ public class UpdatePanier extends HttpServlet {
             produit = new ProduitPanier(reference,categorie,nom,prix_unitaire,quantite,unites_en_stock,unites_en_stock+quantite);
             panier.addProduit(produit,true);
             session.setAttribute("panier",panier);
+        }
+    }
+    
+    public void removeFromPanier(HttpSession session, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+        int reference = -1;
+        String refString = request.getParameter("reference");
+        if (refString != null) reference = Integer.valueOf(refString);
+        
+        int quantite = -1;
+        String qteString = request.getParameter("quantite");
+        if (qteString != null) quantite = Integer.valueOf(qteString);
+        
+        float prix_unitaire = -1f;
+        String prixString = request.getParameter("prix_unitaire");
+        if (prixString != null) prix_unitaire = Float.valueOf(prixString);
+        
+        try {
+            panier.removeProduit(reference,quantite,prix_unitaire);
+            session.setAttribute("panier",panier);
+        } catch (Exception e) {
+            System.out.println("aled");
+            session.setAttribute("errors", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

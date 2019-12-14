@@ -3,11 +3,10 @@ $(document).ready(function () {
     $(".quantite").change( function(e){     
         
         
-        
         var id = $(this).attr("id");
-        /*if ($(this).val() == 0)
+        if ($(this).val() == 0)
             removeFromPanier(id);
-        else{*/
+        else{
             var categorie = $("#cat"+id).val();
             var nom = $("#nom"+id).val();
             var prix_unitaire = $("#prix"+id).val();
@@ -31,7 +30,7 @@ $(document).ready(function () {
                         //window.location.href="commandes";
                     }
             }); 
-        //}
+        }
         
     });
     /*$("#panierData").submit(function(e){
@@ -51,6 +50,41 @@ $(document).ready(function () {
         console.log("preventing submit");
     });*/
 });
+
+function removeFromPanier(id){
+    
+    var answer = confirm("Voulez vous vraiment supprimer cet article ?");
+    
+    if (answer){
+        
+        var prix_unitaire = $("#prix"+id).val();
+        var quantite = $("#"+id).val();
+
+        
+        $.ajax({
+        type: "POST",
+        url : "updatePanier",
+        data : { action : "remove",
+            reference : id,
+            quantite : quantite,
+            prix_unitaire : prix_unitaire},
+        error : showError,
+        success : 
+                function(data) {
+                    $("#tr"+id).remove();
+                    $("#qteInit"+id).remove();
+                    $("#cat"+id).remove();
+                    $("#nom"+id).remove();
+                    $("#prix"+id).remove();
+                    $("#stock"+id).remove();
+                    $("#btn"+id).remove();
+                    //window.location.href="commandes";
+                }
+    }); 
+    }
+    
+    
+}
 
 function showError(xhr, status, message) {
     console.log(xhr.responseText);
