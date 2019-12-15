@@ -5,27 +5,18 @@
  */
 package servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.DAO;
-import model.DataSourceFactory;
 
 /**
  *
- * @author Gwen
+ * @author Tom
  */
-public class AdminStats extends HttpServlet {
+public class ToStats extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,51 +30,7 @@ public class AdminStats extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-        
-        HttpSession session = request.getSession(false);
-        
-        List<DAO.Pair<String,Float>> data = new ArrayList();
-        Properties result = new Properties();
-        String typeStat = request.getParameter("typeStat");
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
-        try {
-            if (typeStat != null){
-                switch (typeStat){
-                    case "Categories":
-                        data = dao.chiffAffCat(startDate, endDate); 
-                        result.put("type","Categories");
-                        request.setAttribute("data",data);
-                        break;
-                    case "Pays":
-                        data = dao.chiffAffPays(startDate, endDate);
-                        result.put("type","Pays");
-                        request.setAttribute("data",data);
-                        break;
-                    case "Clients":
-                        data = dao.chiffAffClient(startDate, endDate);
-                        result.put("type","Clients");
-                        request.setAttribute("data", data);
-                }
-                result.put("data",data);
-            }
-            
-            
-            
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.setAttribute("data", Collections.EMPTY_LIST);
-            request.setAttribute("message", ex.getMessage());
-        }
-        try (PrintWriter out = response.getWriter()){
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String gsonData = gson.toJson(result);
-            out.println(gsonData);
-        }
-
+        request.getRequestDispatcher("WEB-INF/pages/admin/adminPage.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

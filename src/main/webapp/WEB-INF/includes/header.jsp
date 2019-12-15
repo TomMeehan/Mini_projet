@@ -70,9 +70,8 @@
                     <img src="images/profil_image.png" width="30" height="30"/> Espace admin
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                      <a href="home" class="dropdown-item">Statistiques</a>
+                      <a href="toStats" class="dropdown-item">Statistiques</a>
                       <a href="toEditProduit?action=add" class="dropdown-item">Ajouter un produit</a>
-                      <a href="home" class="dropdown-item">Modifier produit</a>
                       <div class="dropdown-divider"></div>
                       <a href="disconnect" class="dropdown-item">Logout</a>
                     </div>

@@ -453,7 +453,6 @@ public class DAO {
                     //System.out.println("result = "+ result + "CA = "+chiffreAff);
 
                 }
-                //System.out.println("result = "+ result);
                 chiffAffCat.add(new Pair(cat.getLibelle(),result));
                 result=0;
             }
