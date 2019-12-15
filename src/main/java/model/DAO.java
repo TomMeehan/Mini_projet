@@ -296,7 +296,7 @@ public class DAO {
         }
     }
     
-    public int addCommande(String client, String saisie_le, String envoyee_le, String port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
+    public int addCommande(String client, String saisie_le, String envoyee_le, float port, String destinataire, String adresse_livraison, String ville_livraison, String region_livraison, String code_postal_livrais, String pays_livraison, float remise,
                             int[] produitID, int[] quantite ) throws Exception{
     if (produitID.length != quantite.length){
                     throw new Exception("Produits != Quantite");
@@ -305,15 +305,18 @@ public class DAO {
     
     String sql2 = "INSERT INTO Ligne VALUES (?,?,?)";
     
-    String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock - ?, Unites_Commandees = Unites_en_stock - ? WHERE Reference = ?";
+    String sql3 = "UPDATE Produit SET Unites_en_stock = Unites_en_stock - ?, Unites_Commandees = Unites_Commandees + ? WHERE Reference = ?";
     int updtTransa=-1;
     try (Connection connection = myDataSource.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS)){
             connection.setAutoCommit(false);
+            
+
+            
             stmt.setString(1, client);
             stmt.setString(2, saisie_le);
             stmt.setString(3, envoyee_le);
-            stmt.setString(4, port);
+            stmt.setFloat(4, port);
             stmt.setString(5, destinataire);
             stmt.setString(6, adresse_livraison);
             stmt.setString(7, ville_livraison);
@@ -335,7 +338,9 @@ public class DAO {
                         
                         for (int produit = 0; produit < produitID.length; produit++){
                         ligStmt.clearParameters();
+                        //                           num de la ligne |  num de la commande | Ref du rod | Quantite 
                         System.out.println("\n -- " + produit + " : " + numLigne + "," + produitID[produit] + "," + quantite[produit]);
+                        //System.out.println("\n -- " + produit + " : Commande n° :" + numLigne + "," + this.getProduit(produitID[produit]).getNom() + "," + quantite[produit]);
                         
                         ligStmt.setInt(1, numLigne);
                         ligStmt.setInt(2, produitID[produit]);
@@ -369,7 +374,9 @@ public class DAO {
     }
     
         public List<String> getPays() throws SQLException{
-        String sql = "SELECT * FROM Client";
+        String sql = "SELECT DISTINCT Pays_Livraison FROM Commande";
+        
+        //String sql = "SELECT Pays FROM Client";
         
         List<String> tousPays = new ArrayList();
         
@@ -379,28 +386,48 @@ public class DAO {
             ResultSet rs = stmt.executeQuery(sql);
             
             while (rs.next()){
-                tousPays.add(rs.getString("Pays"));
+                tousPays.add(rs.getString("Pays_Livraison"));
             }
                
         }
         return tousPays ;  
-    } 
+    }
+        
+        public List<String> getClients() throws SQLException{
+        String sql = "SELECT Code FROM Client";
+        
+        //String sql = "SELECT Pays FROM Client";
+        
+        List<String> tousClients = new ArrayList();
+        
+        try (Connection connection = myDataSource.getConnection();
+            Statement stmt = connection.createStatement()) {
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while (rs.next()){
+                tousClients.add(rs.getString("Code"));
+            }
+               
+        }
+        return tousClients ;  
+    }         
     
         
     //Fonctions admin
-    public List<Pair<String,Integer>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
-        /*String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+    public List<Pair<String,Float>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
+        String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Categorie = ? AND Commande.SaisieLe BETWEEN ? AND ?";*/
-        
+                + " WHERE x.Categorie = ? AND x.Saisie_le BETWEEN ? AND ?";
+        /*
         String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
         
         
         float result = 0;
         List<Categorie> listeCat=null;
-        List<Pair<String,Integer>> chiffAffCat =  new ArrayList();
+        List<Pair<String,Float>> chiffAffCat =  new ArrayList();
                 
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
@@ -417,12 +444,17 @@ public class DAO {
                 ResultSet rs = pstmt.executeQuery();
 
                 while (rs.next()){
+
+                    
                     float chiffreAff=rs.getFloat("Chiffre_affaire");                
                     result  += chiffreAff;
+                    
+                    //System.out.println("result = "+ result + "CA = "+chiffreAff);
 
                 }
-
+                //System.out.println("result = "+ result);
                 chiffAffCat.add(new Pair(cat.getLibelle(),result));
+                result=0;
             }
 
         }
@@ -431,20 +463,20 @@ public class DAO {
         
     }
     
-    public List<Pair<String,Integer>> chiffAffPays(String dateDep, String dateFin) throws SQLException{
+    public List<Pair<String,Float>> chiffAffPays(String dateDep, String dateFin) throws SQLException{
+
+        String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+                + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
+                + " WHERE x.Pays_Livraison = ? AND x.Saisie_le BETWEEN ? AND ?";
         /*
-        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
-                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE c.pays = ? AND c.SaisieLe BETWEEN ? AND ?";*/
-        
         String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + "Client.Pays = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+                + " = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
         
         
         float result = 0;
         List<String> listePays=null;
-        List<Pair<String,Integer>> chiffAffPays =  new ArrayList();
+        List<Pair<String,Float>> chiffAffPays =  new ArrayList();
                 
         try (Connection connection = myDataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
@@ -453,6 +485,7 @@ public class DAO {
             //System.out.println(listePays.get(0));
             
             for (String pays : listePays) {
+                //System.out.println(pays);
                 pstmt.clearParameters();
                 pstmt.setString(1,pays);
                 pstmt.setString(2,dateDep);
@@ -467,6 +500,7 @@ public class DAO {
                 }
 
                 chiffAffPays.add(new Pair(pays,result));
+                result=0;
             }
 
         }
@@ -475,27 +509,45 @@ public class DAO {
         
     }
     
-    public float chiffAffClient(int client, String dateDep, String dateFin) throws SQLException{
+    public List<Pair<String,Float>> chiffAffClient(String dateDep, String dateFin) throws SQLException{
+        
+        String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+                + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
+                + " WHERE x.Client = ? AND x.Saisie_le BETWEEN ? AND ?";
+        /*
         String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
                 + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";
+                + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";*/
         float result = 0;
+        List<String> listeClients=null;
+        List<Pair<String,Float>> chiffAffClient =  new ArrayList();
         try (Connection connection = myDataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql)){
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
             
-            stmt.setInt(1,client);
-            stmt.setString(2,dateDep);
-            stmt.setString(3,dateFin);
+            listeClients = this.getClients();
             
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            while (rs.next()){
-                float chiffreAff=rs.getFloat("Chiffre d'affaire");                
-                result  += chiffreAff;
-                
+            for (String client : listeClients) {
+                //System.out.println(pays);
+                pstmt.clearParameters();
+                pstmt.setString(1,client);
+                pstmt.setString(2,dateDep);
+                pstmt.setString(3,dateFin);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                while (rs.next()){
+                    float chiffreAff=rs.getFloat("Chiffre_affaire");                
+                    result  += chiffreAff;
+
+                }
+
+                chiffAffClient.add(new Pair(client,result));
+                //System.out.println(client);
+                result=0;
             }
+           
         }
-        return result;
+        return chiffAffClient;
     }
     
     public void addProduit(String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
@@ -506,6 +558,13 @@ public class DAO {
             connection.setAutoCommit(false);
             stmt.setString(1, nom);
             stmt.setInt(2, fournisseur);
+            stmt.setInt(3, categorie);
+            stmt.setString(4, quantite_par_unite);
+            stmt.setFloat(5, prix_unitaire);
+            stmt.setInt(6, unites_en_stock);
+            stmt.setInt(7, unites_commandees);
+            stmt.setInt(8, niveau_de_reappro);
+            stmt.setInt(9, indisponible);
 
             int updt = stmt.executeUpdate();
 
@@ -529,20 +588,29 @@ public class DAO {
     
     public void deleteProd(int reference) throws SQLException{
         
-        String sql =   "DELETE FROM Produit WHERE Reference = ?";
+
+        String sql = "DELETE FROM Ligne WHERE Produit = ?";
+        String sql2 =   "DELETE FROM Produit WHERE Reference = ?";
         
         try (Connection connection = myDataSource.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(sql)){
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        PreparedStatement stmt2 = connection.prepareStatement(sql2)){
             connection.setAutoCommit(false);
-            stmt.setInt(1, reference);
+            
 
             try {
+                stmt.setInt(1, reference);
                 int updt = stmt.executeUpdate();
                 if (updt==0){
                     throw new SQLException("Produit inexistant");
                 }
+                stmt2.setInt(1, reference);
+                int updt2 = stmt2.executeUpdate();
+                if (updt2==0){
+                    throw new SQLException("Produit inexistant");
+                }                
                 connection.commit();
-            }   catch (Exception ex){
+            }   catch (SQLException ex){
                 connection.rollback();
                 }   finally {
                 connection.setAutoCommit(true);

@@ -199,14 +199,16 @@ public class DAOTest {
         assertEquals("Chai", lp.get(0).getNom());
 
     }
+
+
     
     @Test
-    public void testgetProduit() throws SQLException{
+    public void testgetProduitSuccess() throws SQLException{
         Produit p = null;
         int reference = 1;
         
         p = dao.getProduit(reference);
-        System.out.println(p.getNom());
+        System.out.println("Produit dont la ref = "+ reference + " : " + p.getNom());
         
         
     }
@@ -215,26 +217,97 @@ public class DAOTest {
      * Test of addCommande method, of class DAO.
      */
     @Test
-    public void testAddCommande() throws Exception {
-        System.out.println("addCommande");
-        String client = "";
-        String saisie_le = "";
-        String envoyee_le = "";
-        String port = "";
-        String destinataire = "";
-        String adresse_livraison = "";
-        String ville_livraison = "";
-        String region_livraison = "";
-        String code_postal_livrais = "";
-        String pays_livraison = "";
+    public void testAddCommandeSuccess() throws Exception {
+        System.out.println("Commande success");
+        String client = "ALFKI";
+        String saisie_le = "1994-08-04";
+        String envoyee_le = "1994-08-05";
+        float port = 420.69F;
+        String destinataire = "Gamer";
+        String adresse_livraison = "420 rue de la PLS";
+        String ville_livraison = "OkLand";
+        String region_livraison = "Salt Lake";
+        String code_postal_livrais = "69420";
+        String pays_livraison = "Yikes";
         float remise = 0.0F;
-        int[] produitID = null;
-        int[] quantite = null;
-        DAO instance = null;
-        instance.addCommande(client, saisie_le, envoyee_le, port, destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise, produitID, quantite);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int[] produitID = {1,2,3};
+        int[] quantite = {3,1,3};
+        
+        List<Commande> lc1 = dao.getCommandes("ALFKI");
+        int stock = dao.getProduit(1).getUnites_en_stock();
+        int commandees = dao.getProduit(1).getUnites_commandees();
+        System.out.println("Stock av = "+stock);
+        System.out.println("Unit commandees av= "+commandees);
+        //System.out.println("Nouvelle commande : "+dao.getCommandes("ALFKI"));
+        
+        
+        dao.addCommande(client, saisie_le, envoyee_le, port, destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise,produitID,quantite);
+        
+        int stockAp = dao.getProduit(1).getUnites_en_stock();
+        int commandeesAp = dao.getProduit(1).getUnites_commandees();
+        System.out.println("Stock ap = "+stockAp);
+        System.out.println("Unit commandees ap= "+commandeesAp);
+        List<Commande> lc2 = dao.getCommandes("ALFKI");
+        //System.out.println("Nouvelle commande : "+dao.getCommandes("ALFKI"));
+        
+        assertEquals(lc1.size()+1,lc2.size());
+        assertEquals(stock-3, dao.getProduit(1).getUnites_en_stock());
+        assertEquals(commandees+3, dao.getProduit(1).getUnites_commandees());
+        
+        dao.addCommande(client, saisie_le, envoyee_le, port, destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise,produitID,quantite);
+        
+        List<Commande> lc3 = dao.getCommandes("ALFKI");
+        assertEquals(lc1.size()+2,lc3.size());
+        assertEquals(lc2.size()+1,lc3.size());
+        
+        assertEquals(stock-6, dao.getProduit(1).getUnites_en_stock());
+        assertEquals(commandees+6, dao.getProduit(1).getUnites_commandees());
+
+        System.out.println("----------------------------------------");     
+    }    
+    
+    /**
+     * Test of addCommande method, of class DAO.
+     */
+    @Test (expected = Exception.class)
+    public void testAddCommandeFail() throws Exception {
+        System.out.println("Commande fail");
+        String client = "ALED";
+        String saisie_le = "1994-08-04";
+        String envoyee_le = "1994-08-05";
+        float port = 420.69F;
+        String destinataire = "Gamer";
+        String adresse_livraison = "420 rue de la PLS";
+        String ville_livraison = "OkLand";
+        String region_livraison = "Salt Lake";
+        String code_postal_livrais = "69420";
+        String pays_livraison = "Yikes";
+        float remise = 0.0F;
+        int[] produitID = {1,2,3};
+        int[] quantite = {3,1,3};
+        
+        int stock = dao.getProduit(1).getUnites_en_stock();
+        int commandees = dao.getProduit(1).getUnites_commandees();
+        System.out.println("Stock av = "+stock);
+        System.out.println("Unit commandees av= "+commandees);
+
+        
+        
+        dao.addCommande(client, saisie_le, envoyee_le, port, destinataire, adresse_livraison, ville_livraison, region_livraison, code_postal_livrais, pays_livraison, remise,produitID,quantite);
+        
+        
+        int stockAp = dao.getProduit(1).getUnites_en_stock();
+        int commandeesAp = dao.getProduit(1).getUnites_commandees();
+        System.out.println("Stock ap = "+stockAp);
+        System.out.println("Unit commandees ap= "+commandeesAp);
+
+        
+        assertEquals(stock, stockAp);
+        assertEquals(commandees, commandees);  
+        System.out.println("----------------------------------------");    
     }
+    
+    
 
     /**
      * Test of chiffAffCat method, of class DAO.
@@ -242,17 +315,20 @@ public class DAOTest {
     @Test
     public void testChiffAffCat() throws Exception {
         String dateDeb =  "1994-08-04";
-        String dateFin = "1996-05-30";
+        String dateFin = "1996-06-05";
         
-        List<Pair<String,Integer>> ok =null;
+        List<Pair<String,Float>> ok =null;
         try {
            ok = dao.chiffAffCat(dateDeb, dateFin);
         } catch (Exception e){
             System.out.println(e.getMessage());
-        }/*
+        }
+        System.out.println("CA PAR CATEGORIE");
         for (int i = 0; i < ok.size(); i++) {
             System.out.println(ok.get(i));
-        }*/
+        }
+        
+        System.out.println("-------------------------------------");
     }
 
     /**
@@ -261,17 +337,21 @@ public class DAOTest {
     @Test
     public void testChiffAffPays() throws Exception {
         String dateDeb =  "1994-08-04";
-        String dateFin = "1996-05-30";
+        String dateFin = "1996-06-05";
         
-        List<Pair<String,Integer>> ok =null;
+        List<Pair<String,Float>> ok =null;
         try {
            ok = dao.chiffAffPays(dateDeb, dateFin);
+            //System.out.println("Aled");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+        
+        System.out.println("CA PAR PAYS");
         for (int i = 0; i < ok.size(); i++) {
             System.out.println(ok.get(i));
         }
+        System.out.println("-------------------------------------");
     }
 
     /**
@@ -279,14 +359,33 @@ public class DAOTest {
      */
     @Test
     public void testChiffAffClient() throws Exception {
-        fail();
+        //System.out.println("rentre dans testChiffAffClient"); 
+        String dateDeb =  "1994-08-04";
+        String dateFin = "1996-06-05";
+        
+        List<Pair<String,Float>> ok =null;
+        try {
+           ok = dao.chiffAffClient(dateDeb, dateFin);
+           
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        System.out.println("CA PAR CLIENT");
+        float tot = 0;
+        for (int i = 0; i < ok.size(); i++) {
+            System.out.println(ok.get(i));
+            tot += ok.get(i).getSecond();
+        }
+        System.out.println("Total = " + tot);
+        System.out.println("-------------------------------------");
     }
 
     /**
      * Test of addProduit method, of class DAO.
      */
     @Test
-    public void testAddProduit() throws Exception {
+    public void testAddProduitSuccess() throws Exception {
 
         String nom = "Gils";
         int fournisseur = 1;
@@ -302,18 +401,68 @@ public class DAOTest {
         
         
         assertEquals("Gils",dao.getProduit(78).getNom());
+        System.out.println("AddProduit success = "+dao.getProduit(78).getNom());
+        System.out.println("----------------------------------------");
         
     }
+
+    @Test (expected = Exception.class)
+    public void testAddProduitFail() throws Exception {
+
+        String nom = "Aled";
+        int fournisseur = 1;
+        int categorie = 3;
+        String quantite_par_unite = "En masse";
+        float prix_unitaire = 1.5F;
+        int unites_en_stock = 500;
+        int unites_commandees = 1;
+        int niveau_de_reappro = 20;
+        int indisponible = 10;
+
+        dao.addProduit(nom, fournisseur, categorie, quantite_par_unite, prix_unitaire, unites_en_stock, unites_commandees, niveau_de_reappro, indisponible);
+        
+        
+        //assertEquals("Gils",dao.getProduit(79).getNom());
+        System.out.println("addProduit fail "+dao.getProduit(79).getNom());
+        
+    }    
 
     /**
      * Test of deleteProd method, of class DAO.
      */
-    @Test (expected = Exception.class)
-    public void testDeleteProd() throws Exception {
+    @Test //(expected = Exception.class)
+    public void testDeleteProdSuccess() throws Exception {
         int ref = 1 ;
+        List<Produit> lp = dao.getProduitFromCategorie(1);
+        
         dao.deleteProd(ref);
         
-        dao.getProduit(ref);
+        List<Produit> lp2 = dao.getProduitFromCategorie(1);
+        assertNotEquals(lp.size(), lp2.size());
+        /*
+        for (Produit produit : lp) {
+            System.out.println(produit.getNom());
+            
+        }
+        System.out.println("-------------------------------------");      
+        for (Produit produit : lp2) {
+            System.out.println(produit.getNom());
+            
+        }
+        System.out.println("-------------------------------------");*/
+    }
+    
+    
+    @Test
+    public void testDeleteProdFail() throws Exception {
+        int ref =8888 ;
+        List<Produit> lp = dao.getProduitFromCategorie(1);
+        
+        dao.deleteProd(ref);
+        
+        List<Produit> lp2 = dao.getProduitFromCategorie(1);
+        assertEquals(lp.size(), lp2.size());
+
     }
 
     /**

@@ -59,10 +59,7 @@ public class UpdatePanier extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equals("update")) updatePanier(session, request, response);
         else if (action.equals("remove")) removeFromPanier(session, request, response);
-        
-        response.sendRedirect("toPanier");
-        
-        
+              
     }
     
     private void updatePanier(HttpSession session, HttpServletRequest request, HttpServletResponse response)
