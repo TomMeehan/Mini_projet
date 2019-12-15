@@ -4,11 +4,20 @@
         <filter-name>UserFilter</filter-name>
         <filter-class>filters.UserFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>filters.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/stats</url-pattern>
+        <url-pattern>/toEditProduit</url-pattern>
+        <url-pattern>/editProduit</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>UserFilter</filter-name>
         <url-pattern>/commandes</url-pattern>
         <url-pattern>/addProduitPanier</url-pattern>
-        <url-pattern>/disconnect</url-pattern>
         <url-pattern>/validerPanier</url-pattern>
         <url-pattern>/profil</url-pattern>
         <url-pattern>/toEditProfile</url-pattern>
@@ -83,6 +92,14 @@
         <servlet-name>updatePanier</servlet-name>
         <servlet-class>servlet.UpdatePanier</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editProduit</servlet-name>
+        <servlet-class>servlet.EditProduit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toEditProduit</servlet-name>
+        <servlet-class>servlet.ToEditProduit</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -146,6 +163,14 @@
     <servlet-mapping>
         <servlet-name>updatePanier</servlet-name>
         <url-pattern>/updatePanier</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduit</servlet-name>
+        <url-pattern>/editProduit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toEditProduit</servlet-name>
+        <url-pattern>/toEditProduit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

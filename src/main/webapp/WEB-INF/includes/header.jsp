@@ -42,7 +42,7 @@
               </ul>
                 .
 
-            <c:if test="${empty sessionScope.userSession}">
+            <c:if test="${empty sessionScope}">
                 <form class="form-inline my-2 my-lg-0 ml-auto" action="login">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
                 </form>
@@ -62,7 +62,23 @@
                     </div>
                 </li>
                 </ul>
-            </c:if> 
+            </c:if>
+            <c:if test="${!empty sessionScope.adminSession}">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown my-2 my-lg-0 ml-auto">
+                    <a class="nav-link dropdown-toggle navbar-brand h1" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="images/profil_image.png" width="30" height="30"/> Espace admin
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                      <a href="home" class="dropdown-item">Statistiques</a>
+                      <a href="toEditProduit?action=add" class="dropdown-item">Ajouter un produit</a>
+                      <a href="home" class="dropdown-item">Modifier produit</a>
+                      <div class="dropdown-divider"></div>
+                      <a href="disconnect" class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+                </ul>
+            </c:if>
             
             
         </nav>

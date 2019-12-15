@@ -76,6 +76,12 @@ public class Panier {
         if (!trouve) throw new Exception("Produit introuvable");
     }
     
+    public void viderPanier(){
+        this.produits = new ArrayList();
+        this.nbTotalProduits = 0;
+        this.prixTotal = 0f;
+    }
+    
 
     public ArrayList<ProduitPanier> getProduits() {
         return produits;
