@@ -60,7 +60,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                       <a href="home" class="dropdown-item">Statistiques</a>
-                      <a href="home" class="dropdown-item">Modifier produits</a>
+                      <a href="toEditProduit?action=add" class="dropdown-item">Ajouter un produit</a>
+                      <a href="home" class="dropdown-item">Modifier produit</a>
                       <div class="dropdown-divider"></div>
                       <a href="disconnect" class="dropdown-item">Logout</a>
                     </div>
