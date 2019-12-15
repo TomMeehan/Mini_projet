@@ -551,33 +551,43 @@ public class DAO {
     }
     
     public void addProduit(String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
-        String sql = "INSERT INTO Produit(Nom,Fournisseur,Categorie,Quantite_par_unite,Prix_unitaire,Unites_en_stock,Unites_commandees,Niveau_de_reappro,Indisponible) VALUES (?,?,?,?,?,?,?,?,?) ";
+        String sql1 = "SELECT max(reference) FROM Produit";
+        String sql = "INSERT INTO Produit VALUES (?,?,?,?,?,?,?,?,?,?)";
+        //String sql = "INSERT INTO Produit(Nom,Fournisseur,Categorie,Quantite_par_unite,Prix_unitaire,Unites_en_stock,Unites_commandees,Niveau_de_reappro,Indisponible) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (Connection connection = myDataSource.getConnection();
-        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        Statement stmt1 = connection.createStatement();
+        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             connection.setAutoCommit(false);
-            stmt.setString(1, nom);
-            stmt.setInt(2, fournisseur);
-            stmt.setInt(3, categorie);
-            stmt.setString(4, quantite_par_unite);
-            stmt.setFloat(5, prix_unitaire);
-            stmt.setInt(6, unites_en_stock);
-            stmt.setInt(7, unites_commandees);
-            stmt.setInt(8, niveau_de_reappro);
-            stmt.setInt(9, indisponible);
-
+            int ref = 100;
+            ResultSet rs = stmt1.executeQuery(sql1);
+            if(rs.next()){
+                ref = rs.getInt(1);
+                ref += 1;
+            }else{
+                ref = 1;
+            }
+            stmt.setInt(1,ref);
+            stmt.setString(2, nom);
+            stmt.setInt(3, fournisseur);
+            stmt.setInt(4, categorie);
+            stmt.setString(5, quantite_par_unite);
+            stmt.setFloat(6, prix_unitaire);
+            stmt.setInt(7, unites_en_stock);
+            stmt.setInt(8, unites_commandees);
+            stmt.setInt(9, niveau_de_reappro);
+            stmt.setInt(10, indisponible);
             int updt = stmt.executeUpdate();
-
             if (updt == 0) {
                 throw new SQLException("Echec de la création du produit");
             }
             
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys();){
-                if ( !generatedKeys.next()){
-                    throw new SQLException("Echec de la création du produit");
-                }
+        try (ResultSet generatedKeys = stmt.getGeneratedKeys();){
+            if ( !generatedKeys.next()){
+                throw new SQLException("Echec de la création du produit");
+            }
            connection.commit();
-         } catch (SQLException ex){
+        } catch (SQLException ex){
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
