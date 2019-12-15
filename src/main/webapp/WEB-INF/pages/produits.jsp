@@ -14,6 +14,29 @@
         <jsp:include page="/WEB-INF/includes/header.jsp"/>
         <div id="productsTable"></div>
         <c:choose>
+            <c:when test="${(not empty sessionScope.adminSession)}" >
+            <script id="productsTemplate" type="text/template">
+                <div class="card">
+                    <div class="card-body bg-light">
+                      <h1 class="display-4">{{titre}}</h1>
+                    </div>
+                  </div>                   
+                    <table class = "table table-striped">
+                    <thead class="thead-dark"><tr><th>Ref.</th>{{^cat}}<th>Catégorie</th>{{/cat}}<th>Nom</th><th>Prix unitaire</th><th>Disponible</th><th></th></tr></thead>
+                    {{#produits}}
+                        <tr id="td{{reference}}"><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
+                                <td>
+                                <form class="productDataAdmin" id={{reference}}>
+                                    <div class="input-group">
+                                        <button id="submit{{reference}}" name="button" type="sumbit" class="btn btn-secondary form-control" >Supprimer</button>
+                                    </div>
+                                </form>
+                                </td>
+                        </tr>
+                    {{/produits}}
+                    </table>                   
+            </script>                
+            </c:when>
             <c:when test="${(not empty sessionScope.userSession)}" >
             <script id="productsTemplate" type="text/template">
                 <div class="card">

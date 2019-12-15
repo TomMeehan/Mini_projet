@@ -49,7 +49,7 @@ function drawProductTable() {
                     $('.popover-dismiss').popover({
                         trigger: 'focus'
                     });
- 
+                    
                     $(".productData").submit(function(e){
 
                         e.preventDefault();
@@ -58,10 +58,9 @@ function drawProductTable() {
                         var id = $(this).attr("id");
                         
                         var unites_en_stock = parseInt($("#unites_en_stock"+id).val());
-                        console.log("stock :" + unites_en_stock);
+ 
                         
                         var quantite = parseInt($("#quantite"+id).val());
-                        console.log("quantite :" + quantite);
                         var idSumbitBtn = $("#submit"+id);
                         
                         if (unites_en_stock < quantite){
@@ -71,7 +70,6 @@ function drawProductTable() {
                             $("#quantite"+id).change( function (e) {
 
                                 if(parseInt($(this).val()) <= unites_en_stock){
-                                    console.log("oui");
                                     idSumbitBtn.popover('enable');    
                                     idSumbitBtn.removeAttr("disabled");
                                 }
@@ -87,14 +85,36 @@ function drawProductTable() {
                             success : 
                                     function(data) {
                                         unites_en_stock -= quantite;
-                                        $("#unites_en_stock"+id).val(unites_en_stock);
-                                        console.log($("#unites_en_stock"+id).val());
+                                        $("#unites_en_stock"+id).val(unites_en_stock);                                       
                                     }
                             });
-                            console.log("preventing submit");
                         }
 
                         
+                    });
+                    
+                    $(".productDataAdmin").submit(function(e){
+                        
+                         e.preventDefault();
+                        
+                        var answer = confirm("Voulez vous vraiment supprimer cet article ?");
+    
+                        if (answer){
+
+                            var ref = $(this).attr("id");
+
+                            $.ajax({
+                                type: "POST",
+                                url : "editProduit",
+                                data : {action : "delete",
+                                    reference : ref },
+                                error : showError,
+                                success : 
+                                        function(data) {
+                                            $("#td"+ ref).remove();
+                                        }
+                                });
+                        }
                     });
                 }
     });

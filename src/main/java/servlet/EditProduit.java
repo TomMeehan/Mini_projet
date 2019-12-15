@@ -52,6 +52,9 @@ public class EditProduit extends HttpServlet {
                 case "add":
                     ajouterProduit(request,response);
                     break;
+                case "delete":
+                    deleteProduit(request,response);
+                    break;
                 default:
                     break;
             }
@@ -107,6 +110,21 @@ public class EditProduit extends HttpServlet {
         }
         
         response.sendRedirect("home");
+    }
+    
+    private void deleteProduit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int reference = -1;
+        
+        String refString = request.getParameter("reference");
+        if (refString != null) reference = Integer.valueOf(refString);
+        try{
+            System.out.println("Suppression produit : " + reference);
+            dao.deleteProd(reference);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            request.setAttribute("errors", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
