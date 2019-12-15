@@ -27,28 +27,12 @@ $(document).ready(function () {
             error : showError,
             success : 
                     function(data) {
-                        //window.location.href="commandes";
+                        window.location.href="toPanier";
                     }
             }); 
         }
         
     });
-    /*$("#panierData").submit(function(e){
-
-        e.preventDefault();     
-    
-        $.ajax({
-        type: "POST",
-        url : "validerPanier",
-        data : $(this).serialize(),
-        error : showError,
-        success : 
-                function(data) {
-                    window.location.href="commandes";
-                }
-        });
-        console.log("preventing submit");
-    });*/
 });
 
 function removeFromPanier(id){
@@ -78,7 +62,7 @@ function removeFromPanier(id){
                     $("#prix"+id).remove();
                     $("#stock"+id).remove();
                     $("#btn"+id).remove();
-                    //window.location.href="commandes";
+                    window.location.href="toPanier";
                 }
     }); 
     }
