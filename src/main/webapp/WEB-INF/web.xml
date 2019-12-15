@@ -10,7 +10,7 @@
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/stats</url-pattern>
+        <url-pattern>/toStats</url-pattern>
         <url-pattern>/toEditProduit</url-pattern>
         <url-pattern>/editProduit</url-pattern>
     </filter-mapping>
@@ -96,6 +96,14 @@
         <servlet-name>toEditProduit</servlet-name>
         <servlet-class>servlet.ToEditProduit</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminStats</servlet-name>
+        <servlet-class>servlet.AdminStats</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toStats</servlet-name>
+        <servlet-class>servlet.ToStats</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -163,6 +171,14 @@
     <servlet-mapping>
         <servlet-name>toEditProduit</servlet-name>
         <url-pattern>/toEditProduit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminStats</servlet-name>
+        <url-pattern>/adminStats</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toStats</servlet-name>
+        <url-pattern>/toStats</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

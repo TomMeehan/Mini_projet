@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -416,13 +417,13 @@ public class DAO {
         
     //Fonctions admin
     public List<Pair<String,Float>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
-        String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+        /*String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Categorie = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + " WHERE x.Categorie = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+        
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
+                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";
         
         
         float result = 0;
@@ -452,7 +453,6 @@ public class DAO {
                     //System.out.println("result = "+ result + "CA = "+chiffreAff);
 
                 }
-                //System.out.println("result = "+ result);
                 chiffAffCat.add(new Pair(cat.getLibelle(),result));
                 result=0;
             }
@@ -464,14 +464,14 @@ public class DAO {
     }
     
     public List<Pair<String,Float>> chiffAffPays(String dateDep, String dateFin) throws SQLException{
-
+/*
         String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Pays_Livraison = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + " WHERE x.Pays_Livraison = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + " = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
+                + "Commande.Pays_Livraison = ? AND Commande.Saisie_le BETWEEN ? AND ?";
         
         
         float result = 0;
@@ -510,14 +510,15 @@ public class DAO {
     }
     
     public List<Pair<String,Float>> chiffAffClient(String dateDep, String dateFin) throws SQLException{
-        
+        /*
         String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Client = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
-                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";*/
+                + " WHERE x.Client = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
+                + "Commande.Client = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+        
         float result = 0;
         List<String> listeClients=null;
         List<Pair<String,Float>> chiffAffClient =  new ArrayList();
@@ -551,44 +552,33 @@ public class DAO {
     }
     
     public void addProduit(String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
-        String sql1 = "SELECT max(reference) FROM Produit";
-        String sql = "INSERT INTO Produit VALUES (?,?,?,?,?,?,?,?,?,?)";
-        
+        String sql = "INSERT INTO Produit(Nom,Fournisseur,Categorie,Quantite_par_unite,Prix_unitaire,Unites_en_stock,Unites_commandees,Niveau_de_reappro,Indisponible) VALUES (?,?,?,?,?,?,?,?,?) ";
 
         try (Connection connection = myDataSource.getConnection();
-        Statement stmt1 = connection.createStatement();
-        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
+        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             connection.setAutoCommit(false);
-            int ref = 100;
-            ResultSet rs = stmt1.executeQuery(sql1);
-            if(rs.next()){
-                ref = rs.getInt(1);
-                ref += 1;
-            }else{
-                ref = 1;
-            }
-            stmt.setInt(1,ref);
-            stmt.setString(2, nom);
-            stmt.setInt(3, fournisseur);
-            stmt.setInt(4, categorie);
-            stmt.setString(5, quantite_par_unite);
-            stmt.setFloat(6, prix_unitaire);
-            stmt.setInt(7, unites_en_stock);
-            stmt.setInt(8, unites_commandees);
-            stmt.setInt(9, niveau_de_reappro);
-            stmt.setInt(10, indisponible);
-            
+            stmt.setString(1, nom);
+            stmt.setInt(2, fournisseur);
+            stmt.setInt(3, categorie);
+            stmt.setString(4, quantite_par_unite);
+            stmt.setFloat(5, prix_unitaire);
+            stmt.setInt(6, unites_en_stock);
+            stmt.setInt(7, unites_commandees);
+            stmt.setInt(8, niveau_de_reappro);
+            stmt.setInt(9, indisponible);
+
             int updt = stmt.executeUpdate();
+
             if (updt == 0) {
                 throw new SQLException("Echec de la création du produit");
             }
             
-        try (ResultSet generatedKeys = stmt.getGeneratedKeys();){
-            if ( !generatedKeys.next()){
-                throw new SQLException("Echec de la création du produit");
-            }
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys();){
+                if ( !generatedKeys.next()){
+                    throw new SQLException("Echec de la création du produit");
+                }
            connection.commit();
-        } catch (SQLException ex){
+         } catch (SQLException ex){
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
