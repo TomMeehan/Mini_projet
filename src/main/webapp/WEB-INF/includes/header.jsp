@@ -28,17 +28,6 @@
                     <div id ="dropDownCat" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
                     </div>
                 </li>
-                <!-- TO REMOVE -->          
-                <li class="nav-item">
-                  <a class="nav-link" href="productsInJSON">Produits RAW</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="categoriesInJSON">Categories RAW</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="sessionInJSON">Session RAW</a>
-                </li>
-                <!-- END OF TOREMOVE -->
               </ul>
                 .
 
