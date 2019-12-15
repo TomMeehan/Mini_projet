@@ -416,13 +416,13 @@ public class DAO {
         
     //Fonctions admin
     public List<Pair<String,Float>> chiffAffCat(String dateDep, String dateFin) throws SQLException{
-        String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
+        /*String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Categorie = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + " WHERE x.Categorie = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+        
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
+                + "Produit.Categorie = ? AND Commande.Saisie_le BETWEEN ? AND ?";
         
         
         float result = 0;
@@ -464,14 +464,14 @@ public class DAO {
     }
     
     public List<Pair<String,Float>> chiffAffPays(String dateDep, String dateFin) throws SQLException{
-
+/*
         String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Pays_Livraison = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT (Produit.Prix_unitaire*Produit.Unites_commandees) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + " WHERE x.Pays_Livraison = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
                 + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
-                + " = ? AND Commande.Saisie_le BETWEEN ? AND ?";*/
+                + "Commande.Pays_Livraison = ? AND Commande.Saisie_le BETWEEN ? AND ?";
         
         
         float result = 0;
@@ -510,14 +510,15 @@ public class DAO {
     }
     
     public List<Pair<String,Float>> chiffAffClient(String dateDep, String dateFin) throws SQLException{
-        
+        /*
         String sql = "SELECT (x.Prix_unitaire*x.Quantite) AS Chiffre_affaire FROM ((Produit INNER JOIN Ligne ON Produit.Reference = Ligne.Produit) t "
                 + " INNER JOIN Commande ON t.Commande = Commande.Numero) x"
-                + " WHERE x.Client = ? AND x.Saisie_le BETWEEN ? AND ?";
-        /*
-        String sql = "SELECT Prix_unitaire*Unites_commandees AS Chiffre d'affaire FROM Produit p INNER JOIN Ligne l ON p.Reference = l.Produit"
-                + "                           INNER JOIN Commande c ON l.Commande = c.Numero "
-                + "WHERE c.Client = ? AND c.SaisieLe BETWEEN ? AND ?";*/
+                + " WHERE x.Client = ? AND x.Saisie_le BETWEEN ? AND ?";*/
+
+        String sql = "SELECT (Produit.Prix_unitaire*Ligne.Quantite) AS Chiffre_affaire FROM Produit,Ligne,Commande "
+                + "WHERE Produit.Reference = Ligne.Produit AND Ligne.Commande = Commande.Numero AND "
+                + "Commande.Client = ? AND Commande.Saisie_le BETWEEN ? AND ?";
+        
         float result = 0;
         List<String> listeClients=null;
         List<Pair<String,Float>> chiffAffClient =  new ArrayList();
