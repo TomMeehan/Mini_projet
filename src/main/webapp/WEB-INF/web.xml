@@ -4,11 +4,19 @@
         <filter-name>UserFilter</filter-name>
         <filter-class>filters.UserFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>filters.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/stats</url-pattern>
+        <url-pattern>/editProduits</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>UserFilter</filter-name>
         <url-pattern>/commandes</url-pattern>
         <url-pattern>/addProduitPanier</url-pattern>
-        <url-pattern>/disconnect</url-pattern>
         <url-pattern>/validerPanier</url-pattern>
         <url-pattern>/profil</url-pattern>
         <url-pattern>/toEditProfile</url-pattern>

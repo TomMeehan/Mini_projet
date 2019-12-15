@@ -33,6 +33,7 @@ public class Disconnect extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         HttpSession session = request.getSession();
+        System.out.println("disconnecting");
         session.invalidate();
         response.sendRedirect("login");
     }

@@ -24,11 +24,18 @@ import model.DataSourceFactory;
  */
 public class Login extends HttpServlet {
     
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASS = "admin";
+    public static final String ATT_ADMIN_SESSION ="adminSession";
+    
     public static final String ATT_USER = "user";
     public static final String ATT_FORM = "form";
     public static final String ATT_USER_SESSION = "userSession";
     public static final String ATT_PANIER = "panier";
     public static final String ATT_COMMANDES = "commandes";
+    
+    private static final String FIELD_USERNAME = "username";
+    private static final String FIELD_PASSWORD = "password";
     
 
     /**
@@ -46,7 +53,14 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         if (actionIs(request, "connect")) {
-            newSession(request, response);
+            
+            String username = getFieldValue(request, FIELD_USERNAME);
+            String password = getFieldValue(request, FIELD_PASSWORD);
+            
+            if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASS))
+                newAdminSession(request, response);
+            else
+                newSession(request, response, username, password);
         } else {
                 showView("login.jsp", request, response);
         }
@@ -60,11 +74,21 @@ public class Login extends HttpServlet {
         getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/pages/" + jsp).forward(request, response);
     }
     
-    private void newSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO dao = new DAO(DataSourceFactory.getDataSource());
-        LoginForm form = new LoginForm();
-        Client user = form.connectUser(request);
+    private void newAdminSession(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
         HttpSession session = request.getSession();
+        
+        request.setAttribute(ATT_USER, "admin");
+        session.setAttribute(ATT_ADMIN_SESSION, "admin");
+        
+        response.sendRedirect("home");
+    } 
+    
+    private void newSession(HttpServletRequest request, HttpServletResponse response, String username, String password) throws ServletException, IOException {
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+        HttpSession session = request.getSession();
+        
+        LoginForm form = new LoginForm();
+        Client user = form.connectUser(request,username,password);
         Panier panier = new Panier();
         
         request.setAttribute(ATT_FORM, form);
@@ -89,7 +113,14 @@ public class Login extends HttpServlet {
 
 
     }
-    
+    private static String getFieldValue( HttpServletRequest request, String fieldName ) {
+        String value = request.getParameter( fieldName );
+        if ( value == null || value.trim().length() == 0 ) {
+            return null;
+        } else {
+            return value;
+        }
+    }   
     private String findUserInSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return (session == null) ? null : (String) session.getAttribute("username");

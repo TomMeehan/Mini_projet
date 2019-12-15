@@ -18,32 +18,25 @@ import model.DataSourceFactory;
  * @author Tom
  */
 public final class LoginForm {
-    
-    private static final String FIELD_USERNAME = "username";
-    private static final String FIELD_PASSWORD = "password";
-    
     private DAO dao = new DAO(DataSourceFactory.getDataSource());
     
     private String result;
     private Map<String, String> errors = new HashMap<>();
     
-    public Client connectUser ( HttpServletRequest request ) {
-        
-        String username = getFieldValue(request, FIELD_USERNAME);
-        String password = getFieldValue(request, FIELD_PASSWORD);
-        
+    public Client connectUser ( HttpServletRequest request,String username,String password ) {
+           
         Client client = null;
         
         try {
             client = validateCredentials(username,password);
         } catch ( Exception e ) {
-            setErreur ( FIELD_USERNAME + FIELD_PASSWORD , e.getMessage() );
+            setErreur ( "errors", e.getMessage() );
         }
         
         if(errors.isEmpty())
             result = "Success";
         else
-            result = errors.get(FIELD_USERNAME + FIELD_PASSWORD);      
+            result = errors.get("errors");      
         
         return client;
     }
