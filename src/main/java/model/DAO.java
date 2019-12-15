@@ -553,7 +553,7 @@ public class DAO {
     public void addProduit(String nom,int fournisseur,int categorie,String quantite_par_unite, float prix_unitaire,int unites_en_stock,int unites_commandees,int niveau_de_reappro,int indisponible) throws SQLException{
         String sql1 = "SELECT max(reference) FROM Produit";
         String sql = "INSERT INTO Produit VALUES (?,?,?,?,?,?,?,?,?,?)";
-        //String sql = "INSERT INTO Produit(Nom,Fournisseur,Categorie,Quantite_par_unite,Prix_unitaire,Unites_en_stock,Unites_commandees,Niveau_de_reappro,Indisponible) VALUES (?,?,?,?,?,?,?,?,?)";
+        
 
         try (Connection connection = myDataSource.getConnection();
         Statement stmt1 = connection.createStatement();
@@ -577,6 +577,7 @@ public class DAO {
             stmt.setInt(8, unites_commandees);
             stmt.setInt(9, niveau_de_reappro);
             stmt.setInt(10, indisponible);
+            
             int updt = stmt.executeUpdate();
             if (updt == 0) {
                 throw new SQLException("Echec de la création du produit");

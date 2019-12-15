@@ -26,9 +26,22 @@
                     {{#produits}}
                         <tr id="td{{reference}}"><td>{{reference}}</td>{{^cat}}<td>{{categorie.libelle}}</td>{{/cat}}<td>{{nom}}</td><td>{{prix_unitaire}} €</td><td>{{dispo}}</td>     
                                 <td>
-                                <form class="productDataAdmin" id={{reference}}>
+                                <form class="productDataAdmin" id={{reference}} action="toEditProduit">
                                     <div class="input-group">
-                                        <button id="submit{{reference}}" name="button" type="sumbit" class="btn btn-secondary form-control" >Supprimer</button>
+                                   
+                                        <button id="editbtn{{reference}}" name="action" type="submit" class="btn btn-secondary mx-2" value="edit">Modifier</button>
+                                         
+                                        <input id="reference{{reference}}" name="reference" type="hidden" value="{{reference}}"><!--
+                                        <input id="nom{{reference}}" name="nom" type="hidden" value="{{nom}}">
+                                        <input id="fournisseur{{reference}}" name="fournisseur" type="hidden" value="{{fournisseur}}">
+                                        <input id="categorie{{reference}}" name="categorie" type="hidden" value="{{categorie.code}}">
+                                        <input id="quantite_par_unite{{reference}}" name="quantite_par_unite" type="hidden" value="{{quantite_par_unite}}">
+                                        <input id="prix_unitaire{{reference}}" name="prix_unitaire" type="hidden" value="{{prix_unitaire}}">
+                                        <input id="unites_en_stock{{reference}}" name="unites_en_stock" type="hidden" value="{{unites_en_stock}}">                                       
+                                        <input id="niveau_de_reapprovi{{reference}}" name="niveau_de_reapprovi" type="hidden" value="{{niveau_de_reapprovi}}">-->
+                                        
+                                        <button id="deletebtn{{reference}}" name="delete" type="button" onclick="deleteProduct();" class="btn btn-secondary mx-2" value="delete">Supprimer</button>
+                                        
                                     </div>
                                 </form>
                                 </td>

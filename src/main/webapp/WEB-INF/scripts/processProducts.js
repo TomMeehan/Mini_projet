@@ -93,36 +93,30 @@ function drawProductTable() {
                         
                     });
                     
-                    $(".productDataAdmin").submit(function(e){
-                        
-                         e.preventDefault();
-                        
-                        var answer = confirm("Voulez vous vraiment supprimer cet article ?");
-    
-                        if (answer){
-
-                            var ref = $(this).attr("id");
-
-                            $.ajax({
-                                type: "POST",
-                                url : "editProduit",
-                                data : {action : "delete",
-                                    reference : ref },
-                                error : showError,
-                                success : 
-                                        function(data) {
-                                            $("#td"+ ref).remove();
-                                        }
-                                });
-                        }
-                    });
                 }
     });
 }
 
+function deleteProduct(){
+        var answer = confirm("Voulez vous vraiment supprimer cet article ?");
+    
+        if (answer){
 
+            var ref = $(".productDataAdmin").attr("id"); 
 
-
+            $.ajax({
+                type: "POST",
+                url : "editProduit",
+                data : {action : "delete",
+                    reference : ref },
+                error : showError,
+                success : 
+                        function(data) {
+                            $("#td"+ ref).remove();
+                        }
+                });
+        }
+}
 function showError(xhr, status, message) {
     console.log(xhr.responseText);
     //alert(JSON.parse(xhr.responseText).message);

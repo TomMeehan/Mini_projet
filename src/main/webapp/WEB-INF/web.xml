@@ -11,6 +11,7 @@
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/stats</url-pattern>
+        <url-pattern>/toEditProduit</url-pattern>
         <url-pattern>/editProduit</url-pattern>
     </filter-mapping>
     <filter-mapping>
