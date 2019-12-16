@@ -35,14 +35,18 @@ public class Panier {
         int nbTotal = 0;
         float prix = 0;
         
+        if (this.produits.isEmpty()) {
+            nbTotal += p.getQuantite();
+            prixTotal += p.getQuantite() * p.getPrix_unitaire();
+        }
+        
         for (ProduitPanier pL : this.produits){
             if (p.getReference() == pL.getReference()){
                 trouve = true; 
                 if (isUpdate){
                     pL.setQuantite(p.getQuantite());
                     pL.setUnites_en_stock(p.getUnites_en_stock()); 
-                }
-                    
+                }    
                 else{
                     pL.setQuantite(pL.getQuantite() + p.getQuantite());
                     pL.setUnites_en_stock(pL.getUnites_en_stock() - p.getQuantite()); 
@@ -55,7 +59,6 @@ public class Panier {
         }
         
         if (!trouve) this.produits.add(p);
-
         this.nbTotalProduits = nbTotal;
         this.prixTotal = prix;
     }
