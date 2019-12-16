@@ -65,10 +65,9 @@ public class AddProduitPanier extends HttpServlet {
 
         String qteString = request.getParameter("quantite");
         if (qteString != null) quantite = Integer.valueOf(qteString);
-        System.out.println(quantite);
         String stockString = request.getParameter("unites_en_stock");
         if (stockString != null) unites_en_stock = Integer.valueOf(stockString);
-        System.out.println(unites_en_stock);
+        
         if (quantite > unites_en_stock) request.setAttribute("errors","quantite en stock insuffisante");
         else {
             unites_en_stock -= quantite;

@@ -61,10 +61,6 @@
         <servlet-class>servlet.Profil</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>sessionInJSON</servlet-name>
-        <servlet-class>servlet.SessionInJSON</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>toEditProfile</servlet-name>
         <servlet-class>servlet.ToEditProfile</servlet-class>
     </servlet>
@@ -139,10 +135,6 @@
     <servlet-mapping>
         <servlet-name>profil</servlet-name>
         <url-pattern>/profil</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>sessionInJSON</servlet-name>
-        <url-pattern>/sessionInJSON</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toEditProfile</servlet-name>
