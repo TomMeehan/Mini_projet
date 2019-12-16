@@ -37,7 +37,7 @@ public class Panier {
         
         if (this.produits.isEmpty()) {
             nbTotal += p.getQuantite();
-            prixTotal += p.getQuantite() * p.getPrix_unitaire();
+            prix += p.getQuantite() * p.getPrix_unitaire();
         }
         
         for (ProduitPanier pL : this.produits){
